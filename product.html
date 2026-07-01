@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Product — Adamnoteve</title>
+<link rel="icon" type="image/svg+xml" href="favicon.svg" />
+<link rel="alternate icon" href="favicon.ico" />
+<link rel="apple-touch-icon" href="icon-256.png" />
+<link rel="manifest" href="manifest.json" />
+<meta name="theme-color" content="#ff007a" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bungee&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+<div class="marquee">
+  <div class="marquee-track">
+    <span>FREE SHIPPING ON ORDERS OVER $50</span>
+    <span>★</span>
+    <span>RETURNS ACCEPTED — UNLIKE YOUR EX</span>
+    <span>★</span>
+    <span>NEW DROPS EVERY HEARTBREAK</span>
+    <span>★</span>
+    <span>FREE SHIPPING ON ORDERS OVER $50</span>
+    <span>★</span>
+  </div>
+</div>
+
+<nav class="navbar">
+  <a href="index.html" class="logo">adamnot<span class="heart">♥</span>eve</a>
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="shop.html">Shop</a></li>
+    <li><a href="kits.html">Bundles</a></li>
+    <li><a href="about.html">About</a></li>
+    <li><a href="cart.html">Cart</a></li>
+    <li><button class="search-btn" data-open-search aria-label="Search">🔍</button></li>
+    <li><button class="cart-btn" data-open-cart>BAG <span class="cart-count">0</span></button></li>
+  </ul>
+  <button class="menu-toggle" aria-label="Menu">☰</button>
+</nav>
+
+<section class="pdp">
+  <a href="shop.html" class="back-link">← back to the wreckage</a>
+  <div class="pdp-grid" id="pdp"></div>
+</section>
+
+<section class="section" style="background: var(--purple); color: var(--cream); padding: 60px 5%;">
+  <h2 class="section-title" style="color: var(--cream);">you might <span style="color: var(--neon);">also regret</span></h2>
+  <p class="section-subtitle" style="color: var(--cream); opacity: 0.85;">More items to fill the void.</p>
+  <div class="product-grid" id="related-grid"></div>
+</section>
+
+<footer class="footer">
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <h3>adamnot♥eve</h3>
+      <p>Because not every love story deserves a sequel.</p>
+      <div class="socials">
+        <a href="#">IG</a><a href="#">TT</a><a href="#">X</a><a href="#">PI</a>
+      </div>
+    </div>
+    <div>
+      <h4>Shop</h4>
+      <ul>
+        <li><a href="shop.html">All Products</a></li>
+        <li><a href="shop.html?cat=apparel">Apparel</a></li>
+        <li><a href="shop.html?cat=drinkware">Drinkware</a></li>
+        <li><a href="shop.html?cat=home">Home Goods</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4>Brand</h4>
+      <ul>
+        <li><a href="about.html">Our Story</a></li>
+        <li><a href="contact.html">Contact</a></li>
+        <li><a href="#">Press Kit</a></li>
+        <li><a href="#">Wholesale</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4>Legal</h4>
+      <ul>
+        <li><a href="terms.html">Terms of Service</a></li>
+        <li><a href="privacy.html">Privacy Policy</a></li>
+        <li><a href="refund.html">Returns &amp; Refunds</a></li>
+        <li><a href="#">Shipping</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    © 2026 Adamnoteve. All rights reserved. No exes were harmed in the making of this brand.
+  </div>
+</footer>
+
+<div class="cart-overlay"></div>
+<aside class="cart-drawer">
+  <div class="cart-header">
+    <h2>Your Baggage</h2>
+    <button class="cart-close">✕</button>
+  </div>
+  <div class="cart-items"></div>
+  <div class="cart-footer">
+    <div class="cart-total">
+      <span>Total damage:</span>
+      <span class="total-amt">$0.00</span>
+    </div>
+    <a href="checkout.html" class="checkout-btn" style="display:block; text-align:center;">CHECKOUT →</a>
+    <a href="cart.html" style="display:block; text-align:center; margin-top: 12px; font-weight: 600; font-size: 0.85rem; color: var(--ink); opacity: 0.7;">view full cart</a>
+  </div>
+</aside>
+
+<script src="lib/products.js"></script>
+<script src="script.js"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const params = new URLSearchParams(window.location.search);
+    const id = params.get('id');
+    const product = (id && PRODUCTS.find(p => p.id === id)) || PRODUCTS[0];
+    const live = isProductLive(product);
+
+    document.title = product.name + ' — Adamnoteve';
+
+    // ----- SEO: meta description, canonical, Open Graph + Product structured data -----
+    (function injectSEO() {
+      const desc = (product.desc || 'Breakup & heartbreak humor merch from Adamnoteve.').slice(0, 160);
+      const url = 'https://adamnoteve.com/product.html?id=' + product.id;
+      const ensure = (sel, make) => { let el = document.head.querySelector(sel); if (!el) { el = make(); document.head.appendChild(el); } return el; };
+      ensure('meta[name="description"]', () => Object.assign(document.createElement('meta'), { name: 'description' })).setAttribute('content', desc);
+      ensure('link[rel="canonical"]', () => Object.assign(document.createElement('link'), { rel: 'canonical' })).setAttribute('href', url);
+      const setOg = (prop, val) => ensure('meta[property="' + prop + '"]', () => { const t = document.createElement('meta'); t.setAttribute('property', prop); return t; }).setAttribute('content', val);
+      setOg('og:type', 'product');
+      setOg('og:title', product.name + ' — Adamnoteve');
+      setOg('og:description', desc);
+      setOg('og:image', product.img || 'https://adamnoteve.com/og-image.png');
+      setOg('og:url', url);
+      const lowPrice = product.priceBySize ? Math.min.apply(null, Object.values(product.priceBySize)) : product.price;
+      const ld = {
+        '@context': 'https://schema.org/', '@type': 'Product',
+        name: product.name, image: product.img ? [product.img] : undefined, description: desc,
+        brand: { '@type': 'Brand', name: 'Adamnoteve' }, sku: product.id,
+        offers: { '@type': 'Offer', url: url, priceCurrency: 'USD', price: Number(lowPrice).toFixed(2),
+          availability: live ? 'https://schema.org/InStock' : 'https://schema.org/PreOrder' },
+      };
+      const s = document.createElement('script'); s.type = 'application/ld+json'; s.textContent = JSON.stringify(ld); document.head.appendChild(s);
+    })();
+
+    const colorMap = {
+      'White': '#ffffff', 'Black': '#1a1a1a', 'Pink': '#fdbfcb', 'Hot Pink': '#ff007a',
+      'Cream': '#fff5ec', 'Purple': '#7a2bff', 'Neon': '#d4ff00',
+      // Bella + Canvas 3001 palette (approximate swatch hexes)
+      'Aqua': '#00b2ca', 'Army': '#5a5a40', 'Ash': '#f0f1ea', 'Asphalt': '#52514f',
+      'Athletic Heather': '#d0d0d3', 'Autumn': '#c85313', 'Baby Blue': '#a9c6e8',
+      'Berry': '#7c2d52', 'Black Heather': '#1f1f23', 'Brown': '#4a3527',
+      'Burnt Orange': '#c04a23', 'Cardinal': '#8c1d2f', 'Charity Pink': '#f8a3bc',
+      'Dark Grey': '#3e3c3d', 'Dark Grey Heather': '#3f3f45', 'Forest': '#1b3b2a',
+      'Gold': '#ffb547', 'Heather Aqua': '#66c7c4', 'Heather Autumn': '#b15533',
+      'Heather Brown': '#6b4a39', 'Heather Carolina Blue': '#88b8de',
+      'Heather Clay': '#b56a4f', 'Heather Columbia Blue': '#a3c7e6',
+      'Heather Deep Teal': '#2e5f63', 'Heather Dust': '#e5d9c9',
+      'Heather Emerald': '#2e8b6a', 'Heather Forest': '#2f4f3e',
+      'Heather Grass Green': '#5da346', 'Heather Ice Blue': '#cfe3e3',
+      'Heather Kelly': '#3c9d63', 'Heather Mauve': '#c08799',
+      'Heather Midnight Navy': '#2b3447', 'Heather Mint': '#9fd6b6',
+      'Heather Natural': '#e8e0d2', 'Heather Navy': '#353e54',
+      'Heather Olive': '#6f7250', 'Heather Orange': '#ef7c4d',
+      'Heather Orchid': '#b787c2', 'Heather Prism Dusty Blue': '#aec6cf',
+      'Heather Prism Ice Blue': '#c9e4e6', 'Heather Prism Lilac': '#d5b8d8',
+      'Heather Prism Mint': '#bfe3cd', 'Heather Raspberry': '#a4466e',
+      'Heather Red': '#d4585c', 'Heather Slate': '#6a7886',
+      'Heather Team Purple': '#4f3a73', 'Heather True Royal': '#3f6ab2',
+      'Heather Yellow Gold': '#f4b73f', 'Kelly': '#2e8540', 'Leaf': '#5c9346',
+      'Light Blue': '#c5dbea', 'Lilac': '#c8a2d4', 'Maroon': '#5e2129',
+      'Mauve': '#c79ba8', 'Military Green': '#5f6334', 'Mint': '#aadbc5',
+      'Mustard': '#e3a922', 'Natural': '#e8e0d2', 'Navy': '#1f2a44',
+      'Ocean Blue': '#3a7bbb', 'Olive': '#434a32', 'Orange': '#ff6b35',
+      'Oxblood Black': '#2e1a1f', 'Pebble': '#d6cfc4', 'Red': '#c8102e',
+      'Sage': '#9caf88', 'Silver': '#e0e0e0', 'Soft Cream': '#f3e8d7',
+      'Soft Pink': '#f6d4dc', 'Solid White Blend': '#fafafa',
+      'Steel Blue': '#46698f', 'Tan': '#d2b48c', 'Teal': '#00857d',
+      'Team Purple': '#3f2a56', 'Toast': '#8a583c', 'True Royal': '#2456a4',
+      'Turquoise': '#2dadbf', 'Vintage Black': '#2a2a2a', 'Vintage White': '#f5f1e6',
+      'Yellow': '#ffd667', 'Dark Heather Grey/Black': '#4a4a4e',
+      // Gildan 18500/18000 + tote/tumbler palette
+      'Azalea': '#f470a8', 'Carolina Blue': '#7ba4db', 'Charcoal': '#454545',
+      'Dark Chocolate': '#3b2a20', 'Dark Heather': '#46474f', 'Forest Green': '#1e4632',
+      'Graphite Heather': '#6f7174', 'Heather Sport Dark Navy': '#2c3344',
+      'Heather Deep Royal': '#2e4a8f', 'Heliconia': '#e0418c', 'Indigo Blue': '#3f5277',
+      'Irish Green': '#129447', 'Light Pink': '#f3c1d1', 'Royal': '#2853a2',
+      'Sand': '#e6dcc5', 'Sport Grey': '#bfbfbf', 'Bottle Green': '#1f3b2c',
+      'Burgundy': '#5e2233', 'Classic Pink': '#f6c6d6', 'Classic Red': '#c41e3a',
+      'Coral': '#f87060', 'French Navy': '#23304d', 'Light Grey': '#d4d4d4',
+      // Candle scents (p4/p10) — evocative swatch colors, not literal wax colors.
+      'Sea Salt and Orchid': '#b9a7d6', 'Clean Cotton': '#f4f6f8', 'Cinnamon Vanilla': '#c98a5b',
+      'Coconut Cream and Cardamom': '#efe3cd', 'Peppered Passionfruit': '#c2407e',
+      'White Sage and Lavender': '#a8b9a0', 'Unscented': '#dcdcdc',
+      'White Sage + Lavender': '#a8b9a0', 'Coconut Cream + Cardamom': '#efe3cd',
+      // Mug accent colors — "White/X" = white mug, X colored inside + handle.
+      'White/Black': '#333333', 'White/Blue': '#3a7bbb', 'White/Dark Blue': '#1f2a44',
+      'White/Red': '#c8102e', 'White/Pink': '#fdbfcb', 'White/Dark Green': '#1b3b2a',
+      'White/Orange': '#ff6b35', 'White/Yellow': '#ffd667',
+      'White/Golden Yellow': '#f4b73f', 'White/Green': '#2e8540',
+    };
+
+    // Photo for the currently selected color, falling back to the default shot.
+    function imageFor(color) {
+      return (product.imgByColor && color && product.imgByColor[color]) || product.img;
+    }
+
+    // Sizes available for a given color (falls back to the full size list).
+    function sizesFor(color) {
+      return (product.sizesByColor && color && product.sizesByColor[color]) || product.sizes;
+    }
+
+    function defaultSize(p, list) {
+      const sizes = list || p.sizes;
+      if (!sizes) return null;
+      if (p.priceBySize) {
+        return sizes.reduce((cheapest, s) => {
+          const cheap = p.priceBySize[cheapest];
+          const cur = p.priceBySize[s];
+          return (cur != null && (cheap == null || cur < cheap)) ? s : cheapest;
+        }, sizes[0]);
+      }
+      return sizes[Math.min(2, sizes.length - 1)];
+    }
+    const initialColor = (typeof displayColor === 'function' && displayColor(product)) || (product.colors ? product.colors[0] : null);
+    const state = {
+      size: defaultSize(product, sizesFor(initialColor)),
+      color: initialColor,
+      qty: 1,
+    };
+
+    function variantHTML() {
+      let html = '';
+      if (product.sizes) {
+        html += `
+          <div class="variant-group">
+            <label class="variant-label">${product.sizes[0].includes('iPhone') || product.sizes[0].includes('Pixel') || product.sizes[0].includes('Galaxy') ? 'Model' : 'Size'}<span class="selected-val" id="size-val">${state.size}</span></label>
+            <div class="variant-options" id="size-opts">
+              ${sizesFor(state.color).map(s => `<button class="variant-chip ${s === state.size ? 'active' : ''}" data-size="${escapeAttr(s)}">${s}</button>`).join('')}
+            </div>
+          </div>
+        `;
+      }
+      if (product.colors) {
+        html += `
+          <div class="variant-group">
+            <label class="variant-label">${product.variantLabel || 'Color'}<span class="selected-val" id="color-val">${state.color}</span></label>
+            <div class="variant-options" id="color-opts">
+              ${product.colors.map(c => `
+                <button class="variant-chip color-chip ${c === state.color ? 'active' : ''}" data-color="${escapeAttr(c)}">
+                  <span class="color-swatch" style="background:${colorMap[c] || '#ddd'}"></span>${c}
+                </button>
+              `).join('')}
+            </div>
+          </div>
+        `;
+      }
+      html += `
+        <div class="variant-group">
+          <label class="variant-label">Quantity</label>
+          <div class="qty-picker">
+            <button id="qty-down">−</button>
+            <span class="qty-display" id="qty-display">1</span>
+            <button id="qty-up">+</button>
+          </div>
+        </div>
+      `;
+      return html;
+    }
+
+    const featuresHTML = product.features.map(f => `<li>${f}</li>`).join('');
+    const badgeHTML = !live
+      ? `<span class="product-tag coming-soon-tag" style="position:static; display:inline-block; margin-bottom:14px;">COMING SOON</span>`
+      : (product.tag ? `<span class="product-tag" style="position:static; display:inline-block; margin-bottom:14px;">${product.tag}</span>` : '');
+    const ctaHTML = live
+      ? `<button class="btn btn-primary" id="add-pdp">ADD TO BAG</button>
+         <a href="shop.html" class="btn btn-secondary">KEEP BROWSING</a>`
+      : `<button class="btn btn-primary" id="add-pdp" disabled aria-disabled="true">COMING SOON</button>
+         <a href="shop.html" class="btn btn-secondary">KEEP BROWSING</a>
+         <p class="coming-soon-note">Drop date TBA. Sign up for the newsletter below to find out first.</p>`;
+    document.getElementById('pdp').innerHTML = `
+      <div class="pdp-img${live ? '' : ' coming-soon'}">
+        <img src="${imageFor(state.color)}" alt="${product.name}" id="pdp-photo" />
+      </div>
+      <div class="pdp-info">
+        ${badgeHTML}
+        <h1>${product.name}</h1>
+        <div class="pdp-price" id="pdp-price">$${getVariantPrice(product, state.size).toFixed(2)}</div>
+        <p class="pdp-desc">${product.desc}</p>
+        ${variantHTML()}
+        <ul class="pdp-features">${featuresHTML}</ul>
+        <div class="pdp-cta">
+          ${ctaHTML}
+        </div>
+      </div>
+    `;
+
+    // Variant interactions
+    function refreshPrice() {
+      const priceEl = document.getElementById('pdp-price');
+      if (priceEl) priceEl.textContent = '$' + getVariantPrice(product, state.size).toFixed(2);
+    }
+
+    function bindSizeChips() {
+      document.querySelectorAll('#size-opts [data-size]').forEach(btn => {
+        btn.addEventListener('click', () => {
+          document.querySelectorAll('#size-opts .variant-chip').forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+          state.size = btn.dataset.size;
+          document.getElementById('size-val').textContent = state.size;
+          refreshPrice();
+        });
+      });
+    }
+    bindSizeChips();
+
+    document.querySelectorAll('#color-opts [data-color]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('#color-opts .variant-chip').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        state.color = btn.dataset.color;
+        document.getElementById('color-val').textContent = state.color;
+        const photo = document.getElementById('pdp-photo');
+        if (photo) photo.src = imageFor(state.color);
+        // Rebuild size chips for colors with restricted size availability.
+        const sizeOpts = document.getElementById('size-opts');
+        if (sizeOpts && product.sizes) {
+          const list = sizesFor(state.color);
+          if (!list.includes(state.size)) state.size = defaultSize(product, list);
+          sizeOpts.innerHTML = list.map(s => `<button class="variant-chip ${s === state.size ? 'active' : ''}" data-size="${escapeAttr(s)}">${s}</button>`).join('');
+          bindSizeChips();
+          document.getElementById('size-val').textContent = state.size;
+          refreshPrice();
+        }
+      });
+    });
+
+    const qtyDisplay = document.getElementById('qty-display');
+    document.getElementById('qty-up').addEventListener('click', () => {
+      state.qty = Math.min(99, state.qty + 1);
+      qtyDisplay.textContent = state.qty;
+    });
+    document.getElementById('qty-down').addEventListener('click', () => {
+      state.qty = Math.max(1, state.qty - 1);
+      qtyDisplay.textContent = state.qty;
+    });
+
+    if (live) {
+      document.getElementById('add-pdp').addEventListener('click', () => {
+        addToCart(product.id, { size: state.size, color: state.color, qty: state.qty });
+        const b = document.getElementById('add-pdp');
+        b.textContent = '✓ ADDED TO BAG';
+        b.style.background = 'var(--neon-cyan)';
+        setTimeout(() => {
+          b.textContent = 'ADD TO BAG';
+          b.style.background = '';
+        }, 1500);
+      });
+    }
+
+    // Related products (same category, excluding current)
+    const related = PRODUCTS
+      .filter(p => p.category === product.category && p.id !== product.id)
+      .slice(0, 4);
+    const fillCount = 4 - related.length;
+    if (fillCount > 0) {
+      const fill = PRODUCTS.filter(p => p.id !== product.id && !related.includes(p)).slice(0, fillCount);
+      related.push(...fill);
+    }
+    renderProducts('#related-grid', related);
+  });
+</script>
+</body>
+</html>

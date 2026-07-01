@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="adamnoteve">
+  <rect width="512" height="512" rx="96" fill="#120024"/>
+  <g transform="translate(60,86) scale(3.92)">
+    <!-- apple body (full heart) -->
+    <path d="M50,37.92 C39.12,16.8 14.64,22.56 14.64,44.32 C14.64,63.52 35.04,73.76 50,85.28 C64.96,73.76 85.36,63.52 85.36,44.32 C85.36,22.56 60.88,16.8 50,37.92 Z" fill="#ff007a"/>
+    <!-- bite (ink, matches background) -->
+    <circle cx="77.2" cy="37.92" r="20.4" fill="#120024"/>
+    <!-- stem -->
+    <path d="M50,40.48 C48.6,30 51.4,22 51.36,14.88" fill="none" stroke="#fff5ec" stroke-width="3.4" stroke-linecap="round"/>
+    <!-- leaf -->
+    <path d="M51.36,18.72 C58.16,7.2 71.76,8.48 74.48,17.44 C66.32,17.44 56.8,22.56 51.36,18.72 Z" fill="#d4ff00"/>
+  </g>
+</svg>

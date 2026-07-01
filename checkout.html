@@ -1,0 +1,651 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Checkout — Adamnoteve</title>
+<link rel="icon" type="image/svg+xml" href="favicon.svg" />
+<link rel="alternate icon" href="favicon.ico" />
+<link rel="apple-touch-icon" href="icon-256.png" />
+<link rel="manifest" href="manifest.json" />
+<meta name="theme-color" content="#ff007a" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bungee&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+<div class="marquee">
+  <div class="marquee-track">
+    <span>SECURE CHECKOUT POWERED BY STRIPE</span>
+    <span>★</span>
+    <span>WE NEVER SEE YOUR CARD DETAILS</span>
+    <span>★</span>
+    <span>FREE SHIPPING ON ORDERS OVER $50</span>
+    <span>★</span>
+    <span>SECURE CHECKOUT POWERED BY STRIPE</span>
+    <span>★</span>
+  </div>
+</div>
+
+<nav class="navbar">
+  <a href="index.html" class="logo">adamnot<span class="heart">♥</span>eve</a>
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="shop.html">Shop</a></li>
+    <li><a href="kits.html">Bundles</a></li>
+    <li><a href="about.html">About</a></li>
+    <li><a href="cart.html">Cart</a></li>
+    <li><button class="search-btn" data-open-search aria-label="Search">🔍</button></li>
+    <li><button class="cart-btn" data-open-cart>BAG <span class="cart-count">0</span></button></li>
+  </ul>
+  <button class="menu-toggle" aria-label="Menu">☰</button>
+</nav>
+
+<section class="checkout-page">
+  <div id="checkout-root"></div>
+</section>
+
+<footer class="footer">
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <h3>adamnot♥eve</h3>
+      <p>Because not every love story deserves a sequel.</p>
+      <div class="socials">
+        <a href="#">IG</a><a href="#">TT</a><a href="#">X</a><a href="#">PI</a>
+      </div>
+    </div>
+    <div>
+      <h4>Shop</h4>
+      <ul>
+        <li><a href="shop.html">All Products</a></li>
+        <li><a href="shop.html?cat=apparel">Apparel</a></li>
+        <li><a href="shop.html?cat=drinkware">Drinkware</a></li>
+        <li><a href="shop.html?cat=home">Home Goods</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4>Brand</h4>
+      <ul>
+        <li><a href="about.html">Our Story</a></li>
+        <li><a href="contact.html">Contact</a></li>
+        <li><a href="#">Press Kit</a></li>
+        <li><a href="#">Wholesale</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4>Legal</h4>
+      <ul>
+        <li><a href="terms.html">Terms of Service</a></li>
+        <li><a href="privacy.html">Privacy Policy</a></li>
+        <li><a href="refund.html">Returns &amp; Refunds</a></li>
+        <li><a href="#">Shipping</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    © 2026 Adamnoteve. All rights reserved. No exes were harmed in the making of this brand.
+  </div>
+</footer>
+
+<div class="cart-overlay"></div>
+<aside class="cart-drawer">
+  <div class="cart-header">
+    <h2>Your Baggage</h2>
+    <button class="cart-close">✕</button>
+  </div>
+  <div class="cart-items"></div>
+  <div class="cart-footer">
+    <div class="cart-total">
+      <span>Total damage:</span>
+      <span class="total-amt">$0.00</span>
+    </div>
+    <a href="checkout.html" class="checkout-btn" style="display:block; text-align:center;">CHECKOUT →</a>
+    <a href="cart.html" style="display:block; text-align:center; margin-top: 12px; font-weight: 600; font-size: 0.85rem; color: var(--ink); opacity: 0.7;">view full cart</a>
+  </div>
+</aside>
+
+<script src="lib/products.js"></script>
+<script src="script.js"></script>
+<script>
+  // ===== CHECKOUT STATE =====
+  const CHECKOUT_STATE_KEY = 'adamnoteve_checkout';
+  const PROMO_KEY = 'adamnoteve_promo';
+
+  // Promo codes: code -> { type, value, label }
+  const PROMOS = {
+    'HEARTBROKEN': { type: 'percent', value: 10, label: '10% off — feel better.' },
+  };
+
+  // Witty rejections for guesses people might try
+  const PROMO_QUIPS = {
+    'FREESHIPPING': 'free shipping is automatic over $50. relax.',
+    'FREESHIP':     'free shipping is automatic over $50. relax.',
+    'GIVEMEMONEY':  'we\'re not desperate. yet.',
+    'PLEASE':       'manners won\'t save you here.',
+    'CLAUDE':       'nice try, robot whisperer.',
+    'SINGLE':       'we know. that\'s why you\'re here.',
+    'EX':           'we don\'t take exes\' codes.',
+    'WELCOME':      'we\'re not Macy\'s.',
+    'NEWCUSTOMER':  'every customer is a new customer (until they ghost).',
+  };
+
+  // URL-driven step: Stripe redirects back with ?status=success|canceled
+  function initialStepFromUrl() {
+    const params = new URLSearchParams(window.location.search);
+    if (params.get('status') === 'success') return 3;
+    if (params.get('status') === 'canceled') return 2;
+    return 1;
+  }
+
+  const checkout = (() => {
+    let saved = {};
+    try { saved = JSON.parse(sessionStorage.getItem(CHECKOUT_STATE_KEY) || '{}'); } catch (e) {}
+    return {
+      step: initialStepFromUrl(),
+      data: {
+        email: saved.email || '',
+        firstName: saved.firstName || '',
+        lastName: saved.lastName || '',
+        address: saved.address || '',
+        address2: saved.address2 || '',
+        city: saved.city || '',
+        state: saved.state || '',
+        zip: saved.zip || '',
+        country: saved.country || 'United States',
+      },
+      promo: sessionStorage.getItem(PROMO_KEY) || null,
+    };
+  })();
+
+  function persistCheckout() {
+    sessionStorage.setItem(CHECKOUT_STATE_KEY, JSON.stringify(checkout.data));
+  }
+
+  function getDiscount(subtotal) {
+    if (!checkout.promo || !PROMOS[checkout.promo]) return 0;
+    const promo = PROMOS[checkout.promo];
+    if (promo.type === 'percent') return subtotal * (promo.value / 100);
+    if (promo.type === 'flat') return Math.min(subtotal, promo.value);
+    return 0;
+  }
+
+  function calcTotals() {
+    const subtotal = getCartTotal();
+    const discount = getDiscount(subtotal);
+    const discountedSubtotal = subtotal - discount;
+    const shipping = subtotal === 0 ? 0 : (discountedSubtotal >= 50 ? 0 : 4.99);
+    const tax = discountedSubtotal * 0.08;
+    const total = discountedSubtotal + shipping + tax;
+    return { subtotal, discount, shipping, tax, total };
+  }
+
+  function summaryHTML() {
+    const cart = getCart();
+    const totals = calcTotals();
+    const itemsHTML = cart.map(item => {
+      const p = PRODUCTS.find(prod => prod.id === item.id);
+      if (!p) return '';
+      const variantParts = [];
+      if (item.size) variantParts.push(item.size);
+      if (item.color) variantParts.push(item.color);
+      const meta = variantParts.length ? variantParts.join(' · ') + ' · ' : '';
+      return `
+        <div class="summary-item">
+          <img src="${p.img}" alt="${p.name}" />
+          <div>
+            <div class="summary-item-name">${p.name}</div>
+            <div class="summary-item-meta">${meta}Qty ${item.qty}</div>
+          </div>
+          <div style="font-weight:700;">$${(getVariantPrice(p, item.size) * item.qty).toFixed(2)}</div>
+        </div>
+      `;
+    }).join('');
+
+    const promoApplied = checkout.promo && PROMOS[checkout.promo];
+    const promoBlock = promoApplied
+      ? `
+        <div class="promo-block">
+          <div class="promo-applied">
+            <span>✓ ${checkout.promo} — ${PROMOS[checkout.promo].value}% OFF</span>
+            <button class="promo-remove" id="promo-remove" title="Remove">✕</button>
+          </div>
+        </div>
+      `
+      : `
+        <div class="promo-block">
+          <label class="promo-label">got a code?</label>
+          <div class="promo-row">
+            <input type="text" class="promo-input" id="promo-input" placeholder="enter code" autocomplete="off" spellcheck="false" />
+            <button class="promo-apply" id="promo-apply">APPLY</button>
+          </div>
+          <div class="promo-feedback" id="promo-feedback"></div>
+        </div>
+      `;
+
+    const discountRow = totals.discount > 0
+      ? `<div class="summary-row discount">
+           <span>Discount (${checkout.promo})</span>
+           <span>−$${totals.discount.toFixed(2)}</span>
+         </div>`
+      : '';
+
+    return `
+      <div class="checkout-summary">
+        <h3>your damage</h3>
+        <div class="summary-items">${itemsHTML}</div>
+        <div class="summary-row">
+          <span>Subtotal</span>
+          <span>$${totals.subtotal.toFixed(2)}</span>
+        </div>
+        ${discountRow}
+        <div class="summary-row">
+          <span>Shipping</span>
+          <span>${totals.shipping === 0 ? 'FREE' : '$' + totals.shipping.toFixed(2)}</span>
+        </div>
+        <div class="summary-row">
+          <span>Emotional tax</span>
+          <span>$${totals.tax.toFixed(2)}</span>
+        </div>
+        <div class="summary-row total">
+          <span>Total</span>
+          <span>$${totals.total.toFixed(2)}</span>
+        </div>
+        ${promoBlock}
+      </div>
+    `;
+  }
+
+  function bindPromo() {
+    const applyBtn = document.getElementById('promo-apply');
+    const input = document.getElementById('promo-input');
+    const feedback = document.getElementById('promo-feedback');
+    const removeBtn = document.getElementById('promo-remove');
+
+    function tryApply() {
+      const code = (input?.value || '').trim().toUpperCase();
+      if (!code) return;
+      if (PROMOS[code]) {
+        checkout.promo = code;
+        sessionStorage.setItem(PROMO_KEY, code);
+        showToast(`${code} applied — ${PROMOS[code].label}`);
+        rerenderSummary();
+        return;
+      }
+      feedback.classList.remove('success');
+      feedback.classList.add('show', 'error');
+      feedback.textContent = PROMO_QUIPS[code] || `"${code}" doesn't work here. neither did your last relationship.`;
+      input.value = '';
+    }
+
+    applyBtn?.addEventListener('click', tryApply);
+    input?.addEventListener('keydown', e => {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        tryApply();
+      }
+    });
+
+    removeBtn?.addEventListener('click', () => {
+      checkout.promo = null;
+      sessionStorage.removeItem(PROMO_KEY);
+      showToast('promo removed. back to full price.');
+      rerenderSummary();
+    });
+  }
+
+  function rerenderSummary() {
+    const oldSummary = document.querySelector('.checkout-summary');
+    if (!oldSummary) return;
+    const wrap = document.createElement('div');
+    wrap.innerHTML = summaryHTML();
+    oldSummary.replaceWith(wrap.firstElementChild);
+    bindPromo();
+  }
+
+  function stepsHTML() {
+    const labels = ['Shipping', 'Payment', 'Done'];
+    return `
+      <div class="steps">
+        ${labels.map((l, i) => {
+          const n = i + 1;
+          let cls = '';
+          if (checkout.step === n) cls = 'active';
+          else if (checkout.step > n) cls = 'done';
+          return `<div class="step ${cls}"><span class="step-num">${n}</span>${l}</div>`;
+        }).join('')}
+      </div>
+    `;
+  }
+
+  function shippingFormHTML() {
+    const d = checkout.data;
+    return `
+      <div class="checkout-form">
+        <h2>shipping details</h2>
+        <div class="form-field">
+          <label for="email">Email</label>
+          <input type="email" id="email" placeholder="your.ex@email.com" value="${d.email}" />
+          <span class="form-error">we need an email to send order updates (and pining poetry)</span>
+        </div>
+        <div class="form-row">
+          <div class="form-field">
+            <label for="firstName">First Name</label>
+            <input type="text" id="firstName" value="${d.firstName}" />
+            <span class="form-error">required</span>
+          </div>
+          <div class="form-field">
+            <label for="lastName">Last Name</label>
+            <input type="text" id="lastName" value="${d.lastName}" />
+            <span class="form-error">required</span>
+          </div>
+        </div>
+        <div class="form-field full">
+          <label for="address">Street Address</label>
+          <input type="text" id="address" placeholder="123 Heartbreak Hotel Lane" value="${d.address}" />
+          <span class="form-error">required</span>
+        </div>
+        <div class="form-field full">
+          <label for="address2">Apt, Suite, etc. (optional)</label>
+          <input type="text" id="address2" value="${d.address2}" />
+        </div>
+        <div class="form-row">
+          <div class="form-field">
+            <label for="city">City</label>
+            <input type="text" id="city" value="${d.city}" />
+            <span class="form-error">required</span>
+          </div>
+          <div class="form-field">
+            <label for="state">State</label>
+            <input type="text" id="state" placeholder="NY" maxlength="20" value="${d.state}" />
+            <span class="form-error">required</span>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-field">
+            <label for="zip">ZIP</label>
+            <input type="text" id="zip" maxlength="10" value="${d.zip}" />
+            <span class="form-error">required</span>
+          </div>
+          <div class="form-field">
+            <label for="country">Country</label>
+            <select id="country">
+              <option ${d.country === 'United States' ? 'selected' : ''}>United States</option>
+              <option ${d.country === 'Canada' ? 'selected' : ''}>Canada</option>
+              <option ${d.country === 'United Kingdom' ? 'selected' : ''}>United Kingdom</option>
+              <option ${d.country === 'Australia' ? 'selected' : ''}>Australia</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-field full">
+          <label for="heardFrom">How'd you hear about us? <span style="opacity:0.55;font-weight:400;">(optional)</span></label>
+          <select id="heardFrom">
+            <option value="" ${!d.heardFrom ? 'selected' : ''}>— select —</option>
+            ${['TikTok','Instagram','Pinterest','Facebook','YouTube','Google search','Friend / word of mouth','Reddit','Saw someone wearing it','Other'].map(o => `<option ${d.heardFrom === o ? 'selected' : ''}>${o}</option>`).join('')}
+          </select>
+        </div>
+        <div class="form-actions">
+          <a href="cart.html" class="btn-back">← BACK TO CART</a>
+          <button class="btn btn-primary" id="to-payment">CONTINUE TO PAYMENT →</button>
+        </div>
+      </div>
+    `;
+  }
+
+  function paymentFormHTML() {
+    const params = new URLSearchParams(window.location.search);
+    const wasCanceled = params.get('status') === 'canceled';
+    return `
+      <div class="checkout-form">
+        <h2>payment</h2>
+        ${wasCanceled
+          ? `<p style="margin-bottom: 20px; padding: 14px 18px; background: rgba(255, 46, 46, 0.08); border-left: 4px solid var(--red); border-radius: 8px; font-size: 0.95rem;">
+               No payment was taken. Your cart is still here whenever you're ready.
+             </p>`
+          : ''}
+        <p style="margin-bottom: 28px; opacity: 0.8; font-size: 1rem; line-height: 1.6;">
+          You'll be redirected to <strong>Stripe</strong>'s secure payment page to enter your card details.
+          We never see or store them. After payment you'll come right back here with your order confirmation.
+        </p>
+        <div style="display: flex; gap: 10px; align-items: center; margin-bottom: 28px; padding: 14px 18px; background: var(--neon); border: 2px solid var(--ink); border-radius: 12px;">
+          <span style="font-size: 1.4rem;">🔒</span>
+          <span style="font-weight: 700; font-size: 0.95rem;">PCI-compliant. SSL encrypted. Powered by Stripe.</span>
+        </div>
+        <div id="checkout-error" style="display:none; margin-bottom: 18px; padding: 12px 16px; background: rgba(255, 46, 46, 0.1); border-left: 4px solid var(--red); border-radius: 8px; font-size: 0.9rem; color: var(--red); font-weight: 600;"></div>
+        <div class="form-actions">
+          <button class="btn-back" id="back-to-shipping">← BACK</button>
+          <button class="btn btn-primary" id="pay-with-stripe">PAY SECURELY WITH STRIPE →</button>
+        </div>
+      </div>
+    `;
+  }
+
+  function confirmationHTML(orderNum, total, email, usedPromo) {
+    const promoLine = usedPromo
+      ? `<p style="font-size: 0.95rem; color: var(--hot-pink); font-weight: 700;">Promo <strong>${usedPromo}</strong> applied. We saw you save and we respect it.</p>`
+      : '';
+    const totalLine = total > 0
+      ? `<p>Estimated total: <strong style="color: var(--hot-pink);">$${total.toFixed(2)}</strong>. Stripe is sending you the official receipt now.</p>`
+      : `<p>Stripe is sending the receipt with the final total to your email.</p>`;
+    return `
+      <div class="order-success">
+        <div class="check-circle">✓</div>
+        <h1>order placed!</h1>
+        <p style="font-size: 1.2rem; color: var(--hot-pink); font-weight: 700;">
+          You did the thing. We're proud of you.
+        </p>
+        <div class="order-num">ORDER #${orderNum}</div>
+        <p>A confirmation has been sent to <strong>${email || 'your email'}</strong>.</p>
+        ${totalLine}
+        ${promoLine}
+        <p style="font-size: 0.9rem; opacity: 0.6; margin-top: 20px;">
+          Estimated arrival: <strong>3-7 business days</strong> after you stop checking your phone.
+        </p>
+        <div class="actions">
+          <a href="shop.html" class="btn btn-primary">SHOP MORE FEELINGS</a>
+          <a href="index.html" class="btn btn-secondary">BACK HOME</a>
+        </div>
+      </div>
+    `;
+  }
+
+  function render() {
+    const root = document.getElementById('checkout-root');
+    const cart = getCart();
+
+    if (cart.length === 0 && checkout.step < 3) {
+      root.innerHTML = `
+        <div class="cart-page-empty">
+          <div class="emoji">🛒</div>
+          <h2 style="font-family: 'Bungee', sans-serif; margin-bottom: 14px;">Nothing to checkout.</h2>
+          <p style="opacity: 0.7; margin-bottom: 30px;">Your cart is empty. Add some heartbreak to it first.</p>
+          <a href="shop.html" class="btn btn-primary">START SHOPPING</a>
+        </div>
+      `;
+      return;
+    }
+
+    if (checkout.step === 3) {
+      const orderNum = sessionStorage.getItem('adamnoteve_order_num') || generateOrderNum();
+      const total = parseFloat(sessionStorage.getItem('adamnoteve_order_total') || '0');
+      const email = sessionStorage.getItem('adamnoteve_order_email') || checkout.data.email;
+      const usedPromo = sessionStorage.getItem('adamnoteve_order_promo');
+      root.innerHTML = `
+        <h1>thanks for your <span style="color: var(--hot-pink);">tears</span></h1>
+        <p class="checkout-subtitle">we mean… purchase.</p>
+        ${stepsHTML()}
+        ${confirmationHTML(orderNum, total, email, usedPromo)}
+      `;
+      return;
+    }
+
+    root.innerHTML = `
+      <h1>checkout</h1>
+      <p class="checkout-subtitle">almost done. take a deep breath.</p>
+      ${stepsHTML()}
+      <div class="checkout-grid">
+        ${checkout.step === 1 ? shippingFormHTML() : paymentFormHTML()}
+        ${summaryHTML()}
+      </div>
+    `;
+
+    if (checkout.step === 1) bindShipping();
+    else bindPayment();
+    bindPromo();
+  }
+
+  function generateOrderNum() {
+    const num = 'AE-' + Date.now().toString(36).toUpperCase() + '-' + Math.floor(Math.random() * 9999).toString().padStart(4, '0');
+    sessionStorage.setItem('adamnoteve_order_num', num);
+    return num;
+  }
+
+  // ===== Field validation helpers =====
+  function setError(id, hasError) {
+    const field = document.getElementById(id)?.closest('.form-field');
+    if (!field) return;
+    field.classList.toggle('has-error', hasError);
+    document.getElementById(id)?.classList.toggle('error', hasError);
+  }
+
+  function validateRequired(ids) {
+    let valid = true;
+    ids.forEach(id => {
+      const el = document.getElementById(id);
+      if (!el) return;
+      const empty = !el.value.trim();
+      setError(id, empty);
+      if (empty) valid = false;
+    });
+    return valid;
+  }
+
+  // ===== Shipping step =====
+  function bindShipping() {
+    ['email', 'firstName', 'lastName', 'address', 'address2', 'city', 'state', 'zip'].forEach(id => {
+      document.getElementById(id)?.addEventListener('input', e => {
+        checkout.data[id] = e.target.value;
+        setError(id, false);
+        persistCheckout();
+      });
+    });
+    document.getElementById('country')?.addEventListener('change', e => {
+      checkout.data.country = e.target.value;
+      persistCheckout();
+    });
+
+    document.getElementById('to-payment')?.addEventListener('click', () => {
+      const required = ['email', 'firstName', 'lastName', 'address', 'city', 'state', 'zip'];
+      const baseValid = validateRequired(required);
+      const emailEl = document.getElementById('email');
+      const emailValid = /^\S+@\S+\.\S+$/.test(emailEl.value.trim());
+      if (!emailValid) setError('email', true);
+      if (!baseValid || !emailValid) {
+        showToast('please fill in all required fields');
+        return;
+      }
+      checkout.data.heardFrom = document.getElementById('heardFrom')?.value || '';
+      checkout.step = 2;
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      render();
+    });
+  }
+
+  // ===== Payment step (Stripe Checkout redirect) =====
+  function showCheckoutError(msg) {
+    const el = document.getElementById('checkout-error');
+    if (!el) return;
+    el.textContent = msg;
+    el.style.display = 'block';
+  }
+
+  async function startStripeCheckout() {
+    const btn = document.getElementById('pay-with-stripe');
+    if (!btn) return;
+    btn.disabled = true;
+    const originalText = btn.textContent;
+    btn.textContent = 'REDIRECTING TO STRIPE…';
+    btn.style.opacity = '0.7';
+
+    try {
+      const cart = getCart();
+      if (cart.length === 0) {
+        showCheckoutError('Your cart is empty.');
+        return;
+      }
+
+      const res = await fetch('/.netlify/functions/create-checkout-session', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          items: cart,
+          email: checkout.data.email,
+          promo: checkout.promo,
+          heardFrom: checkout.data.heardFrom || '',
+          shipping: {
+            firstName: checkout.data.firstName,
+            lastName: checkout.data.lastName,
+          },
+        }),
+      });
+
+      const json = await res.json().catch(() => ({}));
+      if (!res.ok || !json.url) {
+        showCheckoutError(json.error || 'Could not start checkout. Please try again.');
+        return;
+      }
+
+      // Stash data we'll display on the success screen.
+      const totals = calcTotals();
+      sessionStorage.setItem('adamnoteve_order_total', totals.total.toFixed(2));
+      sessionStorage.setItem('adamnoteve_order_email', checkout.data.email);
+      if (checkout.promo) sessionStorage.setItem('adamnoteve_order_promo', checkout.promo);
+
+      window.location.href = json.url;
+    } catch (err) {
+      showCheckoutError('Network error. Are you offline? Try again.');
+    } finally {
+      btn.disabled = false;
+      btn.textContent = originalText;
+      btn.style.opacity = '';
+    }
+  }
+
+  function bindPayment() {
+    document.getElementById('back-to-shipping')?.addEventListener('click', () => {
+      // Drop ?status=canceled from the URL when going back.
+      history.replaceState(null, '', window.location.pathname);
+      checkout.step = 1;
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      render();
+    });
+
+    document.getElementById('pay-with-stripe')?.addEventListener('click', startStripeCheckout);
+  }
+
+  // On a successful return from Stripe (?status=success&session_id=...),
+  // wipe the cart and stamp an order number derived from the session ID.
+  function handleStripeReturn() {
+    const params = new URLSearchParams(window.location.search);
+    if (params.get('status') !== 'success') return;
+    const sessionId = params.get('session_id');
+    if (sessionId) {
+      const orderNum = 'AE-' + sessionId.slice(-10).toUpperCase();
+      sessionStorage.setItem('adamnoteve_order_num', orderNum);
+    } else {
+      generateOrderNum();
+    }
+    clearCart();
+    sessionStorage.removeItem(PROMO_KEY);
+    sessionStorage.removeItem(CHECKOUT_STATE_KEY);
+    checkout.promo = null;
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    handleStripeReturn();
+    render();
+  });
+</script>
+</body>
+</html>

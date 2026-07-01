@@ -1,0 +1,19 @@
+# Netlify configuration for the Adamnoteve site.
+
+[build]
+  publish = "."
+  functions = "netlify/functions"
+
+[functions]
+  node_bundler = "esbuild"
+
+# Stripe webhook needs the raw request body to verify the signature.
+# Tell Netlify not to parse it.
+[functions."stripe-webhook"]
+  included_files = []
+
+[dev]
+  publish = "."
+  functions = "netlify/functions"
+  framework = "#static"
+  port = 8888

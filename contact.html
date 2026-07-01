@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Contact — Adamnoteve</title>
+<link rel="icon" type="image/svg+xml" href="favicon.svg" />
+<link rel="alternate icon" href="favicon.ico" />
+<link rel="apple-touch-icon" href="icon-256.png" />
+<link rel="manifest" href="manifest.json" />
+<meta name="theme-color" content="#ff007a" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bungee&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+<div class="marquee">
+  <div class="marquee-track">
+    <span>WE READ EVERY MESSAGE</span>
+    <span>★</span>
+    <span>RESPONSE WITHIN 1-2 BUSINESS DAYS</span>
+    <span>★</span>
+    <span>NO ROBOTS, JUST HUMANS WITH FEELINGS</span>
+    <span>★</span>
+  </div>
+</div>
+
+<nav class="navbar">
+  <a href="index.html" class="logo">adamnot<span class="heart">♥</span>eve</a>
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="shop.html">Shop</a></li>
+    <li><a href="kits.html">Bundles</a></li>
+    <li><a href="about.html">About</a></li>
+    <li><a href="cart.html">Cart</a></li>
+    <li><button class="search-btn" data-open-search aria-label="Search">🔍</button></li>
+    <li><button class="cart-btn" data-open-cart>BAG <span class="cart-count">0</span></button></li>
+  </ul>
+  <button class="menu-toggle" aria-label="Menu">☰</button>
+</nav>
+
+<section class="about-hero">
+  <h1>say something</h1>
+  <p>Need help with an order? Want to collab? Just need someone to listen? We're here.</p>
+</section>
+
+<section class="about-content">
+
+  <div class="contact-grid">
+    <div class="contact-info-card">
+      <h3>get in touch</h3>
+      <p><strong>General &amp; press:</strong><br>
+        <a href="mailto:p.sp56701@gmail.com">p.sp56701@gmail.com</a>
+      </p>
+      <p><strong>Order support:</strong><br>
+        <a href="mailto:p.sp56701@gmail.com">p.sp56701@gmail.com</a>
+      </p>
+      <p><strong>Wholesale:</strong><br>
+        <a href="mailto:p.sp56701@gmail.com">p.sp56701@gmail.com</a>
+      </p>
+      <p style="margin-top: 24px; font-size: 0.95rem; opacity: 0.8;">
+        We aim to respond within <strong>1-2 business days</strong>. If you've waited longer, check your spam folder before assuming we're ghosting you.
+      </p>
+
+      <hr style="margin: 24px 0; border: none; border-top: 2px dashed rgba(18, 0, 36, 0.2);">
+
+      <h3>mailing address</h3>
+      <p style="font-size: 0.95rem;">
+        Synergentic Consulting LLC<br>
+        4245 Meyers Lane, Suite 106<br>
+        Waco, TX 76705<br>
+        United States
+      </p>
+    </div>
+
+    <form class="contact-form" id="contact-form">
+      <h2 style="font-size: 1.5rem; color: var(--hot-pink); margin-bottom: 20px;">send us a note</h2>
+
+      <div class="form-field">
+        <label for="contact-name">Your name</label>
+        <input type="text" id="contact-name" required />
+      </div>
+
+      <div class="form-field">
+        <label for="contact-email">Your email</label>
+        <input type="email" id="contact-email" required />
+      </div>
+
+      <div class="form-field">
+        <label for="contact-subject">Subject</label>
+        <select id="contact-subject" required>
+          <option value="">choose one...</option>
+          <option>Order question</option>
+          <option>Returns &amp; refunds</option>
+          <option>Damaged or wrong item</option>
+          <option>Wholesale</option>
+          <option>Press / collaboration</option>
+          <option>Something else</option>
+        </select>
+      </div>
+
+      <div class="form-field">
+        <label for="contact-order">Order number (if applicable)</label>
+        <input type="text" id="contact-order" placeholder="AE-..." />
+      </div>
+
+      <div class="form-field">
+        <label for="contact-message">Message</label>
+        <textarea id="contact-message" required placeholder="tell us everything..."></textarea>
+      </div>
+
+      <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 8px;">SEND IT →</button>
+
+      <p id="contact-success" style="display:none; margin-top: 18px; padding: 14px 18px; background: var(--neon); border: 2px solid var(--ink); border-radius: 12px; font-weight: 700; color: var(--ink); text-align: center;">
+        ✓ Your email client should have opened. If it didn't, copy your message and email us directly.
+      </p>
+    </form>
+  </div>
+
+  <div class="legal-tldr">
+    <h3>BEFORE YOU EMAIL</h3>
+    <p>For questions about returns or refunds, our <a href="refund.html" style="font-weight: 700; color: var(--ink);">Returns Policy</a> covers the most common situations. For data privacy requests, see our <a href="privacy.html" style="font-weight: 700; color: var(--ink);">Privacy Policy</a>.</p>
+  </div>
+
+  <div class="legal-meta">
+    <strong>Note from your friendly developer:</strong> The contact form currently uses a <code>mailto:</code> fallback (opens the user's email client with the message pre-filled) since this site has no backend mail service. To take submissions on the server, we'd add a small Netlify function that posts to a service like Resend or SendGrid. Stripe just needs working contact info to be displayed — which the email addresses above provide.
+  </div>
+
+</section>
+
+<footer class="footer">
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <h3>adamnot♥eve</h3>
+      <p>Because not every love story deserves a sequel.</p>
+      <div class="socials">
+        <a href="#">IG</a><a href="#">TT</a><a href="#">X</a><a href="#">PI</a>
+      </div>
+    </div>
+    <div>
+      <h4>Shop</h4>
+      <ul>
+        <li><a href="shop.html">All Products</a></li>
+        <li><a href="shop.html?cat=apparel">Apparel</a></li>
+        <li><a href="shop.html?cat=drinkware">Drinkware</a></li>
+        <li><a href="shop.html?cat=home">Home Goods</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4>Brand</h4>
+      <ul>
+        <li><a href="about.html">Our Story</a></li>
+        <li><a href="contact.html">Contact</a></li>
+        <li><a href="#">Press Kit</a></li>
+        <li><a href="#">Wholesale</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4>Legal</h4>
+      <ul>
+        <li><a href="terms.html">Terms of Service</a></li>
+        <li><a href="privacy.html">Privacy Policy</a></li>
+        <li><a href="refund.html">Returns &amp; Refunds</a></li>
+        <li><a href="#">Shipping</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    © 2026 Adamnoteve. All rights reserved. No exes were harmed in the making of this brand.
+  </div>
+</footer>
+
+<div class="cart-overlay"></div>
+<aside class="cart-drawer">
+  <div class="cart-header">
+    <h2>Your Baggage</h2>
+    <button class="cart-close">✕</button>
+  </div>
+  <div class="cart-items"></div>
+  <div class="cart-footer">
+    <div class="cart-total">
+      <span>Total damage:</span>
+      <span class="total-amt">$0.00</span>
+    </div>
+    <a href="checkout.html" class="checkout-btn" style="display:block; text-align:center;">CHECKOUT →</a>
+    <a href="cart.html" style="display:block; text-align:center; margin-top: 12px; font-weight: 600; font-size: 0.85rem; color: var(--ink); opacity: 0.7;">view full cart</a>
+  </div>
+</aside>
+
+<script src="lib/products.js"></script>
+<script src="script.js"></script>
+<script>
+  // Mailto fallback — opens the user's email client with the form contents
+  // pre-filled. Replace with a real backend POST when you set one up.
+  document.getElementById('contact-form')?.addEventListener('submit', e => {
+    e.preventDefault();
+    const name = document.getElementById('contact-name').value.trim();
+    const email = document.getElementById('contact-email').value.trim();
+    const subject = document.getElementById('contact-subject').value;
+    const order = document.getElementById('contact-order').value.trim();
+    const message = document.getElementById('contact-message').value.trim();
+
+    const target = 'p.sp56701@gmail.com';
+
+    const body = [
+      `Name: ${name}`,
+      `Email: ${email}`,
+      order ? `Order: ${order}` : null,
+      '',
+      message,
+    ].filter(Boolean).join('\n');
+
+    const url = `mailto:${target}?subject=${encodeURIComponent('[Contact] ' + subject)}&body=${encodeURIComponent(body)}`;
+    window.location.href = url;
+
+    document.getElementById('contact-success').style.display = 'block';
+  });
+</script>
+</body>
+</html>

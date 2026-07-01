@@ -1,0 +1,17 @@
+{
+  "name": "adamnoteve",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Adamnoteve — breakup merch site with Stripe Checkout",
+  "scripts": {
+    "dev": "netlify dev",
+    "deploy": "netlify deploy --prod"
+  },
+  "dependencies": {
+    "stripe": "^17.0.0",
+    "resend": "^4.0.0"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

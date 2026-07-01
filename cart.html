@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Cart — Adamnoteve</title>
+<link rel="icon" type="image/svg+xml" href="favicon.svg" />
+<link rel="alternate icon" href="favicon.ico" />
+<link rel="apple-touch-icon" href="icon-256.png" />
+<link rel="manifest" href="manifest.json" />
+<meta name="theme-color" content="#ff007a" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bungee&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+<div class="marquee">
+  <div class="marquee-track">
+    <span>FREE SHIPPING ON ORDERS OVER $50</span>
+    <span>★</span>
+    <span>RETURNS ACCEPTED — UNLIKE YOUR EX</span>
+    <span>★</span>
+    <span>NEW DROPS EVERY HEARTBREAK</span>
+    <span>★</span>
+    <span>FREE SHIPPING ON ORDERS OVER $50</span>
+    <span>★</span>
+  </div>
+</div>
+
+<nav class="navbar">
+  <a href="index.html" class="logo">adamnot<span class="heart">♥</span>eve</a>
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="shop.html">Shop</a></li>
+    <li><a href="kits.html">Bundles</a></li>
+    <li><a href="about.html">About</a></li>
+    <li><a href="cart.html">Cart</a></li>
+    <li><button class="search-btn" data-open-search aria-label="Search">🔍</button></li>
+    <li><button class="cart-btn" data-open-cart>BAG <span class="cart-count">0</span></button></li>
+  </ul>
+  <button class="menu-toggle" aria-label="Menu">☰</button>
+</nav>
+
+<section class="cart-page">
+  <h1>your <span style="color: var(--hot-pink);">baggage</span></h1>
+  <p style="margin-bottom: 30px; opacity: 0.7; font-size: 1.1rem;">Carrying it so you don't have to. (You're still going to have to.)</p>
+
+  <div id="cart-page-root"></div>
+</section>
+
+<footer class="footer">
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <h3>adamnot♥eve</h3>
+      <p>Because not every love story deserves a sequel.</p>
+      <div class="socials">
+        <a href="#">IG</a><a href="#">TT</a><a href="#">X</a><a href="#">PI</a>
+      </div>
+    </div>
+    <div>
+      <h4>Shop</h4>
+      <ul>
+        <li><a href="shop.html">All Products</a></li>
+        <li><a href="shop.html?cat=apparel">Apparel</a></li>
+        <li><a href="shop.html?cat=drinkware">Drinkware</a></li>
+        <li><a href="shop.html?cat=home">Home Goods</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4>Brand</h4>
+      <ul>
+        <li><a href="about.html">Our Story</a></li>
+        <li><a href="contact.html">Contact</a></li>
+        <li><a href="#">Press Kit</a></li>
+        <li><a href="#">Wholesale</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4>Legal</h4>
+      <ul>
+        <li><a href="terms.html">Terms of Service</a></li>
+        <li><a href="privacy.html">Privacy Policy</a></li>
+        <li><a href="refund.html">Returns &amp; Refunds</a></li>
+        <li><a href="#">Shipping</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    © 2026 Adamnoteve. All rights reserved. No exes were harmed in the making of this brand.
+  </div>
+</footer>
+
+<div class="cart-overlay"></div>
+<aside class="cart-drawer">
+  <div class="cart-header">
+    <h2>Your Baggage</h2>
+    <button class="cart-close">✕</button>
+  </div>
+  <div class="cart-items"></div>
+  <div class="cart-footer">
+    <div class="cart-total">
+      <span>Total damage:</span>
+      <span class="total-amt">$0.00</span>
+    </div>
+    <a href="checkout.html" class="checkout-btn" style="display:block; text-align:center;">CHECKOUT →</a>
+    <a href="cart.html" style="display:block; text-align:center; margin-top: 12px; font-weight: 600; font-size: 0.85rem; color: var(--ink); opacity: 0.7;">view full cart</a>
+  </div>
+</aside>
+
+<script src="lib/products.js"></script>
+<script src="script.js"></script>
+<script>
+  function renderCartPage() {
+    const root = document.getElementById('cart-page-root');
+    if (!root) return;
+    const cart = getCart();
+
+    if (cart.length === 0) {
+      root.innerHTML = `
+        <div class="cart-page-empty">
+          <div class="emoji">🥀</div>
+          <h2 style="font-family: 'Bungee', sans-serif; margin-bottom: 14px;">Empty cart, empty heart.</h2>
+          <p style="opacity: 0.7; margin-bottom: 30px; font-size: 1.1rem;">Your bag is as empty as their promises.</p>
+          <a href="shop.html" class="btn btn-primary">FILL THE VOID</a>
+        </div>
+      `;
+      return;
+    }
+
+    const subtotal = getCartTotal();
+    const shipping = subtotal >= 50 ? 0 : 4.99;
+    const tax = subtotal * 0.08;
+    const total = subtotal + shipping + tax;
+
+    const itemsHTML = cart.map(item => {
+      const p = PRODUCTS.find(prod => prod.id === item.id);
+      if (!p) return '';
+      const key = variantKey(item);
+      const variantParts = [];
+      if (item.size) variantParts.push(item.size);
+      if (item.color) variantParts.push(item.color);
+      const variantStr = variantParts.length ? `<div class="cart-item-variant">${variantParts.join(' · ')}</div>` : '';
+      return `
+        <div class="cart-item">
+          <img src="${p.img}" alt="${p.name}" />
+          <div>
+            <div class="cart-item-name">${p.name}</div>
+            ${variantStr}
+            <div class="cart-item-price">$${(getVariantPrice(p, item.size) * item.qty).toFixed(2)}</div>
+            <div class="qty-controls">
+              <button class="qty-btn" data-qty="${escapeAttr(key)}" data-delta="-1">−</button>
+              <span class="qty-num">${item.qty}</span>
+              <button class="qty-btn" data-qty="${escapeAttr(key)}" data-delta="1">+</button>
+            </div>
+          </div>
+          <button class="remove-btn" data-remove="${escapeAttr(key)}" title="Remove">✕</button>
+        </div>
+      `;
+    }).join('');
+
+    root.innerHTML = `
+      <div class="cart-page-grid">
+        <div class="cart-page-items">
+          ${itemsHTML}
+          ${upsellHTML()}
+        </div>
+        <div class="cart-page-summary">
+          ${freeShipBanner(subtotal)}
+          <h3>order damage report</h3>
+          <div class="summary-row">
+            <span>Subtotal</span>
+            <span>$${subtotal.toFixed(2)}</span>
+          </div>
+          <div class="summary-row">
+            <span>Shipping</span>
+            <span>${shipping === 0 ? 'FREE 🎉' : '$' + shipping.toFixed(2)}</span>
+          </div>
+          <div class="summary-row">
+            <span>Emotional tax (8%)</span>
+            <span>$${tax.toFixed(2)}</span>
+          </div>
+          <div class="summary-row total">
+            <span>Total</span>
+            <span>$${total.toFixed(2)}</span>
+          </div>
+          <a href="checkout.html" class="checkout-btn" style="display:block; text-align:center; margin-top: 20px;">CHECKOUT →</a>
+          <a href="shop.html" style="display:block; text-align:center; margin-top:14px; font-weight:600; font-size:0.9rem;">← keep shopping</a>
+        </div>
+      </div>
+    `;
+
+    root.querySelectorAll('[data-qty]').forEach(b =>
+      b.addEventListener('click', () =>
+        updateQty(b.getAttribute('data-qty'), parseInt(b.getAttribute('data-delta'), 10))
+      )
+    );
+    root.querySelectorAll('[data-remove]').forEach(b =>
+      b.addEventListener('click', () => removeFromCart(b.getAttribute('data-remove')))
+    );
+    bindAovHandlers(root);
+  }
+
+  // Expose globally so script.js can re-render after cart mutations
+  window.renderCartPage = renderCartPage;
+  document.addEventListener('DOMContentLoaded', renderCartPage);
+</script>
+</body>
+</html>
