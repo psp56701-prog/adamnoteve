@@ -922,11 +922,11 @@ button {
 }
 
 .pdp-img {
-  border: 3px solid var(--ink);
+  border: 1px solid var(--border);
   border-radius: 20px;
   overflow: hidden;
   box-shadow: var(--shadow);
-  background: var(--purple);
+  background: var(--surface);
   aspect-ratio: 1 / 1;
 }
 
@@ -983,6 +983,40 @@ button {
 }
 
 .back-link:hover { color: var(--hot-pink); }
+
+/* Sticky add-to-cart bar (product page) */
+.sticky-atc {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 90;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  padding: 12px 5%;
+  background: rgba(29, 12, 48, 0.94);
+  backdrop-filter: blur(8px);
+  border-top: 1px solid var(--border);
+  transform: translateY(110%);
+  transition: transform 0.3s ease;
+}
+
+.sticky-atc.show { transform: translateY(0); }
+
+.sticky-atc-name {
+  font-weight: 700;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.sticky-atc .btn { padding: 12px 26px; font-size: 0.85rem; }
+
+@media (prefers-reduced-motion: reduce) {
+  .sticky-atc { transition: none; }
+}
 
 /* ============ ABOUT PAGE ============ */
 .about-hero {
@@ -1356,9 +1390,10 @@ button {
 
 .variant-chip {
   padding: 10px 18px;
-  border: 3px solid var(--ink);
+  border: 1px solid var(--border);
   border-radius: 50px;
-  background: var(--cream);
+  background: var(--surface);
+  color: var(--cream);
   font-family: 'Bungee', sans-serif;
   font-size: 0.8rem;
   letter-spacing: 0.5px;
@@ -1367,14 +1402,15 @@ button {
 }
 
 .variant-chip:hover {
-  background: var(--neon);
+  border-color: var(--hot-pink);
+  color: var(--hot-pink);
   transform: translateY(-2px);
 }
 
 .variant-chip.active {
-  background: var(--hot-pink);
+  background: var(--pink);
   color: var(--cream);
-  border-color: var(--hot-pink);
+  border-color: var(--pink);
   box-shadow: 3px 3px 0 var(--ink);
 }
 
@@ -1407,13 +1443,15 @@ button {
 .qty-picker button {
   width: 44px;
   height: 44px;
-  background: transparent;
+  background: var(--surface);
+  color: var(--cream);
+  border: 1px solid var(--border);
   font-family: 'Bungee', sans-serif;
   font-size: 1.2rem;
   transition: background 0.15s;
 }
 
-.qty-picker button:hover { background: var(--neon); }
+.qty-picker button:hover { background: var(--pink); }
 
 .qty-picker .qty-display {
   width: 50px;

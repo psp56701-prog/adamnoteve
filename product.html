@@ -373,6 +373,22 @@
       related.push(...fill);
     }
     renderProducts('#related-grid', related);
+
+    // Sticky add-to-cart: appears when the PDP scrolls out of view.
+    // #add-pdp is re-rendered on variant change, so resolve it at click time.
+    const pdpRoot = document.getElementById('pdp');
+    if (pdpRoot && product && 'IntersectionObserver' in window) {
+      const bar = document.createElement('div');
+      bar.className = 'sticky-atc';
+      bar.innerHTML = `<span class="sticky-atc-name">${product.name}</span>
+        <button type="button" class="btn btn-primary sticky-atc-btn">ADD TO BAG</button>`;
+      document.body.appendChild(bar);
+      bar.querySelector('.sticky-atc-btn').addEventListener('click', () => document.getElementById('add-pdp')?.click());
+      const io = new IntersectionObserver(([entry]) => {
+        bar.classList.toggle('show', !entry.isIntersecting && entry.boundingClientRect.top < 0);
+      });
+      io.observe(pdpRoot);
+    }
   });
 </script>
 </body>
