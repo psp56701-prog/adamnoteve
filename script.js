@@ -141,11 +141,12 @@ function getCartTotal() {
 // Free-shipping progress nudge — encourages bigger carts toward the $50 threshold.
 function freeShipBanner(subtotal) {
   const FREE = 50;
+  const pct = Math.min(100, Math.round((subtotal / FREE) * 100));
   if (subtotal >= FREE) {
-    return `<div style="background:var(--neon);color:var(--ink);padding:10px 14px;border-radius:10px;font-weight:700;text-align:center;margin-bottom:14px;font-size:0.92rem;">🎉 You unlocked FREE shipping!</div>`;
+    return `<div class="ship-progress unlocked">🎉 You unlocked FREE shipping!<div class="ship-bar"><span style="width:100%"></span></div></div>`;
   }
   const left = (FREE - subtotal).toFixed(2);
-  return `<div style="background:var(--ink);color:var(--cream);padding:10px 14px;border-radius:10px;font-weight:600;text-align:center;margin-bottom:14px;font-size:0.9rem;">🚚 You're <b style="color:var(--neon)">$${left}</b> from <b>FREE shipping</b></div>`;
+  return `<div class="ship-progress">🚚 You're <b>$${left}</b> from <b>FREE shipping</b><div class="ship-bar"><span style="width:${pct}%"></span></div></div>`;
 }
 
 // Petty Perk progress nudge — free Bitten Heart Sticker on orders over $40.
@@ -298,7 +299,8 @@ function productCardHTML(p) {
     ? `<span class="product-tag coming-soon-tag">COMING SOON</span>`
     : (p.tag ? `<span class="product-tag">${p.tag}</span>` : '');
   const ctaHTML = live
-    ? `<a href="product.html?id=${p.id}" class="add-btn">VIEW →</a>`
+    ? `<button type="button" class="card-quickadd" data-quickadd="${p.id}">+ BAG</button>
+       <a href="product.html?id=${p.id}" class="add-btn">VIEW →</a>`
     : `<a href="product.html?id=${p.id}" class="add-btn add-btn-soon">PREVIEW</a>`;
   return `
     <div class="product-card${live ? '' : ' coming-soon'}" data-id="${p.id}">
@@ -332,6 +334,7 @@ function renderProducts(targetSelector, list) {
     return;
   }
   target.innerHTML = list.map(productCardHTML).join('');
+  bindAovHandlers(target);
 }
 
 // ===== CART DRAWER =====
@@ -486,11 +489,26 @@ function injectSearchOverlay() {
   });
 }
 
+// ===== SCROLL REVEAL =====
+function initScrollReveal() {
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  if (!('IntersectionObserver' in window)) return;
+  const els = document.querySelectorAll('.section, .story-strip, .newsletter, .cat-row');
+  els.forEach(el => el.classList.add('reveal'));
+  const io = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) { e.target.classList.add('reveal-in'); io.unobserve(e.target); }
+    });
+  }, { threshold: 0.12 });
+  els.forEach(el => io.observe(el));
+}
+
 // ===== INIT GLOBAL =====
 document.addEventListener('DOMContentLoaded', () => {
   injectSearchOverlay();
   updateCartCount();
   renderCartDrawer();
+  initScrollReveal();
 
   document.querySelectorAll('[data-open-cart]').forEach(b =>
     b.addEventListener('click', e => { e.preventDefault(); openCart(); })
