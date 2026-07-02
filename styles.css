@@ -982,7 +982,7 @@ button {
   display: inline-block;
   margin-bottom: 24px;
   font-weight: 700;
-  color: var(--purple);
+  color: var(--hot-pink);
 }
 
 .back-link:hover { color: var(--hot-pink); }
@@ -1925,7 +1925,7 @@ button {
 .about-content h3 {
   font-size: 1.2rem;
   margin: 24px 0 10px;
-  color: var(--purple);
+  color: var(--hot-pink);
 }
 
 .about-content ul,
@@ -2134,5 +2134,4 @@ button {
   font-size: 0.85rem;
   font-style: italic;
   opacity: 0.75;
-  color: var(--ink);
 }
