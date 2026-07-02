@@ -73,9 +73,10 @@ Glow-card treatment:
 - **product.html:** sticky add-to-cart bar (product name, price, ATC button) appears when
   the main ATC button scrolls out of view.
 - **cart.html:** free-shipping progress bar — "$X away from free shipping" against the $50 threshold.
-- **Footer (all pages):** rebuilt dark footer — newsletter signup (uses existing contact/form
-  endpoint if present, else mailto fallback), nav links, social icons, trust/shipping line.
-  Footer markup is duplicated per page; update identically in each file.
+- **Footer (all pages):** restyled dark footer — nav links, social icons, trust/shipping line.
+  Footer markup is duplicated per page; update identically in each file. The newsletter signup
+  is the existing `.newsletter` section directly above the footer (restyled, front-end behavior
+  unchanged) — no duplicate form is added inside the footer itself.
 
 ## Page coverage
 
