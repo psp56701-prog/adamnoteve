@@ -489,11 +489,26 @@ function injectSearchOverlay() {
   });
 }
 
+// ===== SCROLL REVEAL =====
+function initScrollReveal() {
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  if (!('IntersectionObserver' in window)) return;
+  const els = document.querySelectorAll('.section, .story-strip, .newsletter, .cat-row');
+  els.forEach(el => el.classList.add('reveal'));
+  const io = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) { e.target.classList.add('reveal-in'); io.unobserve(e.target); }
+    });
+  }, { threshold: 0.12 });
+  els.forEach(el => io.observe(el));
+}
+
 // ===== INIT GLOBAL =====
 document.addEventListener('DOMContentLoaded', () => {
   injectSearchOverlay();
   updateCartCount();
   renderCartDrawer();
+  initScrollReveal();
 
   document.querySelectorAll('[data-open-cart]').forEach(b =>
     b.addEventListener('click', e => { e.preventDefault(); openCart(); })

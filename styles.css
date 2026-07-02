@@ -2044,6 +2044,34 @@ button {
   .product-card .price { font-size: 0.95rem; }
 }
 
+/* ============ DARK EDEN MOTIFS ============ */
+.snake-divider {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 8px 24px;
+}
+
+.snake-divider svg { display: block; width: 100%; height: 22px; }
+
+.snake-divider path {
+  fill: none;
+  stroke: var(--neon);
+  stroke-width: 2.5;
+  stroke-linecap: round;
+  stroke-dasharray: 10 14;
+  opacity: 0.55;
+}
+
+/* Scroll reveal */
+.reveal { opacity: 0; transform: translateY(24px); transition: opacity 0.6s ease, transform 0.6s ease; }
+.reveal-in { opacity: 1; transform: none; }
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal { opacity: 1; transform: none; transition: none; }
+  .marquee-track { animation: none; padding-left: 0; }
+  .logo .heart { animation: none; }
+}
+
 /* ============ COMING SOON ============ */
 /* Products without `live: true` in lib/products.js — visible but unbuyable. */
 
