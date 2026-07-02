@@ -213,6 +213,9 @@ const KITS = [
   { id: 'kit-galentine', name: 'Galentine\'s Gift Box', emoji: '🎁',
     blurb: 'For the friend who needs it: an anti-Valentine card, a bullet-dodging mug, and a sticker. Petty, packaged.',
     items: [{ id: 'p26', color: 'Congrats on the Breakup' }, { id: 'p1', size: '11oz', color: 'White' }, { id: 'p37' }] },
+  { id: 'kit-petty-pack', name: 'The Petty Pack', emoji: '💅',
+    blurb: 'Three tees, zero remorse. Petty Committee, We Don\'t Chase, and I Said What I Said — the loudest lineup in the drop. Clears $50, so shipping\'s on us.',
+    items: [{ id: 'p65', size: 'M', color: 'Black' }, { id: 'p60', size: 'M', color: 'Maroon' }, { id: 'p64', size: 'M', color: 'Sport Grey' }] },
 ];
 function kitPrice(kit) {
   return kit.items.reduce((s, it) => { const p = PRODUCTS.find(x => x.id === it.id); return s + (p ? getVariantPrice(p, it.size) : 0); }, 0);
