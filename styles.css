@@ -3,18 +3,24 @@
    ============================================ */
 
 :root {
-  --pink: #ff2d87;
-  --hot-pink: #ff007a;
+  /* Dark Eden — Midnight Plum (from the apple+snake logo) */
+  --bg: #140820;            /* page base */
+  --surface: #241035;       /* cards, raised panels */
+  --border: #3a1c55;        /* card/panel borders */
+  --plum: #58105C;          /* logo plum, decorative */
+  --pink: #F70268;          /* primary accent: fills, CTAs, glows */
+  --hot-pink: #ff3d8f;      /* brighter pink for small/bold text + hovers (AA on dark) */
   --purple: #7a2bff;
-  --deep-purple: #2a0a4f;
-  --neon: #d4ff00;
-  --neon-cyan: #00ffd1;
-  --red: #ff2e2e;
-  --cream: #fff5ec;
-  --ink: #120024;
-  --text: #1a1a2e;
-  --shadow: 6px 6px 0 var(--ink);
-  --shadow-sm: 3px 3px 0 var(--ink);
+  --deep-purple: #1d0c30;   /* navbar, alt section bands */
+  --neon: #BAC71B;          /* chartreuse serpent accent — use sparingly */
+  --neon-cyan: #BAC71B;     /* legacy alias -> chartreuse */
+  --red: #ff5a5a;
+  --cream: #FFF5EC;         /* primary text on dark */
+  --ink: #0a0512;           /* deepest tone (was the light theme's text color) */
+  --text: #FFF5EC;
+  --glow-pink: 0 0 16px rgba(247, 2, 104, 0.45);
+  --shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+  --shadow-sm: 0 4px 14px rgba(0, 0, 0, 0.45);
 }
 
 * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -23,7 +29,7 @@ html { scroll-behavior: smooth; }
 
 body {
   font-family: 'Space Grotesk', system-ui, sans-serif;
-  background: var(--cream);
+  background: var(--bg);
   color: var(--text);
   line-height: 1.5;
   overflow-x: hidden;
