@@ -556,8 +556,8 @@ button {
   margin: 0 auto;
   display: flex;
   gap: 0;
-  background: var(--cream);
-  border: 3px solid var(--ink);
+  background: var(--surface);
+  border: 1px solid var(--border);
   border-radius: 50px;
   overflow: hidden;
   box-shadow: var(--shadow);
@@ -604,6 +604,7 @@ button {
   background: var(--ink);
   color: var(--cream);
   padding: 60px 5% 30px;
+  border-top: 1px solid var(--border);
 }
 
 .footer-grid {
@@ -616,7 +617,7 @@ button {
 
 .footer-brand h3 {
   font-size: 2rem;
-  color: var(--neon);
+  color: var(--hot-pink);
   margin-bottom: 12px;
 }
 
@@ -651,7 +652,9 @@ button {
 .socials a {
   width: 40px;
   height: 40px;
-  border: 2px solid var(--cream);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  color: var(--cream);
   border-radius: 50%;
   display: grid;
   place-items: center;
@@ -660,8 +663,8 @@ button {
 }
 
 .socials a:hover {
-  background: var(--hot-pink);
-  border-color: var(--hot-pink);
+  border-color: var(--neon);
+  color: var(--neon);
   transform: rotate(15deg) scale(1.1);
 }
 
@@ -755,7 +758,7 @@ button {
   grid-template-columns: 70px 1fr auto;
   gap: 14px;
   padding: 14px 0;
-  border-bottom: 2px dashed rgba(18, 0, 36, 0.15);
+  border-bottom: 2px dashed rgba(255, 245, 236, 0.15);
   align-items: center;
 }
 
@@ -889,8 +892,8 @@ button {
   bottom: 30px;
   left: 50%;
   transform: translateX(-50%) translateY(100px);
-  background: var(--ink);
-  color: var(--neon);
+  background: var(--surface);
+  color: var(--cream);
   padding: 14px 26px;
   border-radius: 50px;
   font-family: 'Bungee', sans-serif;
@@ -898,8 +901,8 @@ button {
   z-index: 300;
   opacity: 0;
   transition: all 0.3s;
-  box-shadow: var(--shadow);
-  border: 3px solid var(--ink);
+  box-shadow: var(--glow-pink);
+  border: 1px solid var(--pink);
 }
 
 .toast.show {
@@ -958,7 +961,7 @@ button {
 
 .pdp-features li {
   padding: 10px 0;
-  border-bottom: 1px dashed rgba(18, 0, 36, 0.2);
+  border-bottom: 1px dashed rgba(255, 245, 236, 0.2);
   font-weight: 500;
 }
 
@@ -1020,7 +1023,9 @@ button {
 
 /* ============ ABOUT PAGE ============ */
 .about-hero {
-  background: var(--purple);
+  background:
+    radial-gradient(ellipse 70% 80% at 50% 0%, rgba(247, 2, 104, 0.3), transparent 70%),
+    var(--deep-purple);
   color: var(--cream);
   padding: 100px 5%;
   text-align: center;
@@ -1068,8 +1073,8 @@ button {
 }
 
 .stat-box {
-  background: var(--neon);
-  border: 3px solid var(--ink);
+  background: var(--surface);
+  border: 1px solid var(--border);
   border-radius: 16px;
   padding: 30px 20px;
   text-align: center;
@@ -1125,6 +1130,7 @@ button {
   border-radius: 50px;
   font-family: 'Bungee', sans-serif;
   font-size: 0.8rem;
+  font-weight: 700;
   transition: all 0.2s;
 }
 
@@ -1188,7 +1194,7 @@ button {
   display: flex;
   justify-content: space-between;
   padding: 10px 0;
-  border-bottom: 1px dashed rgba(18, 0, 36, 0.2);
+  border-bottom: 1px dashed rgba(255, 245, 236, 0.2);
   font-weight: 500;
 }
 
@@ -1232,7 +1238,7 @@ button {
 .search-overlay {
   position: fixed;
   inset: 0;
-  background: rgba(18, 0, 36, 0.85);
+  background: rgba(5, 2, 10, 0.85);
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
   z-index: 250;
@@ -1252,8 +1258,8 @@ button {
 .search-modal {
   width: 100%;
   max-width: 600px;
-  background: var(--cream);
-  border: 4px solid var(--ink);
+  background: var(--deep-purple);
+  border: 1px solid var(--border);
   border-radius: 24px;
   box-shadow: 10px 10px 0 var(--hot-pink);
   overflow: hidden;
@@ -1269,8 +1275,8 @@ button {
   display: flex;
   align-items: center;
   padding: 8px 8px 8px 20px;
-  border-bottom: 3px solid var(--ink);
-  background: var(--neon);
+  border-bottom: 1px solid var(--border);
+  background: var(--deep-purple);
   gap: 12px;
 }
 
@@ -1284,12 +1290,12 @@ button {
   font-size: 1.2rem;
   padding: 16px 0;
   outline: none;
-  color: var(--ink);
+  color: var(--cream);
 }
 
 .search-input::placeholder {
-  color: var(--ink);
-  opacity: 0.4;
+  color: rgba(255, 245, 236, 0.4);
+  opacity: 1;
   font-family: 'Space Grotesk', sans-serif;
   font-weight: 600;
 }
@@ -1317,7 +1323,7 @@ button {
   gap: 14px;
   padding: 14px 20px;
   align-items: center;
-  border-bottom: 1px solid rgba(18, 0, 36, 0.1);
+  border-bottom: 1px solid rgba(255, 245, 236, 0.1);
   transition: background 0.15s;
 }
 .search-result:hover { background: rgba(255, 0, 122, 0.08); }
@@ -1353,7 +1359,7 @@ button {
   color: var(--text);
   opacity: 0.5;
   text-align: center;
-  border-top: 1px solid rgba(18, 0, 36, 0.1);
+  border-top: 1px solid rgba(255, 245, 236, 0.1);
 }
 
 .cart-item-variant {
@@ -1489,8 +1495,9 @@ button {
   flex: 1;
   min-width: 120px;
   padding: 14px;
-  background: var(--cream);
-  border: 3px solid var(--ink);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  color: var(--cream);
   border-radius: 14px;
   text-align: center;
   font-family: 'Bungee', sans-serif;
@@ -1501,7 +1508,7 @@ button {
 }
 
 .step.active {
-  background: var(--hot-pink);
+  background: var(--pink);
   color: var(--cream);
   opacity: 1;
   box-shadow: 4px 4px 0 var(--ink);
@@ -1509,7 +1516,7 @@ button {
 
 .step.done {
   background: var(--neon);
-  color: var(--ink);
+  color: var(--bg);
   opacity: 1;
 }
 
@@ -1526,8 +1533,8 @@ button {
 }
 
 .checkout-form {
-  background: var(--cream);
-  border: 3px solid var(--ink);
+  background: var(--surface);
+  border: 1px solid var(--border);
   border-radius: 20px;
   padding: 30px;
   box-shadow: var(--shadow);
@@ -1564,9 +1571,10 @@ button {
 .form-field input,
 .form-field select {
   padding: 14px 18px;
-  border: 3px solid var(--ink);
+  border: 1px solid var(--border);
   border-radius: 12px;
-  background: var(--cream);
+  background: var(--deep-purple);
+  color: var(--cream);
   font-family: inherit;
   font-size: 1rem;
   font-weight: 500;
@@ -1576,7 +1584,7 @@ button {
 
 .form-field input:focus,
 .form-field select:focus {
-  border-color: var(--hot-pink);
+  border-color: var(--pink);
   box-shadow: 0 0 0 3px rgba(255, 45, 135, 0.2);
 }
 
@@ -1604,23 +1612,23 @@ button {
 }
 
 .btn-back {
-  background: var(--cream);
-  color: var(--ink);
+  background: var(--surface);
+  color: var(--cream);
   padding: 16px 28px;
   border-radius: 50px;
   font-family: 'Bungee', sans-serif;
   font-size: 0.9rem;
-  border: 3px solid var(--ink);
+  border: 1px solid var(--border);
   cursor: pointer;
   transition: all 0.15s;
 }
 
-.btn-back:hover { background: var(--neon); }
+.btn-back:hover { border-color: var(--neon); color: var(--neon); background: transparent; }
 
 .checkout-summary {
-  background: var(--purple);
+  background: var(--surface);
   color: var(--cream);
-  border: 3px solid var(--ink);
+  border: 1px solid var(--border);
   border-radius: 20px;
   padding: 26px;
   box-shadow: var(--shadow);
@@ -1713,8 +1721,8 @@ button {
   padding: 12px 14px;
   border: 2px solid var(--cream);
   border-radius: 30px;
-  background: rgba(255, 245, 236, 0.95);
-  color: var(--ink);
+  background: var(--deep-purple);
+  color: var(--cream);
   font-family: 'Bungee', sans-serif;
   font-size: 0.85rem;
   letter-spacing: 1.5px;
@@ -1813,8 +1821,8 @@ button {
 .order-success {
   text-align: center;
   padding: 80px 30px;
-  background: var(--cream);
-  border: 3px solid var(--ink);
+  background: var(--surface);
+  border: 1px solid var(--border);
   border-radius: 24px;
   box-shadow: var(--shadow);
   max-width: 700px;
@@ -1825,6 +1833,7 @@ button {
   width: 100px;
   height: 100px;
   background: var(--neon);
+  color: var(--bg);
   border: 4px solid var(--ink);
   border-radius: 50%;
   display: grid;
@@ -1837,7 +1846,7 @@ button {
 .order-success h1 {
   font-size: clamp(2rem, 5vw, 3.2rem);
   margin-bottom: 14px;
-  color: var(--ink);
+  color: var(--cream);
 }
 
 .order-success .order-num {
@@ -1887,12 +1896,13 @@ button {
   margin: 0;
   font-size: 1rem;
   font-weight: 500;
+  color: var(--ink);
 }
 
 .legal-meta {
   margin: 50px 0 20px;
   padding: 20px;
-  background: rgba(122, 43, 255, 0.06);
+  background: rgba(122, 43, 255, 0.16);
   border-left: 4px solid var(--purple);
   border-radius: 8px;
   font-size: 0.9rem;
@@ -1937,8 +1947,8 @@ button {
 }
 
 .contact-info-card {
-  background: var(--neon);
-  border: 3px solid var(--ink);
+  background: var(--surface);
+  border: 1px solid var(--border);
   border-radius: 20px;
   padding: 30px;
   box-shadow: var(--shadow);
@@ -1948,7 +1958,7 @@ button {
   font-family: 'Bungee', sans-serif;
   font-size: 1.3rem;
   margin-bottom: 16px;
-  color: var(--ink);
+  color: var(--hot-pink);
 }
 
 .contact-info-card p {
@@ -1963,8 +1973,8 @@ button {
 }
 
 .contact-form {
-  background: var(--cream);
-  border: 3px solid var(--ink);
+  background: var(--surface);
+  border: 1px solid var(--border);
   border-radius: 20px;
   padding: 30px;
   box-shadow: var(--shadow);
@@ -1972,9 +1982,10 @@ button {
 
 .contact-form textarea {
   padding: 14px 18px;
-  border: 3px solid var(--ink);
+  border: 1px solid var(--border);
   border-radius: 12px;
-  background: var(--cream);
+  background: var(--deep-purple);
+  color: var(--cream);
   font-family: inherit;
   font-size: 1rem;
   font-weight: 500;
@@ -1985,7 +1996,7 @@ button {
 }
 
 .contact-form textarea:focus {
-  border-color: var(--hot-pink);
+  border-color: var(--pink);
   box-shadow: 0 0 0 3px rgba(255, 45, 135, 0.2);
 }
 
