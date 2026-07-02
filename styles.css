@@ -1147,7 +1147,7 @@ button {
 .cart-page-summary h3 {
   font-size: 1.6rem;
   margin-bottom: 24px;
-  color: var(--ink);
+  color: var(--cream);
 }
 
 .summary-row {
@@ -1169,8 +1169,8 @@ button {
 .cart-page-empty {
   text-align: center;
   padding: 80px 20px;
-  background: var(--cream);
-  border: 3px dashed var(--ink);
+  background: var(--surface);
+  border: 2px dashed var(--border);
   border-radius: 20px;
 }
 
