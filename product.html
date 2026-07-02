@@ -377,7 +377,7 @@
     // Sticky add-to-cart: appears when the PDP scrolls out of view.
     // #add-pdp is re-rendered on variant change, so resolve it at click time.
     const pdpRoot = document.getElementById('pdp');
-    if (pdpRoot && product && 'IntersectionObserver' in window) {
+    if (pdpRoot && product && isProductLive(product) && 'IntersectionObserver' in window) {
       const bar = document.createElement('div');
       bar.className = 'sticky-atc';
       bar.innerHTML = `<span class="sticky-atc-name">${product.name}</span>
