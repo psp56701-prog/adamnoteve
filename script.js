@@ -298,7 +298,8 @@ function productCardHTML(p) {
     ? `<span class="product-tag coming-soon-tag">COMING SOON</span>`
     : (p.tag ? `<span class="product-tag">${p.tag}</span>` : '');
   const ctaHTML = live
-    ? `<a href="product.html?id=${p.id}" class="add-btn">VIEW →</a>`
+    ? `<button type="button" class="card-quickadd" data-quickadd="${p.id}">+ BAG</button>
+       <a href="product.html?id=${p.id}" class="add-btn">VIEW →</a>`
     : `<a href="product.html?id=${p.id}" class="add-btn add-btn-soon">PREVIEW</a>`;
   return `
     <div class="product-card${live ? '' : ' coming-soon'}" data-id="${p.id}">
@@ -332,6 +333,7 @@ function renderProducts(targetSelector, list) {
     return;
   }
   target.innerHTML = list.map(productCardHTML).join('');
+  bindAovHandlers(target);
 }
 
 // ===== CART DRAWER =====

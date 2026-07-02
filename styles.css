@@ -328,22 +328,19 @@ button {
 }
 
 .product-card {
-  background: var(--cream);
-  border: 3px solid var(--ink);
+  background: var(--surface);
+  border: 1px solid var(--border);
   border-radius: 16px;
   overflow: hidden;
-  transition: all 0.25s;
-  box-shadow: var(--shadow);
   position: relative;
-  cursor: pointer;
+  transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
 }
 
 .product-card:hover {
-  transform: translate(-4px, -4px) rotate(-1deg);
-  box-shadow: 10px 10px 0 var(--ink);
+  transform: translateY(-4px);
+  border-color: var(--pink);
+  box-shadow: var(--glow-pink);
 }
-
-.product-card:nth-child(even):hover { transform: translate(-4px, -4px) rotate(1deg); }
 
 .product-img-wrap {
   position: relative;
@@ -367,7 +364,7 @@ button {
   top: 12px;
   left: 12px;
   background: var(--neon);
-  color: var(--ink);
+  color: var(--bg);
   font-family: 'Bungee', sans-serif;
   font-size: 0.7rem;
   padding: 5px 10px;
@@ -408,26 +405,43 @@ button {
 }
 
 .add-btn {
-  background: var(--ink);
-  color: var(--cream);
-  padding: 8px 14px;
+  background: transparent;
+  border: 2px solid var(--pink);
+  color: var(--hot-pink);
   border-radius: 30px;
-  font-family: 'Bungee', sans-serif;
-  font-size: 0.75rem;
-  letter-spacing: 0.5px;
+  padding: 8px 16px;
+  font-weight: 800;
+  font-size: 0.8rem;
   transition: all 0.2s;
-  border: 2px solid var(--ink);
 }
 
 .add-btn:hover {
-  background: var(--hot-pink);
-  border-color: var(--hot-pink);
-  transform: scale(1.05);
+  background: var(--pink);
+  color: var(--cream);
+  box-shadow: var(--glow-pink);
 }
 
 .add-btn.added {
   background: var(--neon);
   color: var(--ink);
+}
+
+.card-quickadd {
+  background: var(--pink);
+  color: var(--cream);
+  border: none;
+  border-radius: 30px;
+  padding: 9px 14px;
+  font-weight: 800;
+  font-size: 0.78rem;
+  cursor: pointer;
+  transition: all 0.2s;
+  white-space: nowrap;
+}
+
+.card-quickadd:hover {
+  box-shadow: var(--glow-pink);
+  transform: translateY(-1px);
 }
 
 /* ============ STORY STRIP ============ */
