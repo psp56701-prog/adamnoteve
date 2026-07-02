@@ -1885,6 +1885,7 @@ button {
   box-shadow: var(--shadow-sm);
 }
 
+.about-content .legal-tldr h3,
 .legal-tldr h3 {
   font-size: 0.9rem;
   color: var(--ink);
@@ -2012,10 +2013,10 @@ button {
     top: 100%;
     left: 0;
     right: 0;
-    background: var(--cream);
+    background: var(--deep-purple);
     flex-direction: column;
     padding: 20px;
-    border-bottom: 3px solid var(--ink);
+    border-bottom: 2px solid var(--pink);
     gap: 16px;
   }
 
