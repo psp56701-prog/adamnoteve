@@ -1045,8 +1045,8 @@ button {
   gap: 12px;
   justify-content: center;
   flex-wrap: wrap;
-  background: var(--cream);
-  border-bottom: 2px solid var(--ink);
+  background: var(--bg);
+  border-bottom: 1px solid var(--border);
 }
 
 .filter-btn {
