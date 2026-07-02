@@ -681,8 +681,8 @@ button {
   width: 100%;
   max-width: 400px;
   height: 100vh;
-  background: var(--cream);
-  border-left: 4px solid var(--ink);
+  background: var(--deep-purple);
+  border-left: 1px solid var(--border);
   box-shadow: -8px 0 30px rgba(0, 0, 0, 0.2);
   z-index: 200;
   transition: right 0.35s cubic-bezier(0.4, 0, 0.2, 1);
@@ -695,7 +695,7 @@ button {
 .cart-overlay {
   position: fixed;
   inset: 0;
-  background: rgba(18, 0, 36, 0.5);
+  background: rgba(5, 2, 10, 0.6);
   z-index: 199;
   opacity: 0;
   pointer-events: none;
@@ -786,8 +786,9 @@ button {
   width: 24px;
   height: 24px;
   border-radius: 50%;
-  background: var(--ink);
+  background: var(--surface);
   color: var(--cream);
+  border: 1px solid var(--border);
   font-weight: 700;
   display: grid;
   place-items: center;
@@ -795,7 +796,7 @@ button {
   transition: background 0.2s;
 }
 
-.qty-btn:hover { background: var(--hot-pink); }
+.qty-btn:hover { background: var(--pink); }
 
 .qty-num {
   font-weight: 700;
@@ -832,8 +833,9 @@ button {
 
 .checkout-btn {
   width: 100%;
-  background: var(--ink);
-  color: var(--neon);
+  background: var(--pink);
+  color: var(--cream);
+  box-shadow: 0 0 18px rgba(247, 2, 104, 0.45);
   padding: 18px;
   border-radius: 50px;
   font-family: 'Bungee', sans-serif;
@@ -844,9 +846,41 @@ button {
 }
 
 .checkout-btn:hover {
-  background: var(--hot-pink);
+  transform: translateY(-2px);
+  box-shadow: 0 0 30px rgba(247, 2, 104, 0.7);
+}
+
+/* Free-shipping progress */
+.ship-progress {
+  background: var(--surface);
+  border: 1px solid var(--border);
   color: var(--cream);
-  border-color: var(--hot-pink);
+  padding: 10px 14px;
+  border-radius: 10px;
+  font-weight: 600;
+  text-align: center;
+  margin-bottom: 14px;
+  font-size: 0.9rem;
+}
+
+.ship-progress b { color: var(--neon); }
+
+.ship-progress.unlocked { border-color: var(--neon); font-weight: 700; }
+
+.ship-bar {
+  height: 6px;
+  border-radius: 3px;
+  background: var(--bg);
+  margin-top: 8px;
+  overflow: hidden;
+}
+
+.ship-bar span {
+  display: block;
+  height: 100%;
+  border-radius: 3px;
+  background: linear-gradient(90deg, var(--pink), var(--neon));
+  transition: width 0.4s ease;
 }
 
 /* ============ TOAST ============ */
@@ -1093,16 +1127,16 @@ button {
 }
 
 .cart-page-items {
-  background: var(--cream);
-  border: 3px solid var(--ink);
+  background: var(--surface);
+  border: 1px solid var(--border);
   border-radius: 20px;
   padding: 24px;
   box-shadow: var(--shadow);
 }
 
 .cart-page-summary {
-  background: var(--neon);
-  border: 3px solid var(--ink);
+  background: var(--surface);
+  border: 1px solid var(--border);
   border-radius: 20px;
   padding: 30px;
   box-shadow: var(--shadow);

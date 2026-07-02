@@ -141,11 +141,12 @@ function getCartTotal() {
 // Free-shipping progress nudge — encourages bigger carts toward the $50 threshold.
 function freeShipBanner(subtotal) {
   const FREE = 50;
+  const pct = Math.min(100, Math.round((subtotal / FREE) * 100));
   if (subtotal >= FREE) {
-    return `<div style="background:var(--neon);color:var(--ink);padding:10px 14px;border-radius:10px;font-weight:700;text-align:center;margin-bottom:14px;font-size:0.92rem;">🎉 You unlocked FREE shipping!</div>`;
+    return `<div class="ship-progress unlocked">🎉 You unlocked FREE shipping!<div class="ship-bar"><span style="width:100%"></span></div></div>`;
   }
   const left = (FREE - subtotal).toFixed(2);
-  return `<div style="background:var(--ink);color:var(--cream);padding:10px 14px;border-radius:10px;font-weight:600;text-align:center;margin-bottom:14px;font-size:0.9rem;">🚚 You're <b style="color:var(--neon)">$${left}</b> from <b>FREE shipping</b></div>`;
+  return `<div class="ship-progress">🚚 You're <b>$${left}</b> from <b>FREE shipping</b><div class="ship-bar"><span style="width:${pct}%"></span></div></div>`;
 }
 
 // Petty Perk progress nudge — free Bitten Heart Sticker on orders over $40.
