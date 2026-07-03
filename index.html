@@ -108,6 +108,20 @@
   <svg viewBox="0 0 1200 36" preserveAspectRatio="none"><path d="M0 18 Q 60 2 120 18 T 240 18 T 360 18 T 480 18 T 600 18 T 720 18 T 840 18 T 960 18 T 1080 18 T 1200 18" /></svg>
 </div>
 
+<!-- Featured bundles -->
+<section class="section" id="home-bundles">
+  <h2 class="section-title">grab the <span class="accent">whole crew</span></h2>
+  <p class="section-subtitle">Build-your-own packs — everyone picks their own petty. One cart, free shipping, free sticker.</p>
+  <div id="home-kits" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:22px;max-width:1200px;margin:0 auto;"></div>
+  <div style="text-align:center; margin-top: 50px;">
+    <a href="kits.html" class="btn btn-primary">SEE ALL BUNDLES →</a>
+  </div>
+</section>
+
+<div class="snake-divider" aria-hidden="true">
+  <svg viewBox="0 0 1200 36" preserveAspectRatio="none"><path d="M0 18 Q 60 2 120 18 T 240 18 T 360 18 T 480 18 T 600 18 T 720 18 T 840 18 T 960 18 T 1080 18 T 1200 18" /></svg>
+</div>
+
 <!-- Story strip -->
 <section class="story-strip">
   <div class="story-content">
@@ -240,6 +254,8 @@
       .filter(p => p && !seen.has(p.id) && seen.add(p.id))
       .slice(0, 8);
     renderProducts('#featured-grid', featured);
+    // Feature the build-your-own group packs on the homepage (AOV drivers)
+    if (typeof renderKits === 'function') renderKits('#home-kits', ['kit-petty-pack', 'kit-girls-trip', 'kit-divorce-party']);
   });
 </script>
 </body>

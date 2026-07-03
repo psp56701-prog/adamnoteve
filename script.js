@@ -273,11 +273,13 @@ function perkBadgeHtml(total) {
   const perk = total >= 50 ? '🎁 FREE shipping + free sticker' : (total >= 40 ? '🎁 FREE sticker' : '');
   return perk ? `<span style="display:inline-block;background:var(--neon);color:var(--ink);font-weight:800;font-size:0.72rem;padding:3px 10px;border-radius:20px;margin-left:6px;">${perk}</span>` : '';
 }
-function renderKits(targetSelector) {
+function renderKits(targetSelector, onlyIds) {
   const el = document.querySelector(targetSelector);
   if (!el) return;
   const itemLive = (it) => { const p = PRODUCTS.find(x => x.id === it.id); return p && isProductLive(p); };
-  el.innerHTML = KITS.filter(k => k.items.every(itemLive)).map(kit => {
+  let _kits = KITS.filter(k => k.items.every(itemLive));
+  if (Array.isArray(onlyIds)) _kits = onlyIds.map(id => _kits.find(k => k.id === id)).filter(Boolean);
+  el.innerHTML = _kits.map(kit => {
     const price = kitPrice(kit);
     const perkBadge = perkBadgeHtml(price);
     const hasChoice = kit.items.some(it => it.choose === 'tee');
