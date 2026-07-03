@@ -258,5 +258,12 @@
     if (typeof renderKits === 'function') renderKits('#home-kits', ['kit-petty-pack', 'kit-girls-trip', 'kit-divorce-party']);
   });
 </script>
+
+<!-- Netlify Forms: registers the "newsletter" form so JS-submitted emails (footer + pop-up) get stored. Viewable in Netlify → Forms. -->
+<form name="newsletter" data-netlify="true" netlify-honeypot="bot-field" hidden>
+  <input type="email" name="email" />
+  <input type="text" name="source" />
+  <input type="text" name="bot-field" />
+</form>
 </body>
 </html>

@@ -626,17 +626,20 @@ document.addEventListener('DOMContentLoaded', () => {
   const nav = document.querySelector('.nav-links');
   toggle?.addEventListener('click', () => nav?.classList.toggle('open'));
 
-  // Newsletter
+  // Newsletter (footer form) — now stores the email via Netlify Forms
   document.querySelector('.news-form')?.addEventListener('submit', e => {
     e.preventDefault();
     const input = e.target.querySelector('input');
     const success = document.querySelector('.news-success');
-    if (input.value.trim()) {
+    const email = input.value.trim();
+    if (email) {
+      submitNewsletter(email, 'footer');
       input.value = '';
       success?.classList.add('show');
       setTimeout(() => success?.classList.remove('show'), 4000);
     }
   });
+  initNewsletterPopup();
 
   // Keyboard shortcuts
   document.addEventListener('keydown', e => {
@@ -651,3 +654,67 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 });
+
+// ============================================================
+// Email capture — stores emails via Netlify Forms (form-name "newsletter")
+// ============================================================
+function submitNewsletter(email, source) {
+  try {
+    const body = new URLSearchParams({ 'form-name': 'newsletter', 'bot-field': '', email: email, source: source || '' }).toString();
+    return fetch('/', { method: 'POST', headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, body });
+  } catch (e) { /* non-blocking */ }
+}
+
+function initNewsletterPopup() {
+  try { if (localStorage.getItem('anv_news')) return; } catch (e) {}
+  let shown = false;
+  const done = () => { try { localStorage.setItem('anv_news', '1'); } catch (e) {} };
+  const show = () => {
+    if (shown) return; shown = true;
+    const style = document.createElement('style');
+    style.textContent = `
+      .anv-ov{position:fixed;inset:0;background:rgba(0,0,0,.62);z-index:99999;display:flex;align-items:center;justify-content:center;padding:20px;opacity:0;transition:opacity .25s;}
+      .anv-ov.on{opacity:1;}
+      .anv-pop{background:var(--ink,#140820);color:var(--cream,#fce9ff);max-width:420px;width:100%;border-radius:20px;padding:32px 26px;text-align:center;position:relative;box-shadow:0 20px 60px rgba(0,0,0,.55);transform:translateY(14px);transition:transform .25s;font-family:'Space Grotesk',system-ui,sans-serif;}
+      .anv-ov.on .anv-pop{transform:translateY(0);}
+      .anv-pop h3{font-family:'Bungee',sans-serif;color:var(--neon,#c6ff3d);font-size:1.5rem;margin:8px 0 10px;text-transform:lowercase;}
+      .anv-pop p{opacity:.9;font-size:.95rem;line-height:1.45;margin:0 0 18px;}
+      .anv-emoji{font-size:2rem;}
+      .anv-pop form{display:flex;flex-direction:column;gap:10px;}
+      .anv-pop input{padding:13px 14px;border-radius:12px;border:none;font-size:1rem;font-family:inherit;width:100%;}
+      .anv-sub{background:var(--hot-pink,#ff007a);color:#fff;border:none;border-radius:26px;padding:13px;font-family:'Bungee',sans-serif;font-size:.85rem;cursor:pointer;}
+      .anv-close{position:absolute;top:12px;right:16px;background:none;border:none;color:var(--cream,#fff);font-size:1.2rem;opacity:.6;cursor:pointer;line-height:1;}
+      .anv-nope{background:none;border:none;color:var(--cream,#fff);opacity:.5;font-size:.78rem;margin-top:14px;cursor:pointer;text-decoration:underline;font-family:inherit;}
+      .anv-ok{color:var(--neon,#c6ff3d);font-weight:700;}
+    `;
+    document.head.appendChild(style);
+    const ov = document.createElement('div');
+    ov.className = 'anv-ov';
+    ov.innerHTML = '<div class="anv-pop" role="dialog" aria-label="Join the list">'
+      + '<button class="anv-close" aria-label="Close">✕</button>'
+      + '<div class="anv-emoji">🍎🐍</div>'
+      + '<h3>join the breakup list</h3>'
+      + '<p>First dibs on new drops, exclusive petty, and the occasional treat — straight to your inbox. We won\'t ghost you. (Probably.)</p>'
+      + '<form><input type="email" required placeholder="your.ex@email.com" aria-label="Email" />'
+      + '<button type="submit" class="anv-sub">I\'M IN →</button></form>'
+      + '<button class="anv-nope">no thanks, I love missing out</button></div>';
+    document.body.appendChild(ov);
+    requestAnimationFrame(() => ov.classList.add('on'));
+    const close = () => { ov.classList.remove('on'); setTimeout(() => ov.remove(), 250); };
+    ov.querySelector('.anv-close').onclick = () => { done(); close(); };
+    ov.querySelector('.anv-nope').onclick = () => { done(); close(); };
+    ov.addEventListener('click', (e) => { if (e.target === ov) { done(); close(); } });
+    ov.querySelector('form').addEventListener('submit', (e) => {
+      e.preventDefault();
+      const email = ov.querySelector('input').value.trim();
+      if (!email) return;
+      submitNewsletter(email, 'popup');
+      done();
+      ov.querySelector('.anv-pop').innerHTML = '<div class="anv-emoji">📬</div><h3>you\'re in</h3><p class="anv-ok">Welcome to the breakup. 💔 Watch your inbox for the petty.</p>';
+      setTimeout(close, 2400);
+    });
+  };
+  const t = setTimeout(show, 15000); // timed
+  const onLeave = (e) => { if (e.clientY <= 0) { clearTimeout(t); document.removeEventListener('mouseout', onLeave); show(); } }; // exit-intent
+  document.addEventListener('mouseout', onLeave);
+}
