@@ -214,16 +214,37 @@ const KITS = [
     blurb: 'For the friend who needs it: an anti-Valentine card, a bullet-dodging mug, and a sticker. Petty, packaged.',
     items: [{ id: 'p26', color: 'Congrats on the Breakup' }, { id: 'p1', size: '11oz', color: 'White' }, { id: 'p37' }] },
   { id: 'kit-petty-pack', name: 'The Petty Pack', emoji: '💅',
-    blurb: 'Three tees, zero remorse. Petty Committee, We Don\'t Chase, and I Said What I Said — the loudest lineup in the drop. Clears $50, so shipping\'s on us.',
+    blurb: 'Build your own trio — pick any 3 tees from the drop, in your size and color. Three $18 tees = $54, so shipping\'s on us.',
+    build: { count: 3, pool: ['p57', 'p58', 'p59', 'p60', 'p61', 'p62', 'p63', 'p64', 'p65', 'p66', 'p67'] },
     items: [{ id: 'p65', size: 'M', color: 'Black' }, { id: 'p60', size: 'M', color: 'Maroon' }, { id: 'p64', size: 'M', color: 'Sport Grey' }] },
 ];
 function kitPrice(kit) {
+  if (kit.build) {
+    let total = 0;
+    for (let i = 0; i < kit.build.count; i++) {
+      const def = (kit.items && kit.items[i]) || { id: kit.build.pool[0] };
+      const p = PRODUCTS.find(x => x.id === def.id);
+      total += p ? getVariantPrice(p, def.size) : 0;
+    }
+    return total;
+  }
   return kit.items.reduce((s, it) => { const p = PRODUCTS.find(x => x.id === it.id); return s + (p ? getVariantPrice(p, it.size) : 0); }, 0);
 }
 function addKit(kitId) {
   const kit = KITS.find(k => k.id === kitId);
   if (!kit) return;
-  kit.items.forEach(it => addToCart(it.id, { size: it.size || null, color: it.color || null }));
+  if (kit.build) {
+    const card = document.querySelector(`[data-kit-card="${kitId}"]`);
+    if (!card) return;
+    card.querySelectorAll('.kit-slot').forEach(slot => {
+      const id = slot.querySelector('.kit-tee').value;
+      const size = slot.querySelector('.kit-size').value || null;
+      const color = slot.querySelector('.kit-color').value || null;
+      addToCart(id, { size, color });
+    });
+  } else {
+    kit.items.forEach(it => addToCart(it.id, { size: it.size || null, color: it.color || null }));
+  }
   if (typeof openCart === 'function') openCart();
 }
 function kitItemImg(it) {
@@ -235,29 +256,103 @@ function kitItemName(it) {
   const p = PRODUCTS.find(x => x.id === it.id);
   return p ? p.name : '';
 }
+function kitBuildImg(id, color) {
+  const p = PRODUCTS.find(x => x.id === id);
+  if (!p) return '';
+  return (color && p.imgByColor && p.imgByColor[color]) || p.img || '';
+}
+function optList(values, selected) {
+  return values.map(v => `<option value="${escapeAttr(v)}"${v === selected ? ' selected' : ''}>${v}</option>`).join('');
+}
+function teeOptList(pool, selectedId) {
+  return pool.map(id => {
+    const p = PRODUCTS.find(x => x.id === id);
+    if (!p) return '';
+    return `<option value="${id}"${id === selectedId ? ' selected' : ''}>${escapeAttr(p.name.replace(/ \(Value\)$/, ''))}</option>`;
+  }).join('');
+}
+function perkBadgeHtml(total) {
+  const perk = total >= 50 ? '🎁 FREE shipping + free sticker' : (total >= 40 ? '🎁 FREE sticker' : '');
+  return perk ? `<span style="display:inline-block;background:var(--neon);color:var(--ink);font-weight:800;font-size:0.72rem;padding:3px 10px;border-radius:20px;margin-left:6px;">${perk}</span>` : '';
+}
 function renderKits(targetSelector) {
   const el = document.querySelector(targetSelector);
   if (!el) return;
-  el.innerHTML = KITS.filter(k => k.items.every(it => { const p = PRODUCTS.find(x => x.id === it.id); return p && isProductLive(p); })).map(kit => {
+  const liveKit = (k) => k.build
+    ? k.build.pool.some(id => { const p = PRODUCTS.find(x => x.id === id); return p && isProductLive(p); })
+    : k.items.every(it => { const p = PRODUCTS.find(x => x.id === it.id); return p && isProductLive(p); });
+  el.innerHTML = KITS.filter(liveKit).map(kit => {
     const price = kitPrice(kit);
-    const freeShip = price >= 50;
-    const freeSticker = price >= 40;
-    const perk = freeShip
-      ? '🎁 FREE shipping + free sticker'
-      : (freeSticker ? '🎁 FREE sticker' : '');
-    const thumbs = kit.items.map(it => `<img src="${kitItemImg(it)}" alt="${escapeAttr(kitItemName(it))}" loading="lazy" style="width:32%;aspect-ratio:1;object-fit:cover;border-radius:10px;background:#fff;" />`).join('');
-    const itemList = kit.items.map(it => `<li>${kitItemName(it)}</li>`).join('');
-    const perkBadge = perk ? `<span style="display:inline-block;background:var(--neon);color:var(--ink);font-weight:800;font-size:0.72rem;padding:3px 10px;border-radius:20px;margin-left:6px;">${perk}</span>` : '';
-    return `<div style="background:var(--ink);color:var(--cream);border-radius:18px;padding:18px;display:flex;flex-direction:column;gap:12px;">
-      <div style="display:flex;gap:6px;">${thumbs}</div>
+    const perkBadge = perkBadgeHtml(price);
+    let body;
+    if (kit.build) {
+      const livePool = kit.build.pool.filter(id => { const p = PRODUCTS.find(x => x.id === id); return p && isProductLive(p); });
+      const selStyle = 'background:#fff;color:#141414;border:none;border-radius:8px;padding:7px;font-size:0.78rem;font-weight:600;';
+      const slots = [];
+      for (let i = 0; i < kit.build.count; i++) {
+        const def = (kit.items && kit.items[i]) || { id: livePool[0] };
+        const p = PRODUCTS.find(x => x.id === def.id) || PRODUCTS.find(x => x.id === livePool[0]);
+        const size = def.size || 'M';
+        const color = def.color || (p.colors && p.colors[0]) || '';
+        slots.push(`<div class="kit-slot" style="display:flex;gap:6px;align-items:center;">
+          <img class="kit-slot-img" src="${kitBuildImg(p.id, color)}" alt="" loading="lazy" style="width:46px;height:46px;object-fit:cover;border-radius:8px;background:#fff;flex:none;" />
+          <select class="kit-tee" style="${selStyle}flex:1;min-width:0;">${teeOptList(livePool, p.id)}</select>
+          <select class="kit-size" style="${selStyle}">${optList(p.sizes || ['S','M','L','XL','2XL'], size)}</select>
+          <select class="kit-color" style="${selStyle}">${optList(p.colors || [''], color)}</select>
+        </div>`);
+      }
+      body = `<div style="font-size:0.75rem;font-weight:700;color:var(--neon);letter-spacing:0.04em;">PICK YOUR ${kit.build.count} — MIX & MATCH</div>
+      <div style="display:flex;flex-direction:column;gap:8px;flex:1;">${slots.join('')}</div>`;
+    } else {
+      const thumbs = kit.items.map(it => `<img src="${kitItemImg(it)}" alt="${escapeAttr(kitItemName(it))}" loading="lazy" style="width:32%;aspect-ratio:1;object-fit:cover;border-radius:10px;background:#fff;" />`).join('');
+      const itemList = kit.items.map(it => `<li>${kitItemName(it)}</li>`).join('');
+      body = `<div style="display:flex;gap:6px;">${thumbs}</div>
+      <ul style="margin:0;padding-left:18px;font-size:0.82rem;opacity:0.7;flex:1;">${itemList}</ul>`;
+    }
+    return `<div data-kit-card="${kit.id}" style="background:var(--ink);color:var(--cream);border-radius:18px;padding:18px;display:flex;flex-direction:column;gap:12px;">
       <div style="font-family:'Bungee',sans-serif;color:var(--neon);font-size:1.1rem;line-height:1.15;">${kit.emoji} ${kit.name}</div>
       <div style="opacity:0.85;font-size:0.9rem;line-height:1.4;">${kit.blurb}</div>
-      <ul style="margin:0;padding-left:18px;font-size:0.82rem;opacity:0.7;flex:1;">${itemList}</ul>
-      <div style="font-weight:800;font-size:1.15rem;">$${price.toFixed(2)} ${perkBadge}</div>
+      ${body}
+      <div class="kit-price" style="font-weight:800;font-size:1.15rem;">$${price.toFixed(2)} ${perkBadge}</div>
       <button type="button" data-addkit="${kit.id}" style="background:var(--hot-pink);color:#fff;border:none;border-radius:26px;padding:13px;font-family:'Bungee',sans-serif;font-size:0.85rem;cursor:pointer;">ADD THE KIT →</button>
     </div>`;
   }).join('');
   bindAovHandlers(el);
+  bindKitBuilders(el);
+}
+function updateKitPrice(card) {
+  let total = 0;
+  card.querySelectorAll('.kit-slot').forEach(slot => {
+    const p = PRODUCTS.find(x => x.id === slot.querySelector('.kit-tee').value);
+    total += p ? getVariantPrice(p, slot.querySelector('.kit-size').value) : 0;
+  });
+  const priceEl = card.querySelector('.kit-price');
+  if (priceEl) priceEl.innerHTML = `$${total.toFixed(2)} ${perkBadgeHtml(total)}`;
+}
+function bindKitBuilders(root) {
+  (root || document).querySelectorAll('[data-kit-card]').forEach(card => {
+    const kit = KITS.find(k => k.id === card.getAttribute('data-kit-card'));
+    if (!kit || !kit.build) return;
+    card.querySelectorAll('.kit-slot').forEach(slot => {
+      const teeSel = slot.querySelector('.kit-tee');
+      const sizeSel = slot.querySelector('.kit-size');
+      const colorSel = slot.querySelector('.kit-color');
+      const img = slot.querySelector('.kit-slot-img');
+      teeSel.addEventListener('change', () => {
+        const p = PRODUCTS.find(x => x.id === teeSel.value);
+        if (!p) return;
+        const curSize = sizeSel.value, curColor = colorSel.value;
+        const sizes = p.sizes || ['S','M','L','XL','2XL'];
+        const colors = p.colors || [''];
+        sizeSel.innerHTML = optList(sizes, sizes.includes(curSize) ? curSize : (sizes.includes('M') ? 'M' : sizes[0]));
+        colorSel.innerHTML = optList(colors, colors.includes(curColor) ? curColor : colors[0]);
+        img.src = kitBuildImg(p.id, colorSel.value);
+        updateKitPrice(card);
+      });
+      colorSel.addEventListener('change', () => { img.src = kitBuildImg(teeSel.value, colorSel.value); updateKitPrice(card); });
+      sizeSel.addEventListener('change', () => updateKitPrice(card));
+    });
+  });
 }
 
 // Wire quick-add + add-kit buttons (call after rendering).
