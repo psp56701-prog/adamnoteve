@@ -19,9 +19,18 @@ High-resolution, print-ready exports of the new logo — ideally the **original 
    - Same specs, transparent background.
    - → save as `designs/logo-lockup-hires.svg` (or `.png`)
 
-## Where these go
-Once you drop them in `designs/` (or send the vector), ping Patrick/Claude and we'll wire them onto the products:
-- **"Petty Since the Garden" tees** (p39 Bitten Heart, p45 Bitten Heart Value) → the **mark**
-- **"adamnoteve" logo tees** (p35 Logo Tee, p36 Property of, p44 Logo Value) → the **mark + wordmark lockup**
+## Where these go — FINALIZED SWAP LIST (2026-07-03)
+Once you drop the hi-res files in `designs/` (or send the vector), ping Patrick/Claude and we'll swap the print designs (all FREE — just replacing the existing front print, no added cost):
+
+**Tees → new logo (front):**
+- p39 Bitten Heart, p45 Bitten Heart Value → the **mark**
+- p35 Logo Tee, p36 Property of, p44 Logo Value → the **mark + wordmark lockup**
+
+**Stickers/magnets → new mark:**
+- p37 Bitten Heart Sticker, p38 Bitten Heart Magnet → the **mark**
+- (also check p43 Villain Era Sticker + the p29/p30 sticker/magnet collections for any old-logo art)
+
+**Hoodies/sweaters (p2, p9, p12, p14): INTENTIONALLY SKIPPED.**
+A back (or any 2nd) print location adds ~$5–6 Printful cost per unit, which would cut hoodie margin ~10%. Decision (Patrick, 2026-07-03): **do not add the logo to hoodies** — protect margin. Leave hoodies as-is.
 
 Thanks! 🍎🐍
