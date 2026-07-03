@@ -216,6 +216,12 @@ const KITS = [
   { id: 'kit-petty-pack', name: 'The Petty Pack', emoji: '💅',
     blurb: 'Build your own trio — pick any 3 tees, in your size and color. Three tees clears $50, so shipping\'s on us.',
     items: [{ choose: 'tee', id: 'p65', size: 'M', color: 'Black' }, { choose: 'tee', id: 'p60', size: 'M', color: 'Maroon' }, { choose: 'tee', id: 'p64', size: 'M', color: 'Sport Grey' }] },
+  { id: 'kit-girls-trip', name: 'Girls\' Trip Pack', emoji: '🌴',
+    blurb: 'Matching-not-matching for the whole crew. Pick 4 tees — each their own size, color, and flavor of petty. One cart, free shipping + free sticker. Made for girls\' trips and villain-era getaways.',
+    items: [{ choose: 'tee', id: 'p59', size: 'M', color: 'Heliconia' }, { choose: 'tee', id: 'p60', size: 'M', color: 'Royal' }, { choose: 'tee', id: 'p63', size: 'M', color: 'Irish Green' }, { choose: 'tee', id: 'p66', size: 'M', color: 'Navy' }] },
+  { id: 'kit-divorce-party', name: 'Divorce Party Pack', emoji: '🎉',
+    blurb: 'Round up the group chat. Pick 6 tees — everyone their own size, color, and level of petty. One cart, free shipping + free sticker. Built for divorce parties, breakup bashes, and bachelorette send-offs.',
+    items: [{ choose: 'tee', id: 'p57', size: 'M', color: 'Red' }, { choose: 'tee', id: 'p59', size: 'M', color: 'Heliconia' }, { choose: 'tee', id: 'p60', size: 'M', color: 'Royal' }, { choose: 'tee', id: 'p61', size: 'M', color: 'Orange' }, { choose: 'tee', id: 'p65', size: 'M', color: 'Forest Green' }, { choose: 'tee', id: 'p67', size: 'M', color: 'Military Green' }] },
 ];
 function kitPrice(kit) {
   return kit.items.reduce((s, it) => { const p = PRODUCTS.find(x => x.id === it.id); return s + (p ? getVariantPrice(p, it.size) : 0); }, 0);
