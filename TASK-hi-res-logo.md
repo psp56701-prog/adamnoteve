@@ -11,7 +11,7 @@ The new apple + snake logo you added looks great across the **site** (favicon, h
 High-resolution, print-ready exports of the new logo — ideally the **original vector**, or failing that, large transparent PNGs:
 
 1. **The mark alone** (bitten heart-apple + snake, no wordmark)
-   - Original vector (**SVG / AI / PDF**) preferred, **or** a transparent **PNG ≥ 3000 px** on the long edge, 300 DPI.
+   - Original vector (**SVG / AI / PDF**) preferred, **or** a transparent **PNG ≥ 4500 px** on the long edge, 300 DPI (≥3000 px is the bare minimum; 4500 px is safe for full-front prints).
    - Transparent background.
    - → save as `designs/logo-mark-hires.svg` (or `.png`)
 
