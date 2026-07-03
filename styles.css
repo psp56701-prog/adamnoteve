@@ -925,6 +925,7 @@ button {
 }
 
 .pdp-img {
+  position: relative;
   border: 1px solid var(--border);
   border-radius: 20px;
   overflow: hidden;
@@ -934,6 +935,52 @@ button {
 }
 
 .pdp-img img { width: 100%; height: 100%; object-fit: cover; }
+
+/* Swipeable image gallery (multi-image products) */
+.pdp-gallery {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+}
+
+.pdp-gallery::-webkit-scrollbar { display: none; }
+
+.pdp-gallery img {
+  width: 100%;
+  height: 100%;
+  flex-shrink: 0;
+  object-fit: cover;
+  scroll-snap-align: start;
+}
+
+.pdp-dots {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 12px;
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+}
+
+.pdp-dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  background: rgba(255, 245, 236, 0.45);
+  transition: background 0.2s, transform 0.2s;
+}
+
+.pdp-dot.active {
+  background: var(--pink);
+  transform: scale(1.2);
+}
 
 .pdp-info h1 {
   font-size: clamp(2rem, 5vw, 3.5rem);

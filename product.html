@@ -283,9 +283,17 @@
       : `<button class="btn btn-primary" id="add-pdp" disabled aria-disabled="true">COMING SOON</button>
          <a href="shop.html" class="btn btn-secondary">KEEP BROWSING</a>
          <p class="coming-soon-note">Drop date TBA. Sign up for the newsletter below to find out first.</p>`;
+    // Multi-image products render a swipeable gallery; single-image products keep #pdp-photo.
+    const galleryImgs = product.images && product.images.length > 1 ? product.images : null;
+    const imgHTML = galleryImgs
+      ? `<div class="pdp-gallery" id="pdp-gallery">${galleryImgs.map((src, i) =>
+          `<img src="${src}" alt="${product.name} — photo ${i + 1}"${i ? ' loading="lazy"' : ''} />`).join('')}</div>
+         <div class="pdp-dots" id="pdp-dots">${galleryImgs.map((_, i) =>
+          `<button type="button" class="pdp-dot${i === 0 ? ' active' : ''}" data-idx="${i}" aria-label="Photo ${i + 1}"></button>`).join('')}</div>`
+      : `<img src="${imageFor(state.color)}" alt="${product.name}" id="pdp-photo" />`;
     document.getElementById('pdp').innerHTML = `
       <div class="pdp-img${live ? '' : ' coming-soon'}">
-        <img src="${imageFor(state.color)}" alt="${product.name}" id="pdp-photo" />
+        ${imgHTML}
       </div>
       <div class="pdp-info">
         ${badgeHTML}
@@ -299,6 +307,20 @@
         </div>
       </div>
     `;
+
+    // Gallery interactions (only present on multi-image products)
+    const gallery = document.getElementById('pdp-gallery');
+    if (gallery) {
+      const dots = document.querySelectorAll('#pdp-dots .pdp-dot');
+      const smooth = window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth';
+      gallery.addEventListener('scroll', () => {
+        const idx = Math.round(gallery.scrollLeft / gallery.clientWidth);
+        dots.forEach((d, i) => d.classList.toggle('active', i === idx));
+      }, { passive: true });
+      dots.forEach(d => d.addEventListener('click', () =>
+        gallery.scrollTo({ left: gallery.clientWidth * +d.dataset.idx, behavior: smooth })
+      ));
+    }
 
     // Variant interactions
     function refreshPrice() {
