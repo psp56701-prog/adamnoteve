@@ -94,6 +94,32 @@
   </div>
 </div>
 
+<!-- Trust signals -->
+<section style="max-width:1120px;margin:6px auto 0;padding:14px 20px;">
+  <div style="display:flex;flex-wrap:wrap;gap:14px;justify-content:center;">
+    <div style="flex:1 1 220px;background:var(--ink);color:var(--cream);border-radius:14px;padding:16px 14px;text-align:center;">
+      <div style="font-size:1.7rem;line-height:1;">🔒</div>
+      <div style="font-weight:800;font-size:0.95rem;margin-top:6px;">Secure checkout</div>
+      <div style="opacity:0.72;font-size:0.8rem;margin-top:2px;">Powered by Stripe</div>
+    </div>
+    <div style="flex:1 1 220px;background:var(--ink);color:var(--cream);border-radius:14px;padding:16px 14px;text-align:center;">
+      <div style="font-size:1.7rem;line-height:1;">🚚</div>
+      <div style="font-weight:800;font-size:0.95rem;margin-top:6px;">Free shipping</div>
+      <div style="opacity:0.72;font-size:0.8rem;margin-top:2px;">On orders over $50</div>
+    </div>
+    <div style="flex:1 1 220px;background:var(--ink);color:var(--cream);border-radius:14px;padding:16px 14px;text-align:center;">
+      <div style="font-size:1.7rem;line-height:1;">↩️</div>
+      <div style="font-weight:800;font-size:0.95rem;margin-top:6px;">Easy returns</div>
+      <div style="opacity:0.72;font-size:0.8rem;margin-top:2px;">Unlike your ex 💔</div>
+    </div>
+    <div style="flex:1 1 220px;background:var(--ink);color:var(--cream);border-radius:14px;padding:16px 14px;text-align:center;">
+      <div style="font-size:1.7rem;line-height:1;">🇺🇸</div>
+      <div style="font-weight:800;font-size:0.95rem;margin-top:6px;">Printed to order</div>
+      <div style="opacity:0.72;font-size:0.8rem;margin-top:2px;">Made &amp; shipped in the USA</div>
+    </div>
+  </div>
+</section>
+
 <!-- Featured Products -->
 <section class="section" id="featured">
   <h2 class="section-title">Bestsellers from the <span class="accent">heartbreak hotel</span></h2>
@@ -247,11 +273,19 @@
 <script>
   // Render featured products: pin hero items first, then tagged, then untagged (deduped, cap 8)
   document.addEventListener('DOMContentLoaded', () => {
-    const heroIds = ['p41', 'p45', 'p40', 'p39']; // affordable trend drop ($18) first, then flagship
-    const hero = heroIds.map(id => PRODUCTS.find(p => p.id === id)).filter(Boolean);
+    // Homepage feature: Petty in Pink (p32) in Charcoal replaces the navy Bitten Heart (p39)
+    const heroIds = ['p41', 'p45', 'p40', 'p32'];
+    const heroColor = { p32: 'Charcoal' };
+    const exclude = new Set(['p39']);
+    const hero = heroIds.map(id => {
+      const prod = PRODUCTS.find(p => p.id === id);
+      if (!prod) return null;
+      const c = heroColor[id];
+      return (c && prod.imgByColor && prod.imgByColor[c]) ? { ...prod, img: prod.imgByColor[c], featuredColor: c } : prod;
+    }).filter(Boolean);
     const seen = new Set();
     const featured = [...hero, ...PRODUCTS.filter(p => p.tag), ...PRODUCTS.filter(p => !p.tag)]
-      .filter(p => p && !seen.has(p.id) && seen.add(p.id))
+      .filter(p => p && !exclude.has(p.id) && !seen.has(p.id) && seen.add(p.id))
       .slice(0, 8);
     renderProducts('#featured-grid', featured);
     // Feature the build-your-own group packs on the homepage (AOV drivers)
