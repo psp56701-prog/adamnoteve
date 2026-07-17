@@ -5,8 +5,12 @@
 const fs = require('fs');
 const path = require('path');
 const { PRODUCTS } = require('../lib/products.js');
+// Keyword-optimized titles/descriptions for Pinterest search (feed only; the
+// website keeps the witty names/descs). Falls back to name/desc when absent.
+const { PIN_SEO } = require('../lib/pinterest-seo.js');
 
 const SITE = 'https://adamnoteve.com';
+const titleCase = (s) => String(s).replace(/\b\w/g, (c) => c.toUpperCase());
 
 // Store category -> Google product taxonomy (used for google_product_category)
 const GCAT = {
@@ -32,12 +36,23 @@ const items = live.map((p) => {
   const image = absImg(p.img);
   const price = `${Number(p.price).toFixed(2)} USD`;
   const gcat = GCAT[p.category] || 'Apparel & Accessories';
-  const ptype = p.category ? p.category.charAt(0).toUpperCase() + p.category.slice(1) : 'Merch';
-  const desc = (p.desc || p.name);
+  const seo = PIN_SEO[p.id] || {};
+  const kw = Array.isArray(seo.keywords) ? seo.keywords : [];
+  // Keyword-optimized title/description for Pinterest search; fall back to the
+  // witty product name/desc when this product has no SEO overlay entry yet.
+  const title = seo.pinTitle || p.name;
+  const baseDesc = seo.pinDesc || p.desc || p.name;
+  // Append the target search phrases so the pin matches more queries.
+  const desc = kw.length ? `${baseDesc}\n\nMore: ${kw.join(', ')}.` : baseDesc;
+  // Keyword-rich product_type (Pinterest uses this for search/organization);
+  // fall back to the store category when no keywords are defined.
+  const ptype = kw.length
+    ? kw.slice(0, 3).map(titleCase).join(' > ')
+    : (p.category ? titleCase(p.category) : 'Merch');
   return [
     '    <item>',
     `      <g:id>${xmlEsc(p.id)}</g:id>`,
-    `      <g:title>${cdata(p.name)}</g:title>`,
+    `      <g:title>${cdata(title)}</g:title>`,
     `      <g:description>${cdata(desc)}</g:description>`,
     `      <g:link>${xmlEsc(link)}</g:link>`,
     `      <g:image_link>${xmlEsc(image)}</g:image_link>`,
