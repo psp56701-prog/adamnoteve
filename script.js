@@ -195,6 +195,9 @@ function upsellHTML() {
 
 // Curated bundle kits — one click adds the whole set (each as a normal line item).
 const KITS = [
+  { id: 'kit-newchapter', name: 'New Chapter Starter Pack', emoji: '🍎', hero: true,
+    blurb: 'The hero gift for the freshly single: a fresh-start candle, a warm-funny card, and a coffee mug. Light it, write something unhinged inside, caffeinate — welcome to your new chapter (and never text them back).',
+    items: [{ id: 'p83', color: 'White Sage + Lavender' }, { id: 'p84', color: 'Default' }, { id: 'p81', size: '11oz', color: 'White' }] },
   { id: 'kit-petty', name: 'Petty Starter Pack', emoji: '🍎',
     blurb: 'Sticker + magnet + sticker. Small, cheap, devastating — slap your trauma on everything you own.',
     items: [{ id: 'p37' }, { id: 'p38' }, { id: 'p43' }] },
