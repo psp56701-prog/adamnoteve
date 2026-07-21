@@ -689,6 +689,7 @@ function initNewsletterPopup() {
       .anv-close{position:absolute;top:12px;right:16px;background:none;border:none;color:var(--cream,#fff);font-size:1.2rem;opacity:.6;cursor:pointer;line-height:1;}
       .anv-nope{background:none;border:none;color:var(--cream,#fff);opacity:.5;font-size:.78rem;margin-top:14px;cursor:pointer;text-decoration:underline;font-family:inherit;}
       .anv-ok{color:var(--neon,#c6ff3d);font-weight:700;}
+      .anv-code{display:inline-block;background:var(--neon,#c6ff3d);color:var(--ink,#140820);font-family:'Bungee',sans-serif;font-size:1rem;padding:5px 14px;border-radius:8px;letter-spacing:1.5px;margin:6px 0;}
     `;
     document.head.appendChild(style);
     const ov = document.createElement('div');
@@ -696,10 +697,10 @@ function initNewsletterPopup() {
     ov.innerHTML = '<div class="anv-pop" role="dialog" aria-label="Join the list">'
       + '<button class="anv-close" aria-label="Close">✕</button>'
       + '<div class="anv-emoji">🍎🐍</div>'
-      + '<h3>join the breakup list</h3>'
-      + '<p>First dibs on new drops, exclusive petty, and the occasional treat — straight to your inbox. We won\'t ghost you. (Probably.)</p>'
+      + '<h3>10% off your first petty purchase</h3>'
+      + '<p>Drop your email for <b>10% off your first order</b> — plus first dibs on new drops and exclusive petty. We won\'t ghost you. (Probably.)</p>'
       + '<form><input type="email" required placeholder="your.ex@email.com" aria-label="Email" />'
-      + '<button type="submit" class="anv-sub">I\'M IN →</button></form>'
+      + '<button type="submit" class="anv-sub">GET MY 10% →</button></form>'
       + '<button class="anv-nope">no thanks, I love missing out</button></div>';
     document.body.appendChild(ov);
     requestAnimationFrame(() => ov.classList.add('on'));
@@ -713,8 +714,8 @@ function initNewsletterPopup() {
       if (!email) return;
       submitNewsletter(email, 'popup');
       done();
-      ov.querySelector('.anv-pop').innerHTML = '<div class="anv-emoji">📬</div><h3>you\'re in</h3><p class="anv-ok">Welcome to the breakup. 💔 Watch your inbox for the petty.</p>';
-      setTimeout(close, 2400);
+      ov.querySelector('.anv-pop').innerHTML = '<div class="anv-emoji">📬</div><h3>you\'re in — here\'s your 10%</h3><p>Use code <span class="anv-code">HEARTBROKEN</span> at checkout for 10% off your first order. 💔</p><p class="anv-ok">Welcome to the breakup.</p>';
+      setTimeout(close, 7000);
     });
   };
   const t = setTimeout(show, 15000); // timed
