@@ -36,8 +36,9 @@ function colorRank(name) {
     try {
       const prod = PRODUCTS.find((x) => x.id === pid);
       if (!prod) { results.push({ pid, status: 'no-site-product' }); continue; }
-      const base = prod.name.toLowerCase();
-      const matches = sync.filter((s) => { const sn = s.name.toLowerCase().replace(/\s*\(\d+\/\d+\)\s*$/, ''); return sn === base || sn.startsWith(base); });
+      const norm = (x) => x.toLowerCase().replace(/\s*\((value|\d+\/\d+)\)\s*$/i, '').replace(/[^a-z0-9 ]/g, '').replace(/\s+/g, ' ').trim();
+      const base = norm(prod.name);
+      const matches = sync.filter((s) => { const sn = norm(s.name); return sn.length > 6 && (sn === base || sn.startsWith(base) || base.startsWith(sn)); });
       if (!matches.length) { results.push({ pid, name: prod.name, status: 'no-sync-match' }); continue; }
       let variants = [];
       for (const sm of matches) {
@@ -74,7 +75,9 @@ function colorRank(name) {
       results.push({ pid, name: prod.name, style: chosenCat, variant: best.name, file: out, bytes: buf.length, status: 'ok' });
       console.log('OK', pid, '|', prod.name, '|', chosenCat, '|', best.name, '->', out, buf.length + 'b');
     } catch (e) { results.push({ pid, status: 'exception', err: String(e).slice(0, 200) }); console.log('EXC', pid, e.message); }
+    await sleep(2500); // be gentle with Printful's mockup rate limit
   }
+  try { fs.writeFileSync(path.join(ROOT, 'scratch-onmodel-results.json'), JSON.stringify(results, null, 2)); } catch (e) {}
   console.log('\n=== SUMMARY ===');
   results.forEach((r) => console.log(String(r.status).padEnd(18), r.pid, '|', r.name || '', r.file ? '-> ' + r.file : (r.fail || r.err || '')));
 })();
