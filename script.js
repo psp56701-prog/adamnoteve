@@ -75,6 +75,8 @@ function displayColor(p) {
 }
 
 function displayImage(p) {
+  // On-model lifestyle mockups are the grid hero — don't override with a flat color swatch.
+  if (p && p.img && p.img.includes('-model.')) return p.img;
   const c = displayColor(p);
   return (c && p.imgByColor && p.imgByColor[c]) || (p && p.img);
 }
