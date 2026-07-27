@@ -16,15 +16,24 @@ async function pf(url, opts = {}) {
 
 // Pass target pids as CLI args, else default set.
 const TARGET = process.argv.slice(2).length ? process.argv.slice(2) : ['p2', 'p14', 'p35', 'p36', 'p46', 'p54'];
-const STYLE_PREF = ["Women's Lifestyle", "Women's", "Men's Lifestyle", "Flat Lifestyle", "Men's", "On model", "Lifestyle"];
+// Human on-model style categories, in rotation-preference order (interleaves
+// women's/men's so a shared blank alternates people). Flat Lifestyle is a
+// last-resort fallback (it's a flat-lay, not a model).
+const HUMAN_STYLES = ["Women's Lifestyle", "Men's Lifestyle", "Women's", "Men's", "On model", "Lifestyle"];
 
-// lower = preferred (light garments so dark-ink designs read)
-function colorRank(name) {
+// COLOR PICK — colorful, never black. Lower = preferred.
+// Each sync variant carries its own stored design (correct ink per color),
+// so colorful/dark garments still render the artwork correctly.
+function colorScore(name) {
   const n = (name || '').toLowerCase();
-  if (/white/.test(n)) return 0;
-  if (/(natural|cream|ivory|bone|vintage white|sand|oatmeal|almond)/.test(n)) return 1;
-  if (/(ash|heather|light|dusty|pale|mint|sky|baby|lavender|powder)/.test(n)) return 2;
-  return 5;
+  if (/oxblood black|\bblack\b/.test(n)) return 90;                                                   // black — last resort only
+  if (/(light pink|azalea|heliconia|\bpink\b|rose|fuchsia|raspberry|berry|magenta)/.test(n)) return 0; // brand pink first
+  if (/(red|orange|royal|sapphire|carolina blue|light blue|sky|aqua|teal|purple|violet|irish green|kelly|green(?!.*forest)|yellow|gold|coral|turquoise)/.test(n)) return 1; // vivid
+  if (/(maroon|oxblood|forest|military green|army|olive|burgundy|wine|navy)/.test(n)) return 2;        // colorful jewel tones (not black)
+  if (/(sand|natural|cream|ivory|bone|oatmeal|almond|heather|sport grey|ash|dusty|mint|lavender|powder)/.test(n)) return 4; // warm neutrals
+  if (/white/.test(n)) return 5;                                                                       // white fallback
+  if (/(charcoal|asphalt|graphite|dark grey|dark heather|slate)/.test(n)) return 8;                   // dark greys — avoid
+  return 6;
 }
 
 (async () => {
@@ -32,6 +41,7 @@ function colorRank(name) {
   for (const off of [0, 100]) { const d = await pf('/store/products?limit=100&offset=' + off); (d.result || []).forEach((x) => sync.push(x)); }
   console.log('sync products fetched:', sync.length);
   const results = [];
+  let gidx = 0; // global rotation index across ALL products, so both model and garment color vary across the grid
   for (const pid of TARGET) {
     try {
       const prod = PRODUCTS.find((x) => x.id === pid);
@@ -49,13 +59,30 @@ function colorRank(name) {
         });
       }
       if (!variants.length) { results.push({ pid, name: prod.name, status: 'no-variants' }); continue; }
-      variants.sort((a, b) => colorRank(a.name) - colorRank(b.name));
-      const best = variants[0];
+      // --- COLOR: respect a curated colorful featuredColor; else pick the best colorful (non-black) variant ---
+      let best = null;
+      const fc = (prod.featuredColor || '').toLowerCase();
+      if (fc && colorScore(fc) < 8) best = variants.find((v) => v.name.toLowerCase().includes(fc));
+      if (!best) {
+        // No curated color: rotate among the equally-most-colorful (non-black) options so the premium
+        // dark-only line doesn't come out all-navy — it varies navy/maroon/forest across products.
+        variants.sort((a, b) => colorScore(a.name) - colorScore(b.name));
+        const top = colorScore(variants[0].name);
+        const tied = variants.filter((v) => colorScore(v.name) === top);
+        best = tied[gidx % tied.length];
+      }
+
       const st = await pf('/v2/catalog-products/' + best.cpid + '/mockup-styles');
       const groups = st.data || [];
-      let chosen = null, chosenCat = null;
-      outer: for (const pref of STYLE_PREF) for (const g of groups) if (g.placement === 'front') for (const s of (g.mockup_styles || [])) if (s.view_name === 'Front' && s.category_name === pref) { chosen = s.id; chosenCat = pref; break outer; }
-      if (!chosen) { results.push({ pid, name: prod.name, cpid: best.cpid, status: 'no-onmodel-style' }); continue; }
+      // --- MODEL: gather all human on-model FRONT styles, then ROTATE globally so the grid shows different people ---
+      let cands = [];
+      for (const g of groups) if (g.placement === 'front') for (const s of (g.mockup_styles || [])) if (s.view_name === 'Front' && HUMAN_STYLES.includes(s.category_name)) cands.push({ id: s.id, cat: s.category_name });
+      cands.sort((a, b) => (HUMAN_STYLES.indexOf(a.cat) - HUMAN_STYLES.indexOf(b.cat)) || (a.id - b.id));
+      if (!cands.length) for (const g of groups) if (g.placement === 'front') for (const s of (g.mockup_styles || [])) if (s.view_name === 'Front' && s.category_name === 'Flat Lifestyle') cands.push({ id: s.id, cat: 'Flat Lifestyle' });
+      if (!cands.length) { results.push({ pid, name: prod.name, cpid: best.cpid, status: 'no-onmodel-style' }); continue; }
+      const pick = cands[gidx % cands.length];
+      const chosen = pick.id, chosenCat = pick.cat;
+      gidx++;
       const body = { format: 'jpg', products: [{ source: 'catalog', mockup_style_ids: [chosen], catalog_product_id: best.cpid, catalog_variant_ids: [best.variant_id], placements: [{ placement: 'front', technique: 'dtg', layers: [{ type: 'file', url: best.design }] }] }] };
       const task = await pf('/v2/mockup-tasks', { method: 'POST', body: JSON.stringify(body) });
       const tid = task.data && task.data[0] && task.data[0].id;
