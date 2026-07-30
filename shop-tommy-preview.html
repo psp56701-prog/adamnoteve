@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>PREVIEW — Tommy-style Shop | Adamnoteve</title>
+<meta name="robots" content="noindex, nofollow" />
+<link rel="icon" type="image/png" sizes="64x64" href="favicon-64.png" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* ============================================================
+   TOMMY-STYLE PLP PREVIEW — standalone, does not touch styles.css
+   Retail conventions borrowed: white canvas, portrait imagery on
+   soft grey, borderless tiles, tight grid, hover image-swap,
+   swatch row, thin uppercase type, sticky filter rail.
+   Brand kept alive via the pink accent + the voice in the copy.
+   ============================================================ */
+:root {
+  --th-black:  #0a0a0a;
+  --th-body:   #1c1c1c;
+  --th-muted:  #767676;
+  --th-line:   #e2e2e2;
+  --th-canvas: #ffffff;
+  --th-tile:   #f4f4f4;   /* soft grey behind product shots */
+  --th-pink:   #F70268;   /* adamnoteve accent, used sparingly */
+  --th-sale:   #c8102e;
+  --th-navy:   #0a1f44;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  background: var(--th-canvas);
+  color: var(--th-body);
+  line-height: 1.45;
+  -webkit-font-smoothing: antialiased;
+}
+img { display: block; max-width: 100%; }
+a { color: inherit; text-decoration: none; }
+button { font-family: inherit; cursor: pointer; border: none; background: none; color: inherit; }
+
+/* ---------- preview ribbon (not part of the design) ---------- */
+.preview-flag {
+  background: #111; color: #fff; font-size: 11px; letter-spacing: .16em;
+  text-transform: uppercase; text-align: center; padding: 7px 14px; font-weight: 500;
+}
+.preview-flag b { color: var(--th-pink); font-weight: 600; }
+
+/* ---------- promo bar ---------- */
+.th-promo {
+  background: var(--th-black); color: #fff; text-align: center;
+  font-size: 11px; letter-spacing: .14em; text-transform: uppercase;
+  padding: 9px 16px; font-weight: 400;
+}
+.th-promo a { border-bottom: 1px solid rgba(255,255,255,.5); padding-bottom: 1px; }
+
+/* ---------- header ---------- */
+.th-header {
+  position: sticky; top: 0; z-index: 60;
+  background: #fff; border-bottom: 1px solid var(--th-line);
+}
+.th-header-inner {
+  max-width: 1600px; margin: 0 auto; padding: 0 28px;
+  height: 66px; display: flex; align-items: center; gap: 34px;
+}
+.th-logo {
+  font-size: 19px; font-weight: 700; letter-spacing: -0.02em;
+  white-space: nowrap;
+}
+.th-logo .hrt { color: var(--th-pink); }
+.th-nav { display: flex; gap: 26px; flex: 1; }
+.th-nav a {
+  font-size: 12px; letter-spacing: .11em; text-transform: uppercase;
+  font-weight: 500; padding: 24px 0; position: relative; color: var(--th-body);
+}
+.th-nav a::after {
+  content: ''; position: absolute; left: 0; right: 0; bottom: 18px;
+  height: 1.5px; background: var(--th-black); transform: scaleX(0);
+  transition: transform .22s ease; transform-origin: left;
+}
+.th-nav a:hover::after, .th-nav a.on::after { transform: scaleX(1); }
+.th-nav a.on { font-weight: 600; }
+.th-utils { display: flex; align-items: center; gap: 20px; }
+.th-utils button, .th-utils a {
+  font-size: 12px; letter-spacing: .09em; text-transform: uppercase; font-weight: 500;
+}
+.th-bag { position: relative; }
+.th-bag span {
+  position: absolute; top: -7px; right: -11px; background: var(--th-pink); color: #fff;
+  font-size: 9px; min-width: 16px; height: 16px; border-radius: 8px;
+  display: grid; place-items: center; font-weight: 600; letter-spacing: 0;
+}
+
+/* ---------- editorial hero ---------- */
+.th-hero {
+  position: relative; background: var(--th-navy); color: #fff;
+  min-height: 340px; display: grid; place-items: center; text-align: center;
+  padding: 66px 24px; overflow: hidden;
+}
+.th-hero::before {
+  content: ''; position: absolute; inset: 0;
+  background:
+    radial-gradient(900px 400px at 22% 8%, rgba(247,2,104,.42), transparent 62%),
+    radial-gradient(760px 420px at 82% 92%, rgba(122,43,255,.40), transparent 60%);
+}
+.th-hero-in { position: relative; max-width: 720px; }
+.th-hero .eyebrow {
+  font-size: 11px; letter-spacing: .26em; text-transform: uppercase;
+  opacity: .82; margin-bottom: 16px;
+}
+.th-hero h1 {
+  font-size: clamp(30px, 5.2vw, 58px); font-weight: 700; letter-spacing: -0.025em;
+  line-height: 1.03; text-transform: uppercase; margin-bottom: 16px;
+}
+.th-hero p { font-size: 15px; opacity: .88; margin-bottom: 26px; font-weight: 300; }
+.th-cta {
+  display: inline-block; background: #fff; color: var(--th-black);
+  font-size: 12px; letter-spacing: .13em; text-transform: uppercase; font-weight: 600;
+  padding: 14px 38px; transition: background .2s ease, color .2s ease;
+}
+.th-cta:hover { background: var(--th-pink); color: #fff; }
+
+/* ---------- breadcrumb + title ---------- */
+.th-crumb {
+  max-width: 1600px; margin: 0 auto; padding: 22px 28px 0;
+  font-size: 11px; color: var(--th-muted); letter-spacing: .05em;
+}
+.th-crumb a:hover { color: var(--th-black); }
+.th-title-row {
+  max-width: 1600px; margin: 0 auto; padding: 12px 28px 20px;
+  display: flex; align-items: baseline; gap: 14px; flex-wrap: wrap;
+}
+.th-title-row h2 {
+  font-size: 26px; font-weight: 700; text-transform: uppercase; letter-spacing: -.01em;
+}
+.th-count { font-size: 12px; color: var(--th-muted); }
+
+/* ---------- filter rail ---------- */
+.th-filters {
+  position: sticky; top: 66px; z-index: 50; background: #fff;
+  border-top: 1px solid var(--th-line); border-bottom: 1px solid var(--th-line);
+}
+.th-filters-in {
+  max-width: 1600px; margin: 0 auto; padding: 0 28px;
+  height: 52px; display: flex; align-items: center; justify-content: space-between; gap: 16px;
+}
+.th-chips { display: flex; gap: 8px; overflow-x: auto; scrollbar-width: none; }
+.th-chips::-webkit-scrollbar { display: none; }
+.th-chip {
+  font-size: 11px; letter-spacing: .1em; text-transform: uppercase; font-weight: 500;
+  padding: 8px 16px; border: 1px solid var(--th-line); white-space: nowrap;
+  transition: all .18s ease; color: var(--th-body); background: #fff;
+}
+.th-chip:hover { border-color: var(--th-black); }
+.th-chip.on { background: var(--th-black); color: #fff; border-color: var(--th-black); }
+.th-sort {
+  font-size: 11px; letter-spacing: .1em; text-transform: uppercase; font-weight: 500;
+  border: 1px solid var(--th-line); padding: 8px 14px; background: #fff;
+  color: var(--th-body); white-space: nowrap;
+}
+
+/* ---------- THE GRID — the heart of the Tommy look ---------- */
+.th-grid-wrap { max-width: 1600px; margin: 0 auto; padding: 26px 28px 70px; }
+.th-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 34px 10px;                      /* tight columns, roomy rows */
+}
+.th-tile { position: relative; }
+.th-media {
+  position: relative; display: block; aspect-ratio: 3 / 4;   /* portrait, like TH */
+  background: var(--th-tile); overflow: hidden; margin-bottom: 12px;
+}
+.th-media img {
+  position: absolute; inset: 0; width: 100%; height: 100%;
+  object-fit: cover; transition: opacity .35s ease;
+}
+.th-media img.alt { opacity: 0; }
+.th-tile:hover .th-media img.main { opacity: 0; }
+.th-tile:hover .th-media img.alt  { opacity: 1; }
+
+.th-badge {
+  position: absolute; top: 10px; left: 10px; z-index: 3;
+  background: #fff; color: var(--th-black);
+  font-size: 9.5px; letter-spacing: .13em; text-transform: uppercase; font-weight: 600;
+  padding: 5px 9px;
+}
+.th-badge.pink { background: var(--th-pink); color: #fff; }
+.th-badge.soon { background: #ddd; color: #555; }
+
+.th-wish {
+  position: absolute; top: 8px; right: 8px; z-index: 3;
+  width: 30px; height: 30px; display: grid; place-items: center;
+  font-size: 15px; color: var(--th-black); opacity: .72; transition: opacity .18s, transform .18s;
+}
+.th-wish:hover { opacity: 1; transform: scale(1.14); }
+.th-wish.on { color: var(--th-pink); opacity: 1; }
+
+/* quick-add slides up on hover — TH does this on desktop */
+.th-quick {
+  position: absolute; left: 0; right: 0; bottom: 0; z-index: 2;
+  background: rgba(255,255,255,.96); color: var(--th-black);
+  font-size: 11px; letter-spacing: .13em; text-transform: uppercase; font-weight: 600;
+  padding: 13px 0; text-align: center;
+  transform: translateY(100%); transition: transform .24s ease;
+}
+.th-tile:hover .th-quick { transform: translateY(0); }
+.th-quick:hover { background: var(--th-black); color: #fff; }
+
+.th-name {
+  font-size: 13px; font-weight: 500; line-height: 1.35; margin-bottom: 4px;
+  color: var(--th-black);
+}
+.th-tile:hover .th-name { text-decoration: underline; text-underline-offset: 2px; }
+.th-sub { font-size: 11.5px; color: var(--th-muted); margin-bottom: 6px; }
+.th-price { font-size: 13px; font-weight: 600; color: var(--th-black); }
+.th-price .was { font-weight: 400; color: var(--th-muted); text-decoration: line-through; margin-right: 6px; }
+.th-price .now { color: var(--th-sale); }
+
+.th-swatches { display: flex; align-items: center; gap: 5px; margin-top: 9px; }
+.th-sw {
+  width: 13px; height: 13px; border-radius: 50%; border: 1px solid rgba(0,0,0,.22);
+  transition: transform .15s ease, box-shadow .15s ease;
+}
+.th-sw:hover { transform: scale(1.25); }
+.th-sw.on { box-shadow: 0 0 0 1.5px #fff, 0 0 0 3px var(--th-black); }
+.th-more { font-size: 10.5px; color: var(--th-muted); margin-left: 3px; }
+
+/* ---------- footer ---------- */
+.th-foot { border-top: 1px solid var(--th-line); padding: 46px 28px; margin-top: 20px; }
+.th-foot-in {
+  max-width: 1600px; margin: 0 auto; display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr; gap: 34px;
+}
+.th-foot h4 {
+  font-size: 11px; letter-spacing: .13em; text-transform: uppercase;
+  font-weight: 600; margin-bottom: 14px;
+}
+.th-foot ul { list-style: none; }
+.th-foot li { margin-bottom: 9px; }
+.th-foot a { font-size: 12.5px; color: var(--th-muted); }
+.th-foot a:hover { color: var(--th-black); }
+.th-foot .blurb { font-size: 12.5px; color: var(--th-muted); max-width: 300px; }
+
+/* ---------- responsive ---------- */
+@media (max-width: 1100px) { .th-grid { grid-template-columns: repeat(3, 1fr); } }
+@media (max-width: 860px) {
+  .th-nav { display: none; }
+  .th-foot-in { grid-template-columns: 1fr 1fr; }
+}
+@media (max-width: 620px) {
+  .th-header-inner, .th-filters-in, .th-grid-wrap, .th-crumb, .th-title-row { padding-left: 14px; padding-right: 14px; }
+  .th-grid { grid-template-columns: repeat(2, 1fr); gap: 24px 8px; }
+  .th-quick { transform: translateY(0); font-size: 10px; padding: 10px 0; }  /* always visible on touch */
+  .th-title-row h2 { font-size: 20px; }
+}
+</style>
+</head>
+<body>
+
+<div class="preview-flag">Preview only — <b>nothing here is live</b>. Tommy-style layout, adamnoteve products.</div>
+
+<div class="th-promo">Free shipping on orders over $50 &nbsp;·&nbsp; <a href="#">Returns accepted — unlike your ex</a></div>
+
+<header class="th-header">
+  <div class="th-header-inner">
+    <a href="#" class="th-logo">adamnot<span class="hrt">♥</span>eve</a>
+    <nav class="th-nav">
+      <a href="#" class="on">Shop All</a>
+      <a href="#">Tees</a>
+      <a href="#">Hoodies</a>
+      <a href="#">Drinkware</a>
+      <a href="#">Accessories</a>
+      <a href="#">Bundles</a>
+    </nav>
+    <div class="th-utils">
+      <button>Search</button>
+      <button class="th-bag">Bag <span id="bagCount">0</span></button>
+    </div>
+  </div>
+</header>
+
+<section class="th-hero">
+  <div class="th-hero-in">
+    <div class="eyebrow">New Season</div>
+    <h1>Wear the closure</h1>
+    <p>Graphic tees, hoodies and the rest of your emotional support wardrobe.</p>
+    <a href="#grid" class="th-cta">Shop the drop</a>
+  </div>
+</section>
+
+<div class="th-crumb"><a href="#">Home</a> &nbsp;/&nbsp; <span>Shop All</span></div>
+<div class="th-title-row">
+  <h2 id="plpTitle">Shop All</h2>
+  <span class="th-count" id="plpCount">—</span>
+</div>
+
+<div class="th-filters">
+  <div class="th-filters-in">
+    <div class="th-chips" id="chips"></div>
+    <button class="th-sort" id="sortBtn">Sort: Featured ▾</button>
+  </div>
+</div>
+
+<div class="th-grid-wrap" id="grid">
+  <div class="th-grid" id="plpGrid"></div>
+</div>
+
+<footer class="th-foot">
+  <div class="th-foot-in">
+    <div>
+      <h4>adamnot♥eve</h4>
+      <p class="blurb">Because not every love story deserves a sequel. Petty apparel for the gloriously single.</p>
+    </div>
+    <div><h4>Shop</h4><ul><li><a href="#">All Products</a></li><li><a href="#">Apparel</a></li><li><a href="#">Drinkware</a></li><li><a href="#">Bundles</a></li></ul></div>
+    <div><h4>Brand</h4><ul><li><a href="#">Our Story</a></li><li><a href="#">Contact</a></li><li><a href="#">Wholesale</a></li></ul></div>
+    <div><h4>Help</h4><ul><li><a href="#">Shipping</a></li><li><a href="#">Returns</a></li><li><a href="#">Privacy</a></li></ul></div>
+  </div>
+</footer>
+
+<script src="lib/products.js"></script>
+<script>
+/* Map colour names to hex so the swatch row reads like a real PLP. */
+const SWATCH = {
+  'Black':'#111111','White':'#ffffff','Navy':'#1f2a44','Charcoal':'#4a4a4a',
+  'Maroon':'#5c1a2b','Forest Green':'#22402f','Sport Grey':'#c4c4c4','Light Blue':'#a8c8e0',
+  'Red':'#c8102e','Royal':'#2b4fa2','Royal Blue':'#2b4fa2','Purple':'#5b2a86','Pink':'#F70268',
+  'Heather Grey':'#b9b9b9','Ash':'#dcdcdc','Sand':'#d8c9b0','Natural':'#e8e0cf','Cream':'#f3ead9',
+  'Dark Heather':'#5a5a5a','Military Green':'#4a5040','Gold':'#d4a017','Orange':'#e05a1a',
+  'Irish Green':'#1e8449','Sport Grey ':'#c4c4c4','Daisy':'#f7d64a','Azalea':'#f06fa5',
+  'Indigo Blue':'#3b4f7d','Light Pink':'#f4c2d0','Carolina Blue':'#7fa8d4','Cardinal':'#8c1c2b',
+  'Heliconia':'#e5397f','Sapphire':'#1f5fa9','Antique Cherry Red':'#a4243b','Graphite Heather':'#5f6368'
+};
+const hexFor = n => SWATCH[n] || '#bdbdbd';
+
+const CATS = [
+  ['all','Shop All'], ['apparel','Apparel'], ['drinkware','Drinkware'],
+  ['accessories','Accessories'], ['home','Home'], ['stationery','Stationery'], ['novelty','Novelty']
+];
+
+/* Pick a second image so hover can crossfade, like Tommy's alternate view. */
+function imagesFor(p) {
+  const main = p.img;
+  let alt = null;
+  if (p.imgByColor) {
+    const vals = Object.values(p.imgByColor).filter(Boolean);
+    alt = vals.find(v => v !== main) || null;
+  }
+  return { main, alt: alt || main };
+}
+
+function tile(p) {
+  const { main, alt } = imagesFor(p);
+  const live = p.live !== false;
+  const colors = (p.colors || []).slice(0, 5);
+  const extra = (p.colors || []).length - colors.length;
+
+  let badge = '';
+  if (!live) badge = '<span class="th-badge soon">Coming soon</span>';
+  else if (p.tag === 'VALUE') badge = '<span class="th-badge">Value</span>';
+  else if (p.tag) badge = '<span class="th-badge pink">' + p.tag + '</span>';
+
+  const priceHTML = p.priceBySize
+    ? '<span>From $' + p.price + '.00</span>'
+    : '<span>$' + p.price + '.00</span>';
+
+  return '' +
+  '<article class="th-tile" data-cat="' + (p.category || '') + '" data-price="' + p.price + '" data-name="' + (p.name||'').replace(/"/g,'&quot;') + '">' +
+    '<a class="th-media" href="product.html?id=' + p.id + '">' +
+      badge +
+      '<img class="main" src="' + main + '" alt="' + (p.name||'').replace(/"/g,'&quot;') + '" loading="lazy">' +
+      '<img class="alt"  src="' + alt  + '" alt="" loading="lazy">' +
+      (live ? '<span class="th-quick">Quick add</span>' : '') +
+    '</a>' +
+    '<button class="th-wish" aria-label="Save">♡</button>' +
+    '<div class="th-name">' + p.name + '</div>' +
+    '<div class="th-sub">' + (p.featuredColor || (p.colors && p.colors[0]) || '') + '</div>' +
+    '<div class="th-price">' + priceHTML + '</div>' +
+    (colors.length > 1
+      ? '<div class="th-swatches">' +
+          colors.map((c,i) => '<span class="th-sw' + (i===0?' on':'') + '" style="background:' + hexFor(c) + '" title="' + c + '"></span>').join('') +
+          (extra > 0 ? '<span class="th-more">+' + extra + '</span>' : '') +
+        '</div>'
+      : '') +
+  '</article>';
+}
+
+let activeCat = 'all';
+let sortMode = 0;
+const SORTS = ['Featured', 'Price: Low to High', 'Price: High to Low', 'Name: A–Z'];
+
+function currentList() {
+  let list = (typeof PRODUCTS !== 'undefined' ? PRODUCTS : []).slice();
+  if (activeCat !== 'all') list = list.filter(p => p.category === activeCat);
+  if (sortMode === 1) list.sort((a,b) => a.price - b.price);
+  if (sortMode === 2) list.sort((a,b) => b.price - a.price);
+  if (sortMode === 3) list.sort((a,b) => a.name.localeCompare(b.name));
+  return list;
+}
+
+function render() {
+  const list = currentList();
+  document.getElementById('plpGrid').innerHTML = list.map(tile).join('');
+  document.getElementById('plpCount').textContent = list.length + ' item' + (list.length === 1 ? '' : 's');
+  const found = CATS.find(c => c[0] === activeCat);
+  document.getElementById('plpTitle').textContent = found ? found[1] : 'Shop All';
+  document.querySelectorAll('.th-wish').forEach(b =>
+    b.addEventListener('click', e => {
+      e.preventDefault();
+      b.classList.toggle('on');
+      b.textContent = b.classList.contains('on') ? '♥' : '♡';
+    })
+  );
+  document.querySelectorAll('.th-sw').forEach(s =>
+    s.addEventListener('click', e => {
+      e.preventDefault();
+      const row = s.parentElement;
+      row.querySelectorAll('.th-sw').forEach(x => x.classList.remove('on'));
+      s.classList.add('on');
+    })
+  );
+}
+
+document.getElementById('chips').innerHTML =
+  CATS.map(c => '<button class="th-chip' + (c[0]==='all'?' on':'') + '" data-cat="' + c[0] + '">' + c[1] + '</button>').join('');
+
+document.getElementById('chips').addEventListener('click', e => {
+  const b = e.target.closest('.th-chip'); if (!b) return;
+  activeCat = b.dataset.cat;
+  document.querySelectorAll('.th-chip').forEach(x => x.classList.toggle('on', x === b));
+  render();
+});
+
+document.getElementById('sortBtn').addEventListener('click', () => {
+  sortMode = (sortMode + 1) % SORTS.length;
+  document.getElementById('sortBtn').textContent = 'Sort: ' + SORTS[sortMode] + ' ▾';
+  render();
+});
+
+render();
+</script>
+</body>
+</html>
