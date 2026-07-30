@@ -157,7 +157,9 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 .th-tile { position: relative; }
 .th-media {
   position: relative; display: block; aspect-ratio: 3 / 4;
-  background: var(--surface); overflow: hidden; margin-bottom: 12px;
+  /* Light tile on a dark page: mockups shot on white blend in seamlessly,
+     environmental shots fill it anyway, so every tile reads consistent. */
+  background: #f2eef6; overflow: hidden; margin-bottom: 12px;
 }
 .th-media img {
   position: absolute; inset: 0; width: 100%; height: 100%;
@@ -325,8 +327,11 @@ function imagesFor(p) {
 function tile(p) {
   const { main, alt } = imagesFor(p);
   const live = p.live !== false;
-  const colors = (p.colors || []).slice(0, 5);
-  const extra = (p.colors || []).length - colors.length;
+  // Cap the swatch row like a real PLP — "+78" reads as noise, not choice.
+  const SWATCH_CAP = 5;
+  const allColors = p.colors || [];
+  const colors = allColors.slice(0, SWATCH_CAP);
+  const extra = Math.min(allColors.length - colors.length, 99);
 
   let badge = '';
   if (!live) badge = '<span class="th-badge soon">Coming soon</span>';
