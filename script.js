@@ -610,43 +610,8 @@ function initScrollReveal() {
   els.forEach(el => io.observe(el));
 }
 
-// ===== AWAY BANNER (temporary — auto-expires after 2026-07-31) =====
-function initAwayBanner() {
-  // Auto-remove itself once the away window has passed.
-  const expires = new Date('2026-08-01T00:00:00');
-  if (new Date() >= expires) return;
-  if (sessionStorage.getItem('anv_away_dismissed')) return;
-
-  const bar = document.createElement('div');
-  bar.className = 'anv-away-banner';
-  bar.innerHTML =
-    '<span class="anv-away-msg">👋 We’re away <strong>Jul 27–31</strong> — every order still ships automatically. ' +
-    'Support replies resume <strong>Jul 31</strong>. Thanks for the patience! 🐍</span>' +
-    '<button class="anv-away-x" aria-label="Dismiss">&times;</button>';
-
-  const style = document.createElement('style');
-  style.textContent =
-    '.anv-away-banner{display:flex;align-items:center;justify-content:center;gap:14px;' +
-    'background:#ff2d78;color:#fff;font-family:"Space Grotesk",sans-serif;font-weight:600;' +
-    'font-size:14px;line-height:1.35;padding:10px 44px 10px 20px;text-align:center;position:relative;' +
-    'box-shadow:inset 0 -2px 0 rgba(0,0,0,.15);}' +
-    '.anv-away-banner strong{font-weight:700;text-decoration:underline;text-underline-offset:2px;}' +
-    '.anv-away-x{position:absolute;right:12px;top:50%;transform:translateY(-50%);background:transparent;' +
-    'border:0;color:#fff;font-size:22px;line-height:1;cursor:pointer;padding:2px 8px;border-radius:6px;}' +
-    '.anv-away-x:hover{background:rgba(255,255,255,.22);}' +
-    '@media(max-width:520px){.anv-away-banner{font-size:12.5px;padding:9px 40px 9px 14px;}}';
-
-  document.head.appendChild(style);
-  document.body.insertAdjacentElement('afterbegin', bar);
-  bar.querySelector('.anv-away-x').addEventListener('click', () => {
-    bar.remove();
-    try { sessionStorage.setItem('anv_away_dismissed', '1'); } catch (e) {}
-  });
-}
-
 // ===== INIT GLOBAL =====
 document.addEventListener('DOMContentLoaded', () => {
-  initAwayBanner();
   injectSearchOverlay();
   updateCartCount();
   renderCartDrawer();
