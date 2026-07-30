@@ -399,37 +399,121 @@ function showToast(msg) {
 }
 
 // ===== PRODUCT CARD HTML =====
+// Colour-name -> hex, so the tile can show a real swatch row.
+const SWATCH_HEX = {
+  'Black':'#111111','White':'#ffffff','Navy':'#1f2a44','Charcoal':'#4a4a4a',
+  'Maroon':'#5c1a2b','Forest Green':'#22402f','Sport Grey':'#c4c4c4','Light Blue':'#a8c8e0',
+  'Red':'#c8102e','Royal':'#2b4fa2','Royal Blue':'#2b4fa2','Purple':'#5b2a86','Pink':'#F70268',
+  'Heather Grey':'#b9b9b9','Ash':'#dcdcdc','Sand':'#d8c9b0','Natural':'#e8e0cf','Cream':'#f3ead9',
+  'Dark Heather':'#5a5a5a','Military Green':'#4a5040','Gold':'#d4a017','Orange':'#e05a1a',
+  'Irish Green':'#1e8449','Daisy':'#f7d64a','Azalea':'#f06fa5','Indigo Blue':'#3b4f7d',
+  'Light Pink':'#f4c2d0','Carolina Blue':'#7fa8d4','Cardinal':'#8c1c2b','Heliconia':'#e5397f',
+  'Sapphire':'#1f5fa9','Antique Cherry Red':'#a4243b','Graphite Heather':'#5f6368'
+};
+const swatchHex = name => SWATCH_HEX[name] || '#7e6a92';
+
+// Second image for the hover crossfade — a different colourway when we have one.
+function altImage(p, main) {
+  if (!p.imgByColor) return main;
+  const others = Object.values(p.imgByColor).filter(v => v && v !== main);
+  return others.length ? others[0] : main;
+}
+
+const SWATCH_CAP = 5;
+
 function productCardHTML(p) {
   const live = isProductLive(p);
-  // Coming-soon badge replaces any existing NEW/BESTSELLER/LIMITED tag.
-  const tagHTML = !live
-    ? `<span class="product-tag coming-soon-tag">COMING SOON</span>`
-    : (p.tag ? `<span class="product-tag">${p.tag}</span>` : '');
-  const ctaHTML = live
-    ? `<button type="button" class="card-quickadd" data-quickadd="${p.id}">+ BAG</button>
-       <a href="product.html?id=${p.id}" class="add-btn">VIEW →</a>`
-    : `<a href="product.html?id=${p.id}" class="add-btn add-btn-soon">PREVIEW</a>`;
+  const main = displayImage(p);
+  const alt = altImage(p, main);
+
+  let badge = '';
+  if (!live) badge = `<span class="th-badge soon">COMING SOON</span>`;
+  else if (p.tag === 'VALUE') badge = `<span class="th-badge">VALUE</span>`;
+  else if (p.tag) badge = `<span class="th-badge pink">${p.tag}</span>`;
+
+  const allColors = p.colors || [];
+  const shown = allColors.slice(0, SWATCH_CAP);
+  const extra = allColors.length - shown.length;
+  const swatches = shown.length > 1
+    ? `<div class="th-swatches">${
+        shown.map((c, i) =>
+          `<span class="th-sw${i === 0 ? ' on' : ''}" style="background:${swatchHex(c)}" title="${escapeAttr(c)}"></span>`
+        ).join('')
+      }${extra > 0 ? `<span class="th-more">+${extra}</span>` : ''}</div>`
+    : '';
+
+  const quick = live
+    ? `<button type="button" class="th-quick" data-quickadd="${p.id}">QUICK ADD</button>`
+    : '';
+
+  const subtitle = p.featuredColor || (allColors.length ? allColors[0] : '');
+
   return `
-    <div class="product-card${live ? '' : ' coming-soon'}" data-id="${p.id}">
-      <a href="product.html?id=${p.id}" class="product-img-wrap">
-        ${tagHTML}
-        <img src="${displayImage(p)}" alt="${p.name}" loading="lazy" />
-      </a>
-      <div class="product-info">
-        <a href="product.html?id=${p.id}"><h3 class="product-name">${p.name}</h3></a>
-        <p class="product-desc">${p.desc}</p>
-        <div class="product-bottom">
-          <span class="product-price">${p.priceBySize ? 'From $' + p.price : '$' + p.price}</span>
-          ${ctaHTML}
-        </div>
+    <article class="th-tile${live ? '' : ' coming-soon'}" data-id="${p.id}">
+      <div class="th-media">
+        ${badge}
+        <a href="product.html?id=${p.id}" class="th-media-link" aria-label="${escapeAttr(p.name)}">
+          <img class="main" src="${main}" alt="${escapeAttr(p.name)}" loading="lazy" />
+          <img class="alt" src="${alt}" alt="" aria-hidden="true" loading="lazy" />
+        </a>
+        ${quick}
       </div>
-    </div>
+      <a href="product.html?id=${p.id}" class="th-name">${p.name}</a>
+      ${subtitle ? `<div class="th-sub">${subtitle}</div>` : ''}
+      <div class="th-price">${p.priceBySize ? 'From $' + p.price + '.00' : '$' + p.price + '.00'}</div>
+      ${swatches}
+    </article>
   `;
+}
+
+// The catalogue only has three on-model mockup styles, so a naive order repeats
+// the same model within a row — most visibly at both ends of a wide row. Reorder
+// so a tile never shares a model style with anything else in its row, or with
+// the tile directly above it. Pulls forward the nearest valid later item instead
+// of sorting, so the merchandising order (new drops first) stays close to intact.
+function arrangeByModelVariety(list, cols) {
+  const styleOf = p =>
+    (typeof MODEL_STYLE !== 'undefined' && MODEL_STYLE[p.id]) || null;
+
+  const out = list.slice();
+  for (let i = 0; i < out.length; i++) {
+    const banned = new Set();
+    const rowStart = i - (i % cols);
+    for (let k = rowStart; k < i; k++) {
+      const s = styleOf(out[k]);
+      if (s) banned.add(s);
+    }
+    const above = i >= cols ? styleOf(out[i - cols]) : null;
+    if (above) banned.add(above);
+    if (!banned.size) continue;
+
+    const clashes = s => s !== null && banned.has(s);
+    if (!clashes(styleOf(out[i]))) continue;
+
+    for (let j = i + 1; j < out.length; j++) {
+      if (!clashes(styleOf(out[j]))) {
+        const [moved] = out.splice(j, 1);
+        out.splice(i, 0, moved);
+        break;
+      }
+    }
+  }
+  return out;
+}
+
+// Must match the .product-grid breakpoints in styles.css. Three columns on
+// desktop is deliberate: with exactly three model styles, every row then shows
+// three different people.
+function gridColumns() {
+  return window.innerWidth <= 820 ? 2 : 3;
 }
 
 function renderProducts(targetSelector, list) {
   const target = document.querySelector(targetSelector);
   if (!target) return;
+  // Retired products (`hidden`) are dropped from every grid — unlike
+  // `live: false`, which still renders a "Coming Soon" tile.
+  list = arrangeByModelVariety(list.filter(p => !p.hidden), gridColumns());
   if (list.length === 0) {
     target.innerHTML = `
       <div style="grid-column: 1 / -1; text-align: center; padding: 60px 20px;">
@@ -524,9 +608,11 @@ function searchProducts(query) {
   const q = query.trim().toLowerCase();
   if (!q) return [];
   return PRODUCTS.filter(p =>
-    p.name.toLowerCase().includes(q) ||
-    p.desc.toLowerCase().includes(q) ||
-    p.category.toLowerCase().includes(q)
+    !p.hidden && (
+      p.name.toLowerCase().includes(q) ||
+      p.desc.toLowerCase().includes(q) ||
+      p.category.toLowerCase().includes(q)
+    )
   );
 }
 

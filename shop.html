@@ -67,6 +67,8 @@
   <button class="filter-btn" data-filter="novelty">Novelty</button>
 </div>
 
+<div class="shop-count" id="shop-count"></div>
+
 <section class="shop-grid-wrap">
   <div class="product-grid" id="shop-grid"></div>
 </section>
@@ -162,11 +164,16 @@
 
     const filterBtns = document.querySelectorAll('.filter-btn');
 
+    const countEl = document.getElementById('shop-count');
+
     function applyFilter(filter) {
       activeFilter = filter;
       filterBtns.forEach(b => b.classList.toggle('active', b.dataset.filter === filter));
-      const list = filter === 'all' ? PRODUCTS : PRODUCTS.filter(p => p.category === filter);
+      // Match what actually renders — renderProducts drops retired products.
+      const list = (filter === 'all' ? PRODUCTS : PRODUCTS.filter(p => p.category === filter))
+        .filter(p => !p.hidden);
       renderProducts('#shop-grid', list);
+      if (countEl) countEl.textContent = list.length + (list.length === 1 ? ' item' : ' items');
     }
 
     filterBtns.forEach(b =>
