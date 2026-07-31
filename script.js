@@ -450,12 +450,14 @@ function productCardHTML(p) {
 
   return `
     <article class="th-tile${live ? '' : ' coming-soon'}" data-id="${p.id}">
-      <div class="th-media">
-        ${badge}
-        <a href="product.html?id=${p.id}" class="th-media-link" aria-label="${escapeAttr(p.name)}">
-          <img class="main" src="${main}" alt="${escapeAttr(p.name)}" loading="lazy" />
-          <img class="alt" src="${alt}" alt="" aria-hidden="true" loading="lazy" />
-        </a>
+      <div class="th-mediawrap">
+        <div class="th-media">
+          ${badge}
+          <a href="product.html?id=${p.id}" class="th-media-link" aria-label="${escapeAttr(p.name)}">
+            <img class="main" src="${main}" alt="${escapeAttr(p.name)}" loading="lazy" />
+            <img class="alt" src="${alt}" alt="" aria-hidden="true" loading="lazy" />
+          </a>
+        </div>
         ${quick}
       </div>
       <a href="product.html?id=${p.id}" class="th-name">${p.name}</a>
