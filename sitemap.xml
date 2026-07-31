@@ -157,12 +157,6 @@
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://adamnoteve.com/product.html?id=p26</loc>
-    <lastmod>2026-07-17</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
     <loc>https://adamnoteve.com/product.html?id=p27</loc>
     <lastmod>2026-07-17</lastmod>
     <changefreq>weekly</changefreq>
@@ -272,6 +266,12 @@
   </url>
   <url>
     <loc>https://adamnoteve.com/product.html?id=p48</loc>
+    <lastmod>2026-07-17</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://adamnoteve.com/product.html?id=p50</loc>
     <lastmod>2026-07-17</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
