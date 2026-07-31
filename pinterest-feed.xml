@@ -1065,5 +1065,31 @@ More: funny breakup card, divorce card, fresh start gift, greeting card, breakup
       <g:google_product_category><![CDATA[Office Supplies]]></g:google_product_category>
       <g:product_type><![CDATA[Funny Breakup Card > Divorce Card > Fresh Start Gift]]></g:product_type>
     </item>
+    <item>
+      <g:id>p86</g:id>
+      <g:title><![CDATA[The Hardest Part Card]]></g:title>
+      <g:description><![CDATA[For the friend who is still in it. No punchline, no "at least" — just the one thing they need to hear. Blank inside for whatever you want to add.]]></g:description>
+      <g:link>https://adamnoteve.com/product.html?id=p86</g:link>
+      <g:image_link>https://adamnoteve.com/mockups/p86.png</g:image_link>
+      <g:availability>in stock</g:availability>
+      <g:price>7.00 USD</g:price>
+      <g:brand>adamnoteve</g:brand>
+      <g:condition>new</g:condition>
+      <g:google_product_category><![CDATA[Office Supplies]]></g:google_product_category>
+      <g:product_type><![CDATA[Stationery]]></g:product_type>
+    </item>
+    <item>
+      <g:id>p87</g:id>
+      <g:title><![CDATA[Poured Myself Back Together Glass]]></g:title>
+      <g:description><![CDATA[Stemless, 15oz, and quietly smug about how far you have come. The rebuild deserves a decent glass.]]></g:description>
+      <g:link>https://adamnoteve.com/product.html?id=p87</g:link>
+      <g:image_link>https://adamnoteve.com/mockups/p87.png</g:image_link>
+      <g:availability>in stock</g:availability>
+      <g:price>22.00 USD</g:price>
+      <g:brand>adamnoteve</g:brand>
+      <g:condition>new</g:condition>
+      <g:google_product_category><![CDATA[Home & Garden > Kitchen & Dining > Tableware > Drinkware > Mugs]]></g:google_product_category>
+      <g:product_type><![CDATA[Drinkware]]></g:product_type>
+    </item>
   </channel>
 </rss>
