@@ -334,37 +334,6 @@ button {
 
 @media (max-width: 820px) { .product-grid { grid-template-columns: repeat(2, 1fr); } }
 
-/* ---- Touch layout ----------------------------------------------------
-   Two things behave differently without a hover state:
-   1. Quick add can't slide up on hover, so it would sit permanently across
-      the bottom of every image — covering the product on tall items like
-      totes and hoodies. Put it BELOW the image instead of over it.
-   2. At ~175px wide the printed slogan is the product, and it's unreadable.
-      Push in on the chest so the print fills more of the tile.            */
-@media (max-width: 820px) {
-  .th-media { overflow: hidden; }
-  .th-media img {
-    transform: scale(1.28);
-    transform-origin: center 40%;
-  }
-  /* below the image, not on top of it */
-  .th-quick {
-    position: static;
-    transform: none;
-    display: block;
-    width: 100%;
-    margin-top: 8px;
-    background: var(--pink);
-    color: #fff;
-    padding: 11px 0;
-    font-size: 0.64rem;
-    letter-spacing: 0.12em;
-  }
-  .th-quick.added { background: var(--neon); color: var(--ink); }
-  /* media no longer needs bottom spacing since quick add follows it */
-  .th-media { margin-bottom: 0; }
-  .th-name { margin-top: 10px; }
-}
 
 .th-tile { position: relative; }
 
@@ -2191,4 +2160,37 @@ button {
   font-size: 0.85rem;
   font-style: italic;
   opacity: 0.75;
+}
+
+/* ---- Touch layout (must come after the base .th-* rules to win) --------
+   Two things behave differently without a hover state:
+   1. Quick add can't slide up on hover, so it would sit permanently across
+      the bottom of every image — covering the product on tall items like
+      totes and hoodies. Put it BELOW the image instead of over it.
+   2. At ~175px wide the printed slogan is the product, and it's unreadable.
+      Push in on the chest so the artwork fills more of the tile.          */
+@media (max-width: 820px) {
+  .th-media {
+    overflow: hidden;
+    margin-bottom: 0;
+  }
+  .th-media img {
+    transform: scale(1.28);
+    transform-origin: center 40%;
+  }
+  .th-tile .th-quick {
+    position: static;
+    transform: none;
+    display: block;
+    width: 100%;
+    margin-top: 8px;
+    background: var(--pink);
+    color: #fff;
+    padding: 11px 0;
+    font-size: 0.64rem;
+    letter-spacing: 0.12em;
+  }
+  .th-tile:hover .th-quick { transform: none; }
+  .th-tile .th-quick.added { background: var(--neon); color: var(--ink); }
+  .th-name { display: block; margin-top: 10px; }
 }
