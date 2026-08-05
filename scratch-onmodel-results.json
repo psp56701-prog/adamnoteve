@@ -1,0 +1,412 @@
+[
+  {
+    "pid": "p9",
+    "name": "Petty in Pink Crewneck",
+    "style": "Women's Lifestyle",
+    "variant": "Petty in Pink Crewneck (1/2) / Light Pink / S",
+    "file": "mockups/p9-model.jpg",
+    "bytes": 140890,
+    "corners": [
+      130,
+      141,
+      130,
+      157
+    ],
+    "rejected": [],
+    "status": "ok"
+  },
+  {
+    "pid": "p3",
+    "name": "Emotionally Unavailable Club Tee",
+    "style": "Men's Lifestyle",
+    "variant": "Emotionally Unavailable Club Tee (4/5) / Heather Raspberry / M",
+    "file": "mockups/p3-model.jpg",
+    "bytes": 218740,
+    "corners": [
+      31,
+      24,
+      48,
+      25
+    ],
+    "rejected": [],
+    "status": "ok"
+  },
+  {
+    "pid": "p31",
+    "name": "Thanks for the Trauma Tee",
+    "style": "Women's Lifestyle",
+    "variant": "Thanks for the Trauma Tee / Heliconia / L",
+    "file": "mockups/p31-model.jpg",
+    "bytes": 218270,
+    "corners": [
+      165,
+      134,
+      175,
+      73
+    ],
+    "rejected": [],
+    "status": "ok"
+  },
+  {
+    "pid": "p32",
+    "name": "Petty in Pink Tee",
+    "style": "Men's Lifestyle",
+    "variant": "Petty in Pink Tee / White / XL",
+    "file": "mockups/p32-model.jpg",
+    "bytes": 180305,
+    "corners": [
+      74,
+      240,
+      15,
+      236
+    ],
+    "rejected": [],
+    "status": "ok"
+  },
+  {
+    "pid": "p40",
+    "name": "Villain Era Tee",
+    "style": "Women's Lifestyle",
+    "variant": "Villain Era Tee / Maroon / S",
+    "file": "mockups/p40-model.jpg",
+    "bytes": 202036,
+    "corners": [
+      165,
+      134,
+      175,
+      73
+    ],
+    "rejected": [],
+    "status": "ok"
+  },
+  {
+    "pid": "p42",
+    "name": "Touch Grass Tee",
+    "style": "Men's Lifestyle",
+    "variant": "Touch Grass Tee / Forest Green / S",
+    "file": "mockups/p42-model.jpg",
+    "bytes": 174219,
+    "corners": [
+      74,
+      239,
+      15,
+      236
+    ],
+    "rejected": [],
+    "status": "ok"
+  },
+  {
+    "pid": "p44",
+    "name": "Logo Tee (Value)",
+    "style": "Women's Lifestyle",
+    "variant": "Logo Tee (Value) / Forest Green / M",
+    "file": "mockups/p44-model.jpg",
+    "bytes": 199385,
+    "corners": [
+      165,
+      134,
+      175,
+      73
+    ],
+    "rejected": [],
+    "status": "ok"
+  },
+  {
+    "pid": "p46",
+    "name": "Hot Single Summer Tank",
+    "status": "all-white-or-fail",
+    "rejected": [
+      "Men's(15596) corners=255,255,255,255",
+      "Women's(15598) corners=255,255,255,255"
+    ],
+    "fail": null
+  },
+  {
+    "pid": "p57",
+    "name": "Come Outside Tee (Value)",
+    "style": "Women's Lifestyle",
+    "variant": "Come Outside Tee (Value) / Red / S",
+    "file": "mockups/p57-model.jpg",
+    "bytes": 227415,
+    "corners": [
+      165,
+      134,
+      175,
+      73
+    ],
+    "rejected": [],
+    "status": "ok"
+  },
+  {
+    "pid": "p58",
+    "name": "Busy Healing Tee (Value)",
+    "style": "Men's Lifestyle",
+    "variant": "Busy Healing Tee (Value) / Purple / S",
+    "file": "mockups/p58-model.jpg",
+    "bytes": 179832,
+    "corners": [
+      74,
+      239,
+      15,
+      236
+    ],
+    "rejected": [],
+    "status": "ok"
+  },
+  {
+    "pid": "p59",
+    "name": "Blocked Blessed Booked Tee (Value)",
+    "style": "Women's Lifestyle",
+    "variant": "Blocked Blessed Booked Tee (Value) / Heliconia / S",
+    "file": "mockups/p59-model.jpg",
+    "bytes": 216768,
+    "corners": [
+      165,
+      134,
+      175,
+      73
+    ],
+    "rejected": [],
+    "status": "ok"
+  },
+  {
+    "pid": "p61",
+    "name": "You Fumbled Tee (Value)",
+    "style": "Men's Lifestyle",
+    "variant": "You Fumbled Tee (Value) / Orange / S",
+    "file": "mockups/p61-model.jpg",
+    "bytes": 185416,
+    "corners": [
+      74,
+      240,
+      15,
+      236
+    ],
+    "rejected": [],
+    "status": "ok"
+  },
+  {
+    "pid": "p62",
+    "name": "Ruin My Own Life Tee (Value)",
+    "style": "Women's Lifestyle",
+    "variant": "Ruin My Own Life Tee (Value) / Maroon / S",
+    "file": "mockups/p62-model.jpg",
+    "bytes": 204298,
+    "corners": [
+      165,
+      134,
+      175,
+      73
+    ],
+    "rejected": [],
+    "status": "ok"
+  },
+  {
+    "pid": "p63",
+    "name": "Just Right Tee (Value)",
+    "style": "Men's Lifestyle",
+    "variant": "Just Right Tee (Value) / Irish Green / S",
+    "file": "mockups/p63-model.jpg",
+    "bytes": 181908,
+    "corners": [
+      74,
+      239,
+      15,
+      236
+    ],
+    "rejected": [],
+    "status": "ok"
+  },
+  {
+    "pid": "p65",
+    "name": "Petty Committee Tee (Value)",
+    "style": "Women's Lifestyle",
+    "variant": "Petty Committee Tee (Value) / Forest Green / S",
+    "file": "mockups/p65-model.jpg",
+    "bytes": 202245,
+    "corners": [
+      165,
+      134,
+      175,
+      73
+    ],
+    "rejected": [],
+    "status": "ok"
+  },
+  {
+    "pid": "p66",
+    "name": "Delulu Solulu Tee (Value)",
+    "style": "Men's Lifestyle",
+    "variant": "Delulu Solulu Tee (Value) / Navy / S",
+    "file": "mockups/p66-model.jpg",
+    "bytes": 175224,
+    "corners": [
+      74,
+      239,
+      15,
+      236
+    ],
+    "rejected": [],
+    "status": "ok"
+  },
+  {
+    "pid": "p67",
+    "name": "Loyal to the Group Chat Tee (Value)",
+    "style": "Women's Lifestyle",
+    "variant": "Loyal to the Group Chat Tee (Value) / Military Green / S",
+    "file": "mockups/p67-model.jpg",
+    "bytes": 203530,
+    "corners": [
+      165,
+      134,
+      175,
+      73
+    ],
+    "rejected": [],
+    "status": "ok"
+  },
+  {
+    "pid": "p68",
+    "name": "Still Healing Tee (Value)",
+    "style": "Men's Lifestyle",
+    "variant": "Still Healing Tee / Forest Green / S",
+    "file": "mockups/p68-model.jpg",
+    "bytes": 175502,
+    "corners": [
+      74,
+      239,
+      15,
+      236
+    ],
+    "rejected": [],
+    "status": "ok"
+  },
+  {
+    "pid": "p69",
+    "name": "Pain Is Temporary Tee (Value)",
+    "style": "Women's Lifestyle",
+    "variant": "Pain Is Temporary Tee / Navy / S",
+    "file": "mockups/p69-model.jpg",
+    "bytes": 212354,
+    "corners": [
+      165,
+      134,
+      175,
+      73
+    ],
+    "rejected": [],
+    "status": "ok"
+  },
+  {
+    "pid": "p70",
+    "name": "Single Taken Complicated Tee (Value)",
+    "style": "Men's Lifestyle",
+    "variant": "Single Taken Complicated Tee / Maroon / S",
+    "file": "mockups/p70-model.jpg",
+    "bytes": 177112,
+    "corners": [
+      74,
+      239,
+      15,
+      236
+    ],
+    "rejected": [],
+    "status": "ok"
+  },
+  {
+    "pid": "p72",
+    "name": "The Upgrade Tee (Value)",
+    "style": "Women's Lifestyle",
+    "variant": "The Upgrade Tee / Navy / S",
+    "file": "mockups/p72-model.jpg",
+    "bytes": 209691,
+    "corners": [
+      165,
+      134,
+      175,
+      73
+    ],
+    "rejected": [],
+    "status": "ok"
+  },
+  {
+    "pid": "p73",
+    "name": "Worth The Downgrade Tee (Value)",
+    "style": "Men's Lifestyle",
+    "variant": "Worth The Downgrade Tee / Maroon / S",
+    "file": "mockups/p73-model.jpg",
+    "bytes": 177219,
+    "corners": [
+      74,
+      239,
+      15,
+      236
+    ],
+    "rejected": [],
+    "status": "ok"
+  },
+  {
+    "pid": "p75",
+    "name": "Can't Fish Tee (Value)",
+    "style": "Women's Lifestyle",
+    "variant": "Cant Fish Tee / Forest Green / S",
+    "file": "mockups/p75-model.jpg",
+    "bytes": 206344,
+    "corners": [
+      165,
+      134,
+      175,
+      73
+    ],
+    "rejected": [],
+    "status": "ok"
+  },
+  {
+    "pid": "p76",
+    "name": "My Silence Is Your Closure Tee (Value)",
+    "style": "Men's Lifestyle",
+    "variant": "My Silence Is Your Closure Tee / Navy / S",
+    "file": "mockups/p76-model.jpg",
+    "bytes": 176088,
+    "corners": [
+      74,
+      239,
+      15,
+      236
+    ],
+    "rejected": [],
+    "status": "ok"
+  },
+  {
+    "pid": "p77",
+    "name": "Downloaded Peace Tee (Value)",
+    "style": "Women's Lifestyle",
+    "variant": "Downloaded Peace Tee / Maroon / S",
+    "file": "mockups/p77-model.jpg",
+    "bytes": 209021,
+    "corners": [
+      165,
+      134,
+      175,
+      73
+    ],
+    "rejected": [],
+    "status": "ok"
+  },
+  {
+    "pid": "p78",
+    "name": "Narcissist Survivor Tee (Value)",
+    "style": "Men's Lifestyle",
+    "variant": "Narcissist Survivor Tee / Forest Green / S",
+    "file": "mockups/p78-model.jpg",
+    "bytes": 176876,
+    "corners": [
+      74,
+      239,
+      15,
+      236
+    ],
+    "rejected": [],
+    "status": "ok"
+  }
+]

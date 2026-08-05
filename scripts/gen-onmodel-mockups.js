@@ -6,6 +6,7 @@ const path = require('path');
 const ROOT = path.resolve(__dirname, '..');
 const KEY = (fs.readFileSync(path.join(ROOT, '.env'), 'utf8').match(/^PRINTFUL_API_KEY=(.+)$/m) || [])[1].trim().replace(/['"]/g, '');
 const { PRODUCTS } = require(path.join(ROOT, 'lib', 'products.js'));
+const { isStudioWhite } = require(path.join(ROOT, 'lib', 'bg-check.js'));
 
 const H = { Authorization: 'Bearer ' + KEY, 'Content-Type': 'application/json' };
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
@@ -80,27 +81,52 @@ function colorScore(name) {
       cands.sort((a, b) => (HUMAN_STYLES.indexOf(a.cat) - HUMAN_STYLES.indexOf(b.cat)) || (a.id - b.id));
       if (!cands.length) for (const g of groups) if (g.placement === 'front') for (const s of (g.mockup_styles || [])) if (s.view_name === 'Front' && s.category_name === 'Flat Lifestyle') cands.push({ id: s.id, cat: 'Flat Lifestyle' });
       if (!cands.length) { results.push({ pid, name: prod.name, cpid: best.cpid, status: 'no-onmodel-style' }); continue; }
-      const pick = cands[gidx % cands.length];
-      const chosen = pick.id, chosenCat = pick.cat;
+      // --- ATTEMPT ORDER: the "* Lifestyle" categories return a model in a real
+      // room; "Women's"/"Men's"/"On model" return a studio cutout on white, which
+      // punches a bright rectangle into the dark grid. Rotating blindly across ALL
+      // candidates is what shipped 34 white cutouts, so try every Lifestyle style
+      // (rotated, so the grid still varies) BEFORE falling back to the cutouts.
+      const lifestyle = cands.filter((c) => /Lifestyle/i.test(c.cat));
+      const rest = cands.filter((c) => !/Lifestyle/i.test(c.cat));
+      const rot = (arr) => arr.map((_, i) => arr[(gidx + i) % arr.length]);
+      const attempts = [...rot(lifestyle), ...rot(rest)];
       gidx++;
-      const body = { format: 'jpg', products: [{ source: 'catalog', mockup_style_ids: [chosen], catalog_product_id: best.cpid, catalog_variant_ids: [best.variant_id], placements: [{ placement: 'front', technique: 'dtg', layers: [{ type: 'file', url: best.design }] }] }] };
-      const task = await pf('/v2/mockup-tasks', { method: 'POST', body: JSON.stringify(body) });
-      const tid = task.data && task.data[0] && task.data[0].id;
-      if (!tid) { results.push({ pid, name: prod.name, status: 'task-create-fail', err: JSON.stringify(task).slice(0, 200) }); continue; }
-      let url = null, fail = null;
-      for (let i = 0; i < 15; i++) {
-        await sleep(4000);
-        const r = await pf('/v2/mockup-tasks?id=' + tid);
-        const t = r.data && r.data[0]; if (!t) continue;
-        if (t.status === 'completed') { const mk = (t.catalog_variant_mockups || [])[0]; const fr = mk && (mk.mockups || []).find((x) => x.placement === 'front'); url = fr && fr.mockup_url; break; }
-        if (t.status === 'failed') { fail = JSON.stringify(t.failure_reasons); break; }
+
+      let saved = null, lastFail = null, rejected = [];
+      for (const pick of attempts) {
+        const body = { format: 'jpg', products: [{ source: 'catalog', mockup_style_ids: [pick.id], catalog_product_id: best.cpid, catalog_variant_ids: [best.variant_id], placements: [{ placement: 'front', technique: 'dtg', layers: [{ type: 'file', url: best.design }] }] }] };
+        const task = await pf('/v2/mockup-tasks', { method: 'POST', body: JSON.stringify(body) });
+        const tid = task.data && task.data[0] && task.data[0].id;
+        if (!tid) { lastFail = 'task-create-fail ' + JSON.stringify(task).slice(0, 160); continue; }
+        let url = null;
+        for (let i = 0; i < 15; i++) {
+          await sleep(4000);
+          const r = await pf('/v2/mockup-tasks?id=' + tid);
+          const t = r.data && r.data[0]; if (!t) continue;
+          if (t.status === 'completed') { const mk = (t.catalog_variant_mockups || [])[0]; const fr = mk && (mk.mockups || []).find((x) => x.placement === 'front'); url = fr && fr.mockup_url; break; }
+          if (t.status === 'failed') { lastFail = JSON.stringify(t.failure_reasons); break; }
+        }
+        if (!url) continue;
+
+        // Write to a temp path so a white result never overwrites a good existing file.
+        const out = 'mockups/' + pid + '-model.jpg';
+        const tmp = path.join(ROOT, 'mockups', '.' + pid + '-candidate.jpg');
+        fs.writeFileSync(tmp, Buffer.from(await (await fetch(url)).arrayBuffer()));
+        const chk = isStudioWhite(tmp);
+        if (chk && chk.white) {
+          rejected.push(pick.cat + '(' + pick.id + ') corners=' + chk.corners.join(','));
+          console.log('   reject', pid, pick.cat, 'white bg, corners', chk.corners.join(','));
+          fs.unlinkSync(tmp);
+          await sleep(2000);
+          continue;
+        }
+        fs.renameSync(tmp, path.join(ROOT, out));
+        saved = { pid, name: prod.name, style: pick.cat, variant: best.name, file: out, bytes: fs.statSync(path.join(ROOT, out)).size, corners: chk && chk.corners, rejected, status: 'ok' };
+        console.log('OK', pid, '|', prod.name, '|', pick.cat, '|', best.name, '->', out, saved.bytes + 'b', rejected.length ? '(after ' + rejected.length + ' white reject(s))' : '');
+        break;
       }
-      if (!url) { results.push({ pid, name: prod.name, status: 'gen-fail', fail }); continue; }
-      const buf = Buffer.from(await (await fetch(url)).arrayBuffer());
-      const out = 'mockups/' + pid + '-model.jpg';
-      fs.writeFileSync(path.join(ROOT, out), buf);
-      results.push({ pid, name: prod.name, style: chosenCat, variant: best.name, file: out, bytes: buf.length, status: 'ok' });
-      console.log('OK', pid, '|', prod.name, '|', chosenCat, '|', best.name, '->', out, buf.length + 'b');
+      if (!saved) { results.push({ pid, name: prod.name, status: 'all-white-or-fail', rejected, fail: lastFail }); console.log('MISS', pid, '| no non-white style available'); continue; }
+      results.push(saved);
     } catch (e) { results.push({ pid, status: 'exception', err: String(e).slice(0, 200) }); console.log('EXC', pid, e.message); }
     await sleep(2500); // be gentle with Printful's mockup rate limit
   }
