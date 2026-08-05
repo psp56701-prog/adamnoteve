@@ -7,3 +7,8 @@ node_modules/
 npm-debug.log*
 .vscode/
 .superpowers/
+
+# Scratch output from mockup/QA runs — hundreds of MB of generated images and
+# one-off scripts. Never belongs in history.
+.verify-tmp/
+scratchpad-blankets/
