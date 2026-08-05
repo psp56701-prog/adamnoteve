@@ -4,8 +4,12 @@ const fs = require('fs');
 const path = require('path');
 
 const ROOT = path.resolve(__dirname, '..');
-const mascot = fs.readFileSync(path.join(ROOT, 'designs', 'mascot-eve.png')).toString('base64');
-const mascotURI = 'data:image/png;base64,' + mascot;
+// Brand mark is the dimensional snake-coiled heart, logo-apple.png — the same
+// file the site header, favicon and OG image use. The flat cartoon faces in
+// designs/ (mascot-eve.png, mascot-apple.png) are RETIRED; this script was the
+// last thing still reaching for one, so don't point it back at them.
+const logo = fs.readFileSync(path.join(ROOT, 'logo-apple.png')).toString('base64');
+const logoURI = 'data:image/png;base64,' + logo;
 const OUT = path.join(ROOT, 'scratchpad-blankets');
 fs.mkdirSync(OUT, { recursive: true });
 
@@ -40,7 +44,7 @@ const html = (c) => `<!DOCTYPE html><html><head><meta charset="utf-8"><style>
     background:linear-gradient(105deg, rgba(255,255,255,.13) 0%, transparent 34%, transparent 66%, rgba(0,0,0,.09) 100%);}
   .inner{position:absolute;inset:0;z-index:2;display:flex;flex-direction:column;
     align-items:center;justify-content:center;text-align:center;padding:70px 78px;}
-  .mascot{width:132px;height:auto;margin-bottom:34px;filter:drop-shadow(0 8px 14px rgba(0,0,0,.18));}
+  .logo{width:280px;height:auto;margin-bottom:44px;filter:drop-shadow(0 10px 18px rgba(0,0,0,.22));}
   .slogan{color:${c.ink};font-weight:900;font-size:78px;line-height:1.08;letter-spacing:.5px;
     text-shadow:0 2px 3px rgba(0,0,0,.10);}
   .hi{color:${c.acc};}
@@ -54,7 +58,7 @@ const html = (c) => `<!DOCTYPE html><html><head><meta charset="utf-8"><style>
   <div class="wrap">
     <div class="blanket"></div>
     <div class="fringe">${'<i></i>'.repeat(64)}</div>
-    <div class="inner"><img class="mascot" src="${mascotURI}"><div class="slogan">${c.slogan}</div></div>
+    <div class="inner"><img class="logo" src="${logoURI}"><div class="slogan">${c.slogan}</div></div>
     <div class="url">ADAMNOTEVE.COM</div>
   </div>
   </div>

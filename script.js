@@ -812,3 +812,41 @@ function initNewsletterPopup() {
   const onLeave = (e) => { if (e.clientY <= 0) { clearTimeout(t); document.removeEventListener('mouseout', onLeave); show(); } }; // exit-intent
   document.addEventListener('mouseout', onLeave);
 }
+
+// ---------------------------------------------------------------------------
+// Pageview beacon (first-party, see netlify/functions/track.js)
+//
+// The store ran from launch until August with no analytics, so there was no way
+// to tell "nobody visits" apart from "people visit and bounce". This is the
+// smallest thing that answers that.
+//
+// Self-exclusion matters here more than usual: the only two orders this store
+// ever took were our own test buys, and a batch of our own test checkouts was
+// briefly mistaken for real demand. Numbers we generate ourselves are worse
+// than no numbers. Visit any page with ?noanalytics=1 once to opt this browser
+// out permanently (?noanalytics=0 to undo).
+// ---------------------------------------------------------------------------
+(function trackPageview() {
+  try {
+    var q = new URLSearchParams(location.search);
+    if (q.has('noanalytics')) {
+      if (q.get('noanalytics') === '0') localStorage.removeItem('anv_noanalytics');
+      else localStorage.setItem('anv_noanalytics', '1');
+    }
+    if (localStorage.getItem('anv_noanalytics')) return;
+
+    // Only count the real storefront — previews and local dev would be noise.
+    if (location.hostname !== 'adamnoteve.com') return;
+
+    var payload = JSON.stringify({
+      path: location.pathname + (location.pathname === '/product.html' ? location.search : ''),
+      referrer: document.referrer || '',
+    });
+    // sendBeacon survives the page being closed mid-request; fetch is the fallback.
+    if (navigator.sendBeacon) {
+      navigator.sendBeacon('/.netlify/functions/track', new Blob([payload], { type: 'application/json' }));
+    } else {
+      fetch('/.netlify/functions/track', { method: 'POST', body: payload, headers: { 'Content-Type': 'application/json' }, keepalive: true }).catch(function () {});
+    }
+  } catch (e) { /* analytics must never break the page */ }
+})();

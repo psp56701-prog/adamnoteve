@@ -8,8 +8,9 @@
     "deploy": "netlify deploy --prod"
   },
   "dependencies": {
-    "stripe": "^17.0.0",
-    "resend": "^4.0.0"
+    "@netlify/blobs": "^10.7.12",
+    "resend": "^4.0.0",
+    "stripe": "^17.0.0"
   },
   "engines": {
     "node": ">=20"

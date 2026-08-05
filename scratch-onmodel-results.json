@@ -1,43 +1,152 @@
 [
   {
+    "pid": "p2",
+    "name": "Thanks for the Trauma Hoodie",
+    "style": "Men's Lifestyle",
+    "styleId": 20239,
+    "backdrop": "scene",
+    "variant": "Thanks for the Trauma Hoodie (1/2) / Light Pink / S",
+    "file": "mockups/p2-model.jpg",
+    "bytes": 85253,
+    "corners": [
+      94,
+      199,
+      84,
+      115
+    ],
+    "rejected": [
+      "Men's Lifestyle 2(1415) bright room avg=194 corners=228,239,115,195",
+      "Women's Lifestyle(1421) bright room avg=168 corners=86,232,220,135",
+      "Women's Lifestyle 2(1429) white seamless corners=228,242,147,211",
+      "Women's Lifestyle 3(1654) white seamless corners=231,209,233,171",
+      "Men's Lifestyle 3(1655) bright room avg=186 corners=201,158,199,186"
+    ],
+    "status": "ok"
+  },
+  {
+    "pid": "p3",
+    "name": "Emotionally Unavailable Club Tee",
+    "style": "Men's Lifestyle 2",
+    "styleId": 754,
+    "backdrop": "scene",
+    "variant": "Emotionally Unavailable Club Tee (4/5) / Heather Raspberry / M",
+    "file": "mockups/p3-model.jpg",
+    "bytes": 80075,
+    "corners": [
+      124,
+      155,
+      141,
+      156
+    ],
+    "rejected": [],
+    "status": "ok"
+  },
+  {
     "pid": "p9",
     "name": "Petty in Pink Crewneck",
     "style": "Women's Lifestyle",
+    "styleId": 1186,
+    "backdrop": "scene",
     "variant": "Petty in Pink Crewneck (1/2) / Light Pink / S",
     "file": "mockups/p9-model.jpg",
-    "bytes": 140890,
+    "bytes": 73517,
     "corners": [
       130,
       141,
       130,
       157
     ],
+    "rejected": [
+      "Men's Lifestyle 3(1169) white seamless corners=242,249,119,209"
+    ],
+    "status": "ok"
+  },
+  {
+    "pid": "p12",
+    "name": "Cried in the Uber Crewneck",
+    "style": "Women's Lifestyle 3",
+    "styleId": 1198,
+    "backdrop": "scene",
+    "variant": "Cried in the Uber Crewneck (1/2) / Light Pink / XL",
+    "file": "mockups/p12-model.jpg",
+    "bytes": 110997,
+    "corners": [
+      62,
+      107,
+      53,
+      48
+    ],
+    "rejected": [
+      "Women's Lifestyle 2(1192) bright room avg=170 corners=90,232,228,130"
+    ],
+    "status": "ok"
+  },
+  {
+    "pid": "p13",
+    "name": "Self-Care Era Tee",
+    "style": "Women's Lifestyle 3",
+    "styleId": 788,
+    "backdrop": "scene",
+    "variant": "Self-Care Era Tee (4/5) / Heather Raspberry / 2XL",
+    "file": "mockups/p13-model.jpg",
+    "bytes": 296062,
+    "corners": [
+      127,
+      150,
+      41,
+      29
+    ],
     "rejected": [],
     "status": "ok"
   },
   {
-    "pid": "p3",
-    "name": "Emotionally Unavailable Club Tee",
-    "style": "Men's Lifestyle",
-    "variant": "Emotionally Unavailable Club Tee (4/5) / Heather Raspberry / M",
-    "file": "mockups/p3-model.jpg",
-    "bytes": 218740,
-    "corners": [
-      31,
-      24,
-      48,
-      25
+    "pid": "p14",
+    "name": "Allergic to Mixed Signals Hoodie",
+    "style": "Men's 4",
+    "styleId": 1593,
+    "backdrop": "darkened",
+    "variant": "Allergic to Mixed Signals Hoodie (1/2) / Azalea / S",
+    "file": "mockups/p14-model.jpg",
+    "bytes": 84716,
+    "corners": null,
+    "rejected": [
+      "Men's Lifestyle 2(1415) bright room avg=194 corners=227,239,115,195",
+      "Women's Lifestyle(1421) bright room avg=168 corners=86,232,220,135",
+      "Women's Lifestyle 2(1429) white seamless corners=228,242,147,211",
+      "Women's Lifestyle 3(1654) white seamless corners=231,209,233,171",
+      "Men's Lifestyle 3(1655) bright room avg=186 corners=201,158,199,186"
     ],
-    "rejected": [],
+    "status": "ok"
+  },
+  {
+    "pid": "p25",
+    "name": "Lost Tee",
+    "style": "Women's Lifestyle",
+    "styleId": 768,
+    "backdrop": "scene",
+    "variant": "Lost Tee - Dark 1 / Berry / M",
+    "file": "mockups/p25-model.jpg",
+    "bytes": 68862,
+    "corners": [
+      127,
+      149,
+      134,
+      154
+    ],
+    "rejected": [
+      "Men's Lifestyle 3(758) bright room avg=171 corners=220,201,181,81"
+    ],
     "status": "ok"
   },
   {
     "pid": "p31",
     "name": "Thanks for the Trauma Tee",
     "style": "Women's Lifestyle",
+    "styleId": 728,
+    "backdrop": "scene",
     "variant": "Thanks for the Trauma Tee / Heliconia / L",
     "file": "mockups/p31-model.jpg",
-    "bytes": 218270,
+    "bytes": 121779,
     "corners": [
       165,
       134,
@@ -50,84 +159,155 @@
   {
     "pid": "p32",
     "name": "Petty in Pink Tee",
-    "style": "Men's Lifestyle",
-    "variant": "Petty in Pink Tee / White / XL",
+    "style": "Women's 3",
+    "styleId": 496,
+    "backdrop": "darkened",
+    "variant": "Petty in Pink Tee / Natural / XL",
     "file": "mockups/p32-model.jpg",
-    "bytes": 180305,
+    "bytes": 61320,
+    "corners": null,
+    "rejected": [],
+    "status": "ok"
+  },
+  {
+    "pid": "p35",
+    "name": "adamnoteve Logo Tee",
+    "style": "Men's Lifestyle",
+    "styleId": 744,
+    "backdrop": "scene",
+    "variant": "adamnoteve Logo Tee / Maroon / 2XL",
+    "file": "mockups/p35-model.jpg",
+    "bytes": 96425,
     "corners": [
-      74,
-      240,
-      15,
-      236
+      31,
+      24,
+      49,
+      25
     ],
+    "rejected": [
+      "Men's Lifestyle 3(758) bright room avg=171 corners=220,201,181,81",
+      "Women's Lifestyle 2(772) bright room avg=172 corners=216,202,184,85",
+      "Women's Lifestyle 4(1129) bright room avg=175 corners=166,161,175,198"
+    ],
+    "status": "ok"
+  },
+  {
+    "pid": "p36",
+    "name": "Property of Adamnoteve Tee",
+    "style": "Women's 3",
+    "styleId": 790,
+    "backdrop": "darkened",
+    "variant": "Property of Adamnoteve Tee / Forest / S",
+    "file": "mockups/p36-model.jpg",
+    "bytes": 57064,
+    "corners": null,
+    "rejected": [
+      "Women's Lifestyle 2(772) bright room avg=172 corners=216,202,184,85",
+      "Women's Lifestyle 4(1129) bright room avg=175 corners=166,161,175,198",
+      "Men's Lifestyle 3(758) bright room avg=171 corners=220,201,181,81"
+    ],
+    "status": "ok"
+  },
+  {
+    "pid": "p39",
+    "name": "Bitten Heart Tee",
+    "style": "Women's 2",
+    "styleId": 20279,
+    "backdrop": "darkened",
+    "variant": "Bitten Heart Tee (Value) / Navy / S",
+    "file": "mockups/p39-model.jpg",
+    "bytes": 52587,
+    "corners": null,
     "rejected": [],
     "status": "ok"
   },
   {
     "pid": "p40",
     "name": "Villain Era Tee",
-    "style": "Women's Lifestyle",
+    "style": "Men's 4",
+    "styleId": 731,
+    "backdrop": "darkened",
     "variant": "Villain Era Tee / Maroon / S",
     "file": "mockups/p40-model.jpg",
-    "bytes": 202036,
-    "corners": [
-      165,
-      134,
-      175,
-      73
-    ],
+    "bytes": 46699,
+    "corners": null,
+    "rejected": [],
+    "status": "ok"
+  },
+  {
+    "pid": "p41",
+    "name": "Hot Single Summer Tee",
+    "style": "Men's 3",
+    "styleId": 517,
+    "backdrop": "darkened",
+    "variant": "Hot Single Summer Tee (Light) / Light Blue / S",
+    "file": "mockups/p41-model.jpg",
+    "bytes": 54023,
+    "corners": null,
     "rejected": [],
     "status": "ok"
   },
   {
     "pid": "p42",
     "name": "Touch Grass Tee",
-    "style": "Men's Lifestyle",
+    "style": "Women's 1",
+    "styleId": 20273,
+    "backdrop": "darkened",
     "variant": "Touch Grass Tee / Forest Green / S",
     "file": "mockups/p42-model.jpg",
-    "bytes": 174219,
-    "corners": [
-      74,
-      239,
-      15,
-      236
-    ],
+    "bytes": 53783,
+    "corners": null,
     "rejected": [],
     "status": "ok"
   },
   {
     "pid": "p44",
     "name": "Logo Tee (Value)",
-    "style": "Women's Lifestyle",
-    "variant": "Logo Tee (Value) / Forest Green / M",
+    "style": "Men's 2",
+    "styleId": 20267,
+    "backdrop": "darkened",
+    "variant": "Logo Tee (Value) / Forest Green / S",
     "file": "mockups/p44-model.jpg",
-    "bytes": 199385,
-    "corners": [
-      165,
-      134,
-      175,
-      73
-    ],
+    "bytes": 52832,
+    "corners": null,
+    "rejected": [],
+    "status": "ok"
+  },
+  {
+    "pid": "p45",
+    "name": "Bitten Heart Tee (Value)",
+    "style": "Men's",
+    "styleId": 486,
+    "backdrop": "darkened",
+    "variant": "Bitten Heart Tee Value (Light) / Sport Grey / S",
+    "file": "mockups/p45-model.jpg",
+    "bytes": 80522,
+    "corners": null,
     "rejected": [],
     "status": "ok"
   },
   {
     "pid": "p46",
     "name": "Hot Single Summer Tank",
-    "status": "all-white-or-fail",
-    "rejected": [
-      "Men's(15596) corners=255,255,255,255",
-      "Women's(15598) corners=255,255,255,255"
-    ],
-    "fail": null
+    "style": "Men's 2",
+    "styleId": 15608,
+    "backdrop": "darkened",
+    "variant": "Hot Single Summer Tank / Navy / S",
+    "file": "mockups/p46-model.jpg",
+    "bytes": 64665,
+    "corners": null,
+    "rejected": [],
+    "status": "ok"
   },
   {
     "pid": "p57",
     "name": "Come Outside Tee (Value)",
     "style": "Women's Lifestyle",
+    "styleId": 728,
+    "backdrop": "scene",
     "variant": "Come Outside Tee (Value) / Red / S",
     "file": "mockups/p57-model.jpg",
-    "bytes": 227415,
+    "bytes": 131594,
     "corners": [
       165,
       134,
@@ -140,80 +320,91 @@
   {
     "pid": "p58",
     "name": "Busy Healing Tee (Value)",
-    "style": "Men's Lifestyle",
+    "style": "Women's 1",
+    "styleId": 20273,
+    "backdrop": "darkened",
     "variant": "Busy Healing Tee (Value) / Purple / S",
     "file": "mockups/p58-model.jpg",
-    "bytes": 179832,
-    "corners": [
-      74,
-      239,
-      15,
-      236
-    ],
+    "bytes": 62493,
+    "corners": null,
     "rejected": [],
     "status": "ok"
   },
   {
     "pid": "p59",
     "name": "Blocked Blessed Booked Tee (Value)",
-    "style": "Women's Lifestyle",
+    "style": "Men's 3",
+    "styleId": 517,
+    "backdrop": "darkened",
     "variant": "Blocked Blessed Booked Tee (Value) / Heliconia / S",
     "file": "mockups/p59-model.jpg",
-    "bytes": 216768,
-    "corners": [
-      165,
-      134,
-      175,
-      73
-    ],
+    "bytes": 63336,
+    "corners": null,
+    "rejected": [],
+    "status": "ok"
+  },
+  {
+    "pid": "p60",
+    "name": "We Don't Chase Tee (Value)",
+    "style": "Women's 3",
+    "styleId": 496,
+    "backdrop": "darkened",
+    "variant": "We Don't Chase Tee (Value) / Royal / S",
+    "file": "mockups/p60-model.jpg",
+    "bytes": 62706,
+    "corners": null,
     "rejected": [],
     "status": "ok"
   },
   {
     "pid": "p61",
     "name": "You Fumbled Tee (Value)",
-    "style": "Men's Lifestyle",
+    "style": "Men's 2",
+    "styleId": 20267,
+    "backdrop": "darkened",
     "variant": "You Fumbled Tee (Value) / Orange / S",
     "file": "mockups/p61-model.jpg",
-    "bytes": 185416,
-    "corners": [
-      74,
-      240,
-      15,
-      236
-    ],
+    "bytes": 73308,
+    "corners": null,
     "rejected": [],
     "status": "ok"
   },
   {
     "pid": "p62",
     "name": "Ruin My Own Life Tee (Value)",
-    "style": "Women's Lifestyle",
+    "style": "Women's 2",
+    "styleId": 20279,
+    "backdrop": "darkened",
     "variant": "Ruin My Own Life Tee (Value) / Maroon / S",
     "file": "mockups/p62-model.jpg",
-    "bytes": 204298,
-    "corners": [
-      165,
-      134,
-      175,
-      73
-    ],
+    "bytes": 55252,
+    "corners": null,
     "rejected": [],
     "status": "ok"
   },
   {
     "pid": "p63",
     "name": "Just Right Tee (Value)",
-    "style": "Men's Lifestyle",
+    "style": "Men's",
+    "styleId": 486,
+    "backdrop": "darkened",
     "variant": "Just Right Tee (Value) / Irish Green / S",
     "file": "mockups/p63-model.jpg",
-    "bytes": 181908,
-    "corners": [
-      74,
-      239,
-      15,
-      236
-    ],
+    "bytes": 68509,
+    "corners": null,
+    "rejected": [],
+    "status": "ok"
+  },
+  {
+    "pid": "p64",
+    "name": "I Said What I Said Tee (Value)",
+    "style": "Men's 4",
+    "styleId": 731,
+    "backdrop": "darkened",
+    "variant": "I Said What I Said Tee (Value) / Sapphire / S",
+    "file": "mockups/p64-model.jpg",
+    "bytes": 59899,
+    "corners": null,
     "rejected": [],
     "status": "ok"
   },
@@ -221,9 +412,11 @@
     "pid": "p65",
     "name": "Petty Committee Tee (Value)",
     "style": "Women's Lifestyle",
+    "styleId": 728,
+    "backdrop": "scene",
     "variant": "Petty Committee Tee (Value) / Forest Green / S",
     "file": "mockups/p65-model.jpg",
-    "bytes": 202245,
+    "bytes": 108807,
     "corners": [
       165,
       134,
@@ -236,176 +429,174 @@
   {
     "pid": "p66",
     "name": "Delulu Solulu Tee (Value)",
-    "style": "Men's Lifestyle",
+    "style": "Women's 2",
+    "styleId": 20279,
+    "backdrop": "darkened",
     "variant": "Delulu Solulu Tee (Value) / Navy / S",
     "file": "mockups/p66-model.jpg",
-    "bytes": 175224,
-    "corners": [
-      74,
-      239,
-      15,
-      236
-    ],
+    "bytes": 54370,
+    "corners": null,
     "rejected": [],
     "status": "ok"
   },
   {
     "pid": "p67",
     "name": "Loyal to the Group Chat Tee (Value)",
-    "style": "Women's Lifestyle",
+    "style": "Men's 2",
+    "styleId": 20267,
+    "backdrop": "darkened",
     "variant": "Loyal to the Group Chat Tee (Value) / Military Green / S",
     "file": "mockups/p67-model.jpg",
-    "bytes": 203530,
-    "corners": [
-      165,
-      134,
-      175,
-      73
-    ],
+    "bytes": 57575,
+    "corners": null,
     "rejected": [],
     "status": "ok"
   },
   {
     "pid": "p68",
     "name": "Still Healing Tee (Value)",
-    "style": "Men's Lifestyle",
+    "style": "Women's 1",
+    "styleId": 20273,
+    "backdrop": "darkened",
     "variant": "Still Healing Tee / Forest Green / S",
     "file": "mockups/p68-model.jpg",
-    "bytes": 175502,
-    "corners": [
-      74,
-      239,
-      15,
-      236
-    ],
+    "bytes": 58521,
+    "corners": null,
     "rejected": [],
     "status": "ok"
   },
   {
     "pid": "p69",
     "name": "Pain Is Temporary Tee (Value)",
-    "style": "Women's Lifestyle",
+    "style": "Men's 3",
+    "styleId": 517,
+    "backdrop": "darkened",
     "variant": "Pain Is Temporary Tee / Navy / S",
     "file": "mockups/p69-model.jpg",
-    "bytes": 212354,
-    "corners": [
-      165,
-      134,
-      175,
-      73
-    ],
+    "bytes": 57317,
+    "corners": null,
     "rejected": [],
     "status": "ok"
   },
   {
     "pid": "p70",
     "name": "Single Taken Complicated Tee (Value)",
-    "style": "Men's Lifestyle",
+    "style": "Women's 3",
+    "styleId": 496,
+    "backdrop": "darkened",
     "variant": "Single Taken Complicated Tee / Maroon / S",
     "file": "mockups/p70-model.jpg",
-    "bytes": 177112,
-    "corners": [
-      74,
-      239,
-      15,
-      236
-    ],
+    "bytes": 51988,
+    "corners": null,
+    "rejected": [],
+    "status": "ok"
+  },
+  {
+    "pid": "p71",
+    "name": "Loyal Behind My Back Tee (Value)",
+    "style": "Men's",
+    "styleId": 486,
+    "backdrop": "darkened",
+    "variant": "Loyal Behind My Back Tee / Forest Green / S",
+    "file": "mockups/p71-model.jpg",
+    "bytes": 60839,
+    "corners": null,
     "rejected": [],
     "status": "ok"
   },
   {
     "pid": "p72",
     "name": "The Upgrade Tee (Value)",
-    "style": "Women's Lifestyle",
+    "style": "Men's 4",
+    "styleId": 731,
+    "backdrop": "darkened",
     "variant": "The Upgrade Tee / Navy / S",
     "file": "mockups/p72-model.jpg",
-    "bytes": 209691,
-    "corners": [
-      165,
-      134,
-      175,
-      73
-    ],
+    "bytes": 50863,
+    "corners": null,
     "rejected": [],
     "status": "ok"
   },
   {
     "pid": "p73",
     "name": "Worth The Downgrade Tee (Value)",
-    "style": "Men's Lifestyle",
+    "style": "Women's Lifestyle",
+    "styleId": 728,
+    "backdrop": "scene",
     "variant": "Worth The Downgrade Tee / Maroon / S",
     "file": "mockups/p73-model.jpg",
-    "bytes": 177219,
+    "bytes": 116396,
     "corners": [
-      74,
-      239,
-      15,
-      236
+      165,
+      134,
+      175,
+      73
     ],
+    "rejected": [],
+    "status": "ok"
+  },
+  {
+    "pid": "p74",
+    "name": "Lesson Not A Loss Tee (Value)",
+    "style": "Men's",
+    "styleId": 486,
+    "backdrop": "darkened",
+    "variant": "Lesson Not A Loss Tee / Forest Green / S",
+    "file": "mockups/p74-model.jpg",
+    "bytes": 61434,
+    "corners": null,
     "rejected": [],
     "status": "ok"
   },
   {
     "pid": "p75",
     "name": "Can't Fish Tee (Value)",
-    "style": "Women's Lifestyle",
+    "style": "Women's 3",
+    "styleId": 496,
+    "backdrop": "darkened",
     "variant": "Cant Fish Tee / Forest Green / S",
     "file": "mockups/p75-model.jpg",
-    "bytes": 206344,
-    "corners": [
-      165,
-      134,
-      175,
-      73
-    ],
+    "bytes": 53705,
+    "corners": null,
     "rejected": [],
     "status": "ok"
   },
   {
     "pid": "p76",
     "name": "My Silence Is Your Closure Tee (Value)",
-    "style": "Men's Lifestyle",
+    "style": "Men's 2",
+    "styleId": 20267,
+    "backdrop": "darkened",
     "variant": "My Silence Is Your Closure Tee / Navy / S",
     "file": "mockups/p76-model.jpg",
-    "bytes": 176088,
-    "corners": [
-      74,
-      239,
-      15,
-      236
-    ],
+    "bytes": 61472,
+    "corners": null,
     "rejected": [],
     "status": "ok"
   },
   {
     "pid": "p77",
     "name": "Downloaded Peace Tee (Value)",
-    "style": "Women's Lifestyle",
+    "style": "Women's 1",
+    "styleId": 20273,
+    "backdrop": "darkened",
     "variant": "Downloaded Peace Tee / Maroon / S",
     "file": "mockups/p77-model.jpg",
-    "bytes": 209021,
-    "corners": [
-      165,
-      134,
-      175,
-      73
-    ],
+    "bytes": 58836,
+    "corners": null,
     "rejected": [],
     "status": "ok"
   },
   {
     "pid": "p78",
     "name": "Narcissist Survivor Tee (Value)",
-    "style": "Men's Lifestyle",
-    "variant": "Narcissist Survivor Tee / Forest Green / S",
+    "style": "Men's 3",
+    "styleId": 517,
+    "backdrop": "darkened",
+    "variant": "Narcissist Survivor Tee / Forest Green / 2XL",
     "file": "mockups/p78-model.jpg",
-    "bytes": 176876,
-    "corners": [
-      74,
-      239,
-      15,
-      236
-    ],
+    "bytes": 58494,
+    "corners": null,
     "rejected": [],
     "status": "ok"
   }
